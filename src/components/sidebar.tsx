@@ -13,7 +13,7 @@ const Sidebar = () => {
           >
             <span className="font-hailsnow text-lg">모델 관리</span>
             <img
-              src="/navbar-icon.svg"
+              src="/icon/navbar-icon.svg"
               alt=""
               className="active invisible size-8"
             />
@@ -27,7 +27,7 @@ const Sidebar = () => {
           >
             <span className="font-hailsnow text-lg">모델 학습</span>
             <img
-              src="/navbar-icon.svg"
+              src="/icon/navbar-icon.svg"
               alt=""
               className="active invisible size-8"
             />
@@ -41,7 +41,7 @@ const Sidebar = () => {
           >
             <span className="font-hailsnow text-lg">프롬프트 만들기</span>
             <img
-              src="/navbar-icon.svg"
+              src="/icon/navbar-icon.svg"
               alt=""
               className="active invisible size-8"
             />
@@ -55,7 +55,7 @@ const Sidebar = () => {
           >
             <span className="font-hailsnow text-lg">프롬프트 갤러리</span>
             <img
-              src="/navbar-icon.svg"
+              src="/icon/navbar-icon.svg"
               alt=""
               className="active invisible size-8"
             />
@@ -69,7 +69,7 @@ const Sidebar = () => {
           >
             <span className="font-hailsnow text-lg">배포하기</span>
             <img
-              src="/navbar-icon.svg"
+              src="/icon/navbar-icon.svg"
               alt=""
               className="active invisible size-8"
             />

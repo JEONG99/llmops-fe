@@ -17,6 +17,24 @@ export default {
         blue: {
           10: "#F1F4FF",
           20: "#f2f5f9",
+          30: "#E5ECFF",
+          40: "#E4E9F8",
+          50: "#658BFF",
+        },
+        green: {
+          30: "#F3FFDF",
+          40: "#D3FF8D",
+          50: "#94D231",
+          60: "#5B9400",
+        },
+        red: {
+          30: "#FFDFE4",
+          50: "#FF4976",
+        },
+        gray: {
+          20: "#f7f7f7",
+          50: "#c4c4c4",
+          70: "#515151",
         },
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",

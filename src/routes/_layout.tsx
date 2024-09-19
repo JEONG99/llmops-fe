@@ -10,7 +10,9 @@ function Layout() {
   return (
     <div className="flex h-lvh">
       <Sidebar />
-      <Outlet />
+      <div className="flex-1">
+        <Outlet />
+      </div>
     </div>
   );
 }
