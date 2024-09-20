@@ -1,8 +1,8 @@
 const StatusIcon = ({ status }: { status: "progress" | "done" | "failed" }) => {
   if (status === "progress") {
     return (
-      <div className="flex justify-center items-center h-[22px] w-[75px] rounded-[30px] border border-blue-50 bg-blue-30">
-        <span className="text-xs text-blue-50">학습 중</span>
+      <div className="flex justify-center items-center h-[22px] w-[75px] rounded-[30px] border border-blue bg-blue-30">
+        <span className="text-xs text-blue">학습 중</span>
       </div>
     );
   }

@@ -9,11 +9,11 @@ export const Route = createFileRoute("/_layout")({
 function Layout() {
   return (
     <div className="h-lvh">
-      <div className="flex justify-center">
-        <div>
+      <div className="flex justify-center h-full">
+        <div className="relative w-[284px]">
           <Sidebar />
         </div>
-        <div className="w-[1120px]">
+        <div className="w-[1156px]">
           <Outlet />
         </div>
       </div>

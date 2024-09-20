@@ -1,149 +1,53 @@
-import StatusIcon from "@/components/model-managing/status-icon";
-import TagIcon from "@/components/model-managing/tag-icon";
+import { createLazyFileRoute, useLocation } from "@tanstack/react-router";
+import { useEffect, useMemo, useRef, useState } from "react";
+
 import SearchInput from "@/components/search-input";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 import { MODEL_LIST } from "@/lib/const";
 import { Model } from "@/types";
-import { createLazyFileRoute, useLocation } from "@tanstack/react-router";
-import {
-  ColumnDef,
-  FilterFn,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
-import { useEffect, useMemo } from "react";
+import { cn } from "@/lib/utils";
+import ModelList from "@/components/model-managing/model-list";
+import ModelCompare from "@/components/model-managing/model-compare";
 
 export const Route = createLazyFileRoute("/_layout/")({
   component: ModelManagingPage,
 });
 
-const globalFilter: FilterFn<Model> = (row, columnId, filterValue) => {
-  const cellValue = row.getValue<string>(columnId);
-  return cellValue.toLowerCase().includes(filterValue.toLowerCase());
-};
+function searchModels(models: Model[], searchTerm: string): Model[] {
+  const lowercasedSearchTerm = searchTerm.toLowerCase();
+
+  return models.filter(
+    (model) =>
+      model.name.toLowerCase().includes(lowercasedSearchTerm) ||
+      model.tags.toLowerCase().includes(lowercasedSearchTerm)
+  );
+}
 
 function ModelManagingPage() {
   const { search } = useLocation();
   const searchParams = new URLSearchParams(search);
   const keyword = searchParams.get("keyword") || "";
 
-  const columns = useMemo<ColumnDef<Model>[]>(
-    () => [
-      {
-        accessorKey: "name",
-        header: ({}) => (
-          <div>
-            <span className="text-gray-70 font-normal">모델명</span>
-          </div>
-        ),
-        cell: ({ row }) => (
-          <div className="flex justify-between">
-            <span>{row.getValue("name")}</span>
-            <button>
-              <img src="/icon/copy-icon.svg" alt="" className="size-5" />
-            </button>
-          </div>
-        ),
-        size: 240,
-      },
-      {
-        accessorKey: "base_model",
-        header: ({}) => (
-          <div className="flex justify-center items-center gap-2 cursor-pointer">
-            <span className="text-gray-70 font-normal">베이스 모델</span>
-            <img src="/icon/sort-icon.svg" alt="" className="size-6" />
-          </div>
-        ),
-        cell: ({ row }) => <div>{row.getValue("base_model")}</div>,
-        size: 180,
-        enableGlobalFilter: false,
-      },
-      {
-        accessorKey: "status",
-        header: ({}) => (
-          <div className="flex justify-center items-center gap-2 cursor-pointer">
-            <span className="text-gray-70 font-normal">상태</span>
-            <img src="/icon/sort-icon.svg" alt="" className="size-6" />
-          </div>
-        ),
-        cell: ({ row }) => <StatusIcon status={row.getValue("status")} />,
-        size: 140,
-        enableGlobalFilter: false,
-      },
-      {
-        accessorKey: "tags",
-        header: ({}) => (
-          <div className="flex justify-center items-center gap-2 cursor-pointer">
-            <span className="text-gray-70 font-normal">태그</span>
-            <img src="/icon/sort-icon.svg" alt="" className="size-6" />
-          </div>
-        ),
-        cell: ({ row }) => (
-          <div className="flex justify-center gap-2">
-            {(
-              (row.getValue("tags") as string).split(",") as (
-                | "내과"
-                | "마취과"
-              )[]
-            ).map((tag) => (
-              <TagIcon tag={tag} />
-            ))}
-          </div>
-        ),
-        size: 160,
-      },
-      {
-        accessorKey: "created_at",
-        header: ({}) => (
-          <div className="flex justify-center items-center gap-2 cursor-pointer">
-            <span className="text-gray-70 font-normal">생성 일자</span>
-            <img src="/icon/sort-icon.svg" alt="" className="size-6" />
-          </div>
-        ),
-        cell: ({ row }) => (
-          <div className="text-gray-70 text-sm">
-            {row.getValue("created_at")}
-          </div>
-        ),
-        size: 150,
-        enableGlobalFilter: false,
-      },
-      {
-        accessorKey: "description",
-        header: ({}) => (
-          <div className="w-[190px]">
-            <span className="text-gray-70 font-normal">메모</span>
-          </div>
-        ),
-        cell: ({ row }) => (
-          <div className="max-w-[150px] text-gray-70 text-sm truncate">
-            {row.getValue("description")}
-          </div>
-        ),
-        size: 150,
-        enableGlobalFilter: false,
-      },
-    ],
-    []
-  );
+  const models = useMemo(() => searchModels(MODEL_LIST, keyword), [keyword]);
 
-  const table = useReactTable({
-    data: MODEL_LIST,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    globalFilterFn: globalFilter,
-    state: {
-      globalFilter: keyword,
-    },
-  });
+  const prevRef = useRef<HTMLButtonElement>(null);
+  const nextRef = useRef<HTMLButtonElement>(null);
+
+  const [carouselIndex, setCarouselIndex] = useState(0);
 
   useEffect(() => {
-    table.setGlobalFilter(keyword);
-  }, [keyword, table.setGlobalFilter]);
+    if (carouselIndex === 0) {
+      prevRef.current?.click();
+    } else {
+      nextRef.current?.click();
+    }
+  }, [carouselIndex]);
 
   return (
     <div>
@@ -153,51 +57,69 @@ function ModelManagingPage() {
       <div>
         <div className="flex justify-between px-7">
           <SearchInput />
-          <button className="flex items-center gap-4 h-12 px-6 rounded-[10px] bg-blue-50">
+          <button
+            onClick={() => setCarouselIndex(1)}
+            className={cn(
+              "flex justify-center items-center gap-4 h-12 w-[143px] px-6 rounded-[10px] bg-blue hover:bg-blue/90",
+              carouselIndex === 0 ? "flex" : "hidden"
+            )}
+          >
             <img src="/icon/compare-icon.svg" alt="" className="size-6" />
             <span>비교하기</span>
           </button>
+          <button
+            onClick={() => setCarouselIndex(0)}
+            className={cn(
+              "flex justify-center items-center gap-4 h-12 w-[143px] px-6 rounded-[10px] bg-blue hover:bg-blue/90",
+              carouselIndex === 1 ? "flex" : "hidden"
+            )}
+          >
+            <img src="/icon/list-icon.svg" alt="" className="size-6" />
+            <span>리스트</span>
+          </button>
         </div>
-        <div className="mt-4 px-7 h-[776px] overflow-auto">
-          <table className="border-separate border-spacing-x-0 border-spacing-y-1.5">
-            <thead className="sticky top-0 z-10 h-12 bg-white">
-              {table.getHeaderGroups().map((headerGroup) => (
-                <tr key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => {
-                    return (
-                      <th
-                        key={header.id}
-                        style={{ width: `${header.getSize()}px` }}
-                        className="px-0 text-center"
-                      >
-                        {flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                      </th>
-                    );
-                  })}
-                </tr>
-              ))}
-            </thead>
-            <tbody>
-              {table.getRowModel().rows.map((row) => (
-                <tr key={row.id} className="bg-blue-10/20 border">
-                  {row.getVisibleCells().map((cell) => (
-                    <td
-                      key={cell.id}
-                      className="px-5 h-[60px] text-center first:rounded-l-[10px] first:border-l last:rounded-r-[10px] last:border-r border-t border-b border-blue-50/20"
-                    >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="relative mt-4 px-7">
+          <div className="sticky top-0 z-10 flex h-14 bg-white">
+            <div className="flex justify-center items-center w-[240px]">
+              <span className="text-gray-70 font-normal">모델명</span>
+            </div>
+            <div className="flex justify-center items-center gap-2 w-[190px] cursor-pointer">
+              <span className="text-gray-70 font-normal">베이스 모델</span>
+              <img src="/icon/sort-icon.svg" alt="" className="size-6" />
+            </div>
+            <div className="flex justify-center items-center gap-2 w-[160px] cursor-pointer">
+              <span className="text-gray-70 font-normal">상태</span>
+              <img src="/icon/sort-icon.svg" alt="" className="size-6" />
+            </div>
+            <div className="flex justify-center items-center gap-2 w-[160px] cursor-pointer">
+              <span className="text-gray-70 font-normal">태그</span>
+              <img src="/icon/sort-icon.svg" alt="" className="size-6" />
+            </div>
+            <div className="flex justify-center items-center gap-2 w-[160px] cursor-pointer">
+              <span className="text-gray-70 font-normal">생성 일자</span>
+              <img src="/icon/sort-icon.svg" alt="" className="size-6" />
+            </div>
+            <div className="flex justify-center items-center w-[190px]">
+              <span className="text-gray-70 font-normal">메모</span>
+            </div>
+          </div>
+          <Carousel
+            opts={{
+              watchDrag: false,
+              dragFree: true,
+            }}
+          >
+            <CarouselContent>
+              <CarouselItem className="h-[calc(100vh-188px)] overflow-auto">
+                <ModelList models={models} />
+              </CarouselItem>
+              <CarouselItem>
+                <ModelCompare models={models} />
+              </CarouselItem>
+            </CarouselContent>
+            <CarouselPrevious ref={prevRef} className="hidden" />
+            <CarouselNext ref={nextRef} className="hidden" />
+          </Carousel>
         </div>
       </div>
     </div>

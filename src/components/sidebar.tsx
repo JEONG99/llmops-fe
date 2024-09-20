@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 
 const Sidebar = () => {
   return (
-    <div className="w-[284px] h-full py-10 bg-blue-20">
+    <div className="fixed top-0 w-[284px] h-full py-10 bg-blue-light">
       <h1 className="text-center font-bold text-2xl">LLM Ops</h1>
       <ul className="mt-[226px] mx-auto space-y-10 w-[145px]">
         <li>

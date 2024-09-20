@@ -15,11 +15,11 @@ export default {
       },
       colors: {
         blue: {
-          10: "#F1F4FF",
-          20: "#f2f5f9",
+          light: { box: "#FCFDFE", DEFAULT: "#F2F5F9" },
+          border: "#E0E8FF",
+          DEFAULT: "#658BFF",
           30: "#E5ECFF",
           40: "#E4E9F8",
-          50: "#658BFF",
         },
         green: {
           30: "#F3FFDF",
@@ -34,6 +34,7 @@ export default {
         gray: {
           20: "#f7f7f7",
           50: "#c4c4c4",
+          60: "#969696",
           70: "#515151",
         },
         background: "hsl(var(--background))",
