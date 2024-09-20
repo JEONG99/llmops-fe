@@ -3,114 +3,147 @@ import TagIcon from "@/components/model-managing/tag-icon";
 import SearchInput from "@/components/search-input";
 import { MODEL_LIST } from "@/lib/const";
 import { Model } from "@/types";
-import { createLazyFileRoute } from "@tanstack/react-router";
+import { createLazyFileRoute, useLocation } from "@tanstack/react-router";
 import {
   ColumnDef,
+  FilterFn,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { useEffect, useMemo } from "react";
 
 export const Route = createLazyFileRoute("/_layout/")({
   component: ModelManagingPage,
 });
 
-const columns: ColumnDef<Model>[] = [
-  {
-    accessorKey: "name",
-    header: ({}) => (
-      <div>
-        <span className="text-gray-70 font-normal">모델명</span>
-      </div>
-    ),
-    cell: ({ row }) => (
-      <div className="flex justify-between">
-        <span>{row.getValue("name")}</span>
-        <button>
-          <img src="/icon/copy-icon.svg" alt="" className="size-5" />
-        </button>
-      </div>
-    ),
-    size: 240,
-  },
-  {
-    accessorKey: "base_model",
-    header: ({}) => (
-      <div className="flex justify-center items-center gap-2 cursor-pointer">
-        <span className="text-gray-70 font-normal">베이스 모델</span>
-        <img src="/icon/sort-icon.svg" alt="" className="size-6" />
-      </div>
-    ),
-    cell: ({ row }) => <div>{row.getValue("base_model")}</div>,
-    size: 180,
-  },
-  {
-    accessorKey: "status",
-    header: ({}) => (
-      <div className="flex justify-center items-center gap-2 cursor-pointer">
-        <span className="text-gray-70 font-normal">상태</span>
-        <img src="/icon/sort-icon.svg" alt="" className="size-6" />
-      </div>
-    ),
-    cell: ({ row }) => <StatusIcon status={row.getValue("status")} />,
-    size: 134,
-  },
-  {
-    accessorKey: "tags",
-    header: ({}) => (
-      <div className="flex justify-center items-center gap-2 cursor-pointer">
-        <span className="text-gray-70 font-normal">태그</span>
-        <img src="/icon/sort-icon.svg" alt="" className="size-6" />
-      </div>
-    ),
-    cell: ({ row }) => (
-      <div className="flex gap-2">
-        {(row.getValue("tags") as ("내과" | "마취과")[]).map((tag) => (
-          <TagIcon tag={tag} />
-        ))}
-      </div>
-    ),
-    size: 140,
-  },
-  {
-    accessorKey: "created_at",
-    header: ({}) => (
-      <div className="flex justify-center items-center gap-2 cursor-pointer">
-        <span className="text-gray-70 font-normal">생성 일자</span>
-        <img src="/icon/sort-icon.svg" alt="" className="size-6" />
-      </div>
-    ),
-    cell: ({ row }) => (
-      <div className="text-gray-70 text-sm">{row.getValue("created_at")}</div>
-    ),
-    size: 150,
-  },
-  {
-    accessorKey: "description",
-    header: ({}) => (
-      <div>
-        <span className="text-gray-70 font-normal">메모</span>
-      </div>
-    ),
-    cell: ({ row }) => (
-      <div className="text-gray-70 text-sm truncate">
-        {row.getValue("description")}
-      </div>
-    ),
-    size: 150,
-  },
-];
+const globalFilter: FilterFn<Model> = (row, columnId, filterValue) => {
+  const cellValue = row.getValue<string>(columnId);
+  return cellValue.toLowerCase().includes(filterValue.toLowerCase());
+};
 
 function ModelManagingPage() {
+  const { search } = useLocation();
+  const searchParams = new URLSearchParams(search);
+  const keyword = searchParams.get("keyword") || "";
+
+  const columns = useMemo<ColumnDef<Model>[]>(
+    () => [
+      {
+        accessorKey: "name",
+        header: ({}) => (
+          <div>
+            <span className="text-gray-70 font-normal">모델명</span>
+          </div>
+        ),
+        cell: ({ row }) => (
+          <div className="flex justify-between">
+            <span>{row.getValue("name")}</span>
+            <button>
+              <img src="/icon/copy-icon.svg" alt="" className="size-5" />
+            </button>
+          </div>
+        ),
+        size: 240,
+      },
+      {
+        accessorKey: "base_model",
+        header: ({}) => (
+          <div className="flex justify-center items-center gap-2 cursor-pointer">
+            <span className="text-gray-70 font-normal">베이스 모델</span>
+            <img src="/icon/sort-icon.svg" alt="" className="size-6" />
+          </div>
+        ),
+        cell: ({ row }) => <div>{row.getValue("base_model")}</div>,
+        size: 180,
+        enableGlobalFilter: false,
+      },
+      {
+        accessorKey: "status",
+        header: ({}) => (
+          <div className="flex justify-center items-center gap-2 cursor-pointer">
+            <span className="text-gray-70 font-normal">상태</span>
+            <img src="/icon/sort-icon.svg" alt="" className="size-6" />
+          </div>
+        ),
+        cell: ({ row }) => <StatusIcon status={row.getValue("status")} />,
+        size: 140,
+        enableGlobalFilter: false,
+      },
+      {
+        accessorKey: "tags",
+        header: ({}) => (
+          <div className="flex justify-center items-center gap-2 cursor-pointer">
+            <span className="text-gray-70 font-normal">태그</span>
+            <img src="/icon/sort-icon.svg" alt="" className="size-6" />
+          </div>
+        ),
+        cell: ({ row }) => (
+          <div className="flex justify-center gap-2">
+            {(
+              (row.getValue("tags") as string).split(",") as (
+                | "내과"
+                | "마취과"
+              )[]
+            ).map((tag) => (
+              <TagIcon tag={tag} />
+            ))}
+          </div>
+        ),
+        size: 160,
+      },
+      {
+        accessorKey: "created_at",
+        header: ({}) => (
+          <div className="flex justify-center items-center gap-2 cursor-pointer">
+            <span className="text-gray-70 font-normal">생성 일자</span>
+            <img src="/icon/sort-icon.svg" alt="" className="size-6" />
+          </div>
+        ),
+        cell: ({ row }) => (
+          <div className="text-gray-70 text-sm">
+            {row.getValue("created_at")}
+          </div>
+        ),
+        size: 150,
+        enableGlobalFilter: false,
+      },
+      {
+        accessorKey: "description",
+        header: ({}) => (
+          <div className="w-[190px]">
+            <span className="text-gray-70 font-normal">메모</span>
+          </div>
+        ),
+        cell: ({ row }) => (
+          <div className="max-w-[150px] text-gray-70 text-sm truncate">
+            {row.getValue("description")}
+          </div>
+        ),
+        size: 150,
+        enableGlobalFilter: false,
+      },
+    ],
+    []
+  );
+
   const table = useReactTable({
     data: MODEL_LIST,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    globalFilterFn: globalFilter,
+    state: {
+      globalFilter: keyword,
+    },
   });
+
+  useEffect(() => {
+    table.setGlobalFilter(keyword);
+  }, [keyword, table.setGlobalFilter]);
 
   return (
     <div>
