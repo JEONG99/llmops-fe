@@ -1,3 +1,5 @@
+import ModelSelect from "@/components/model-learning/model-select";
+import DataSelect from "@/components/prompt-making/data-select";
 import { Slider } from "@/components/ui/custom-slider";
 import { Textarea } from "@/components/ui/textarea";
 import { createLazyFileRoute } from "@tanstack/react-router";
@@ -40,12 +42,7 @@ function PromptMakingPage() {
               <div className="space-y-8">
                 <div>
                   <h4 className="mb-6 text-lg font-hailsnow">Base Model</h4>
-                  <div className="flex justify-between items-center h-[50px] px-6 rounded-[10px] bg-[#F1F4FF]/20 border border-blue/20 cursor-pointer">
-                    <span className="text-[#4f4f4f]">
-                      모델을 선택해 주세요...
-                    </span>
-                    <img src="/icon/sort-icon.svg" alt="" className="size-6" />
-                  </div>
+                  <ModelSelect />
                 </div>
                 <div>
                   <h4 className="mb-6 text-lg font-hailsnow">Instruction</h4>
@@ -58,12 +55,7 @@ function PromptMakingPage() {
                 </div>
                 <div>
                   <h4 className="mb-6 text-lg font-hailsnow">Data set</h4>
-                  <div className="flex justify-between items-center h-[50px] px-6 rounded-[10px] bg-[#F1F4FF]/20 border border-blue/20 cursor-pointer">
-                    <span className="text-[#4f4f4f]">
-                      데이터를 선택해 주세요...
-                    </span>
-                    <img src="/icon/sort-icon.svg" alt="" className="size-6" />
-                  </div>
+                  <DataSelect />
                 </div>
                 <div>
                   <h4 className="mb-7 flex items-center gap-2 text-lg font-hailsnow">
@@ -109,8 +101,7 @@ function PromptMakingPage() {
                   <h4 className="mb-6 text-lg font-hailsnow">Sample input</h4>
                   <div>
                     <input
-                      placeholder="그래픽,네이비,레터링,코튼"
-                      value={"그래픽,네이비,레터링,코튼"}
+                      placeholder="ex) 그래픽,네이비,레터링,코튼"
                       className="h-[77px] w-full px-6 rounded-[10px] bg-[#F1F4FF]/20 border border-blue/20 focus:outline-none placeholder:text-black/50 text-base text-black/70 resize-none"
                     />
                   </div>
@@ -119,9 +110,7 @@ function PromptMakingPage() {
                   <h4 className="mb-6 text-lg font-hailsnow">Sample output</h4>
                   <div>
                     <Textarea
-                      value={
-                        "스타일리시한 그래픽이 특징인 반소매 티셔츠입니다. 베이직한 네이비 색상에 눈길을 사로잡는 레터링이 인상적으로 프린팅되어 있습니다. 부드러운 코튼 소재로 제작되어 착용 시 자연스러운 핏이 만들어줍니다. 다양한 하의와 함께 여러가지 무드를 연출하기 좋습니다."
-                      }
+                      placeholder="ex) 스타일리시한 그래픽이 특징인 반소매 티셔츠입니다. 베이직한 네이비 색상에 눈길을 사로잡는 레터링이 인상적으로 프린팅되어 있습니다. 부드러운 코튼 소재로 제작되어 착용 시 자연스러운 핏이 만들어줍니다. 다양한 하의와 함께 여러가지 무드를 연출하기 좋습니다."
                       className="min-h-[229px] h-[229px] px-6 py-7 rounded-[10px] bg-[#F1F4FF]/20 border border-blue/20 placeholder:text-black/50 text-base text-black/70 resize-none"
                     />
                   </div>

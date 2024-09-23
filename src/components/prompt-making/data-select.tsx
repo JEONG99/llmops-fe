@@ -5,22 +5,21 @@ import {
   SelectItem,
   SelectValue,
 } from "@/components/ui/select";
-import { baseModels } from "@/types";
 
-const ModelSelect = () => {
+const DataSelect = () => {
   return (
     <Select>
       <CustormSelecTrigger>
-        <SelectValue placeholder="모델을 선택해 주세요..." />
+        <SelectValue placeholder="데이터를 선택해 주세요..." />
       </CustormSelecTrigger>
       <SelectContent className="rounded-[10px] bg-[#FCFDFF] border-blue/20">
-        {baseModels.map((model) => (
+        {["data1", "data2", "data3"].map((data) => (
           <SelectItem
-            key={model}
-            value={model}
+            key={data}
+            value={data}
             className="h-[50px] rounded-[10px] focus:bg-blue-light/50"
           >
-            {model}
+            {data}
           </SelectItem>
         ))}
       </SelectContent>
@@ -28,4 +27,4 @@ const ModelSelect = () => {
   );
 };
 
-export default ModelSelect;
+export default DataSelect;

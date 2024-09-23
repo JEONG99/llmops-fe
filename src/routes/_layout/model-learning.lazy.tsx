@@ -60,7 +60,10 @@ function ModelLearningPage() {
             </div>
             <div className="flex gap-12">
               <div className="space-y-10 w-[470px]">
-                <ModelSelect />
+                <div>
+                  <h4 className="mb-3 text-lg font-hailsnow">모델 선정</h4>
+                  <ModelSelect />
+                </div>
                 <LearningDataConfig />
                 <VerificationDataConfig />
                 <ChoiceTuningMethod />
