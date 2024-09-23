@@ -6,16 +6,16 @@ import {
 } from "@/components/ui/chart";
 import { Model } from "@/types";
 import { useMemo } from "react";
-import { Bar, BarChart, XAxis } from "recharts";
+import { Bar, BarChart, XAxis, YAxis } from "recharts";
 
-const getRandomColor = (): string => {
+/*const getRandomColor = (): string => {
   const letters = "0123456789ABCDEF";
   let color = "#";
   for (let i = 0; i < 6; i++) {
     color += letters[Math.floor(Math.random() * 16)];
   }
   return color;
-};
+};*/
 
 const convertToChartData = (models: Model[]) => {
   const metrics = ["bleu", "rouge_1", "rouge_2", "rouge_l"];
@@ -50,11 +50,11 @@ const CustomTick = (props: any) => {
 
 const CompareChart = ({ models }: { models: Model[] }) => {
   const chartConfig: ChartConfig = useMemo(() => {
-    return models.reduce(
-      (acc, { name }) => {
+    return models.slice(0, 3).reduce(
+      (acc, { name }, index) => {
         acc[name] = {
           label: name,
-          color: getRandomColor(),
+          color: index === 0 ? "#D3FF8D" : index === 1 ? "#FF90D8" : "#6E88D9",
         };
         return acc;
       },
@@ -65,7 +65,7 @@ const CompareChart = ({ models }: { models: Model[] }) => {
   const chartData = useMemo(() => convertToChartData(models), [models]);
 
   return (
-    <ChartContainer config={chartConfig} className="h-[340px] w-full">
+    <ChartContainer config={chartConfig} className="h-[300px] w-full">
       <BarChart barSize={15} barGap={10} accessibilityLayer data={chartData}>
         <XAxis
           dataKey="type"
@@ -74,8 +74,15 @@ const CompareChart = ({ models }: { models: Model[] }) => {
           axisLine={false}
           tick={<CustomTick />}
         />
+        <YAxis
+          domain={[0.8, 1]}
+          axisLine={false}
+          tickLine={false}
+          width={40}
+          tickSize={-10}
+        />
         <ChartLegend content={<ChartLegendContent />} />
-        {models.map((model) => (
+        {models.slice(0, 3).map((model) => (
           <Bar dataKey={model.name} fill={`var(--color-${model.name})`} />
         ))}
       </BarChart>

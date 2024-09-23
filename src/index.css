@@ -94,7 +94,7 @@ body,
   }
 
   ::-webkit-scrollbar-track {
-    @apply bg-white;
+    @apply bg-transparent;
   }
 
   ::-webkit-scrollbar-thumb {
@@ -109,5 +109,9 @@ body,
 
   .recharts-cartesian-axis-tick text {
     @apply !fill-black;
+  }
+
+  .custom-slider > span:first-child {
+    @apply z-10;
   }
 }

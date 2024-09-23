@@ -29,10 +29,13 @@ const ModelCompare = ({ models }: { models: Model[] }) => {
     <div className="flex">
       <div className="h-[calc(100vh-188px)] w-fit px-2 overflow-auto">
         <ul className="space-y-1.5 h-fit pb-2">
-          {models.map((model) => (
+          {models.map((model, index) => (
             <li
               key={model.name}
-              className="flex items-center px-6 w-[190px] h-[60px] rounded-[10px] border border-blue-border bg-blue-light-box cursor-pointer hover:bg-blue-light/70"
+              className={cn(
+                "flex items-center px-6 w-[190px] h-[60px] rounded-[10px] border cursor-pointer hover:bg-blue-light/70 bg-blue-light-box",
+                index <= 2 ? "border-blue" : "border-blue-border"
+              )}
             >
               <span className="text-gray-70">{model.name}</span>
             </li>
@@ -48,9 +51,21 @@ const ModelCompare = ({ models }: { models: Model[] }) => {
             <div className="w-1/5 text-center font-bold">#Epoch</div>
             <div className="w-1/5 text-center font-bold">Batch size</div>
           </div>
-          {models.slice(0, 6).map((model) => (
+          {models.slice(0, 3).map((model, index) => (
             <div className="flex py-4">
-              <div className="w-1/5 text-center">{model.name}</div>
+              <div className="flex gap-5 items-center w-1/5 text-center">
+                <div
+                  className={cn(
+                    "size-4 rounded-[2px] border border-[#6E88D9]",
+                    index === 0
+                      ? "bg-green-40"
+                      : index === 1
+                        ? "bg-red-40"
+                        : "bg-[#6E88D9]"
+                  )}
+                />
+                <span>{model.name}</span>
+              </div>
               <div className="w-1/5 text-center">{model.base_model}</div>
               <div className="w-1/5 text-center">{model.learning_rate}</div>
               <div className="w-1/5 text-center">{model.epochs}</div>
@@ -93,17 +108,29 @@ const ModelCompare = ({ models }: { models: Model[] }) => {
           >
             <CarouselContent>
               <CarouselItem>
-                <div>
-                  <div className="flex mb-4">
+                <div className="flex flex-col justify-center mt-6">
+                  <div className="flex mb-6">
                     <div className="w-1/5 text-center font-bold">Name</div>
                     <div className="w-1/5 text-center font-bold">BLEU</div>
                     <div className="w-1/5 text-center font-bold">ROUGE-1</div>
                     <div className="w-1/5 text-center font-bold">ROUGE-2</div>
                     <div className="w-1/5 text-center font-bold">ROUGE-L</div>
                   </div>
-                  {models.slice(0, 6).map((model) => (
+                  {models.slice(0, 3).map((model, index) => (
                     <div className="flex py-4">
-                      <div className="w-1/5 text-center">{model.name}</div>
+                      <div className="flex gap-5 items-center w-1/5 text-center">
+                        <div
+                          className={cn(
+                            "size-4 rounded-[2px] border border-[#6E88D9]",
+                            index === 0
+                              ? "bg-green-40"
+                              : index === 1
+                                ? "bg-red-40"
+                                : "bg-[#6E88D9]"
+                          )}
+                        />
+                        <span>{model.name}</span>
+                      </div>
                       <div className="w-1/5 text-center">{model.bleu}</div>
                       <div className="w-1/5 text-center">{model.rouge_1}</div>
                       <div className="w-1/5 text-center">{model.rouge_2}</div>
