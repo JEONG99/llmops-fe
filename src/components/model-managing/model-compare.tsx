@@ -33,7 +33,7 @@ const ModelCompare = ({ models }: { models: Model[] }) => {
             <li
               key={model.name}
               className={cn(
-                "flex items-center px-6 w-[190px] h-[60px] rounded-[10px] border cursor-pointer hover:bg-blue-light/70 bg-blue-light-box",
+                "flex items-center px-6 w-[190px] h-[60px] rounded-[10px] border cursor-pointer hover:bg-blue-light-bg/70 bg-blue-light-box",
                 index <= 2 ? "border-blue" : "border-blue-border"
               )}
             >
@@ -81,7 +81,7 @@ const ModelCompare = ({ models }: { models: Model[] }) => {
               <button
                 onClick={() => setCarouselIndex(1)}
                 className={cn(
-                  "flex items-center gap-2.5 h-8 px-2.5 rounded-sm bg-[#F2FAFF] hover:bg-blue-light",
+                  "flex items-center gap-2.5 h-8 px-2.5 rounded-sm bg-[#F2FAFF] hover:bg-blue-light-bg",
                   carouselIndex === 0 ? "flex" : "hidden"
                 )}
               >
@@ -91,7 +91,7 @@ const ModelCompare = ({ models }: { models: Model[] }) => {
               <button
                 onClick={() => setCarouselIndex(0)}
                 className={cn(
-                  "flex items-center gap-2.5 h-8 px-2.5 rounded-sm bg-[#F2FAFF] hover:bg-blue-light",
+                  "flex items-center gap-2.5 h-8 px-2.5 rounded-sm bg-[#F2FAFF] hover:bg-blue-light-bg",
                   carouselIndex === 1 ? "flex" : "hidden"
                 )}
               >

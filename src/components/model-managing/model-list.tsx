@@ -8,7 +8,7 @@ const ModelList = ({ models }: { models: Model[] }) => {
       {models.map((model) => (
         <li
           key={model.name}
-          className="flex items-center h-[60px] bg-blue-light-box border border-blue-border rounded-[10px] cursor-pointer hover:bg-blue-light/70"
+          className="flex items-center h-[60px] bg-blue-light-box border border-blue-border rounded-[10px] cursor-pointer hover:bg-blue-light-bg/70"
         >
           <div className="flex justify-between px-6 w-[240px]">
             <span className="text-gray-70">{model.name}</span>

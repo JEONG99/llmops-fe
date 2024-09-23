@@ -20,7 +20,7 @@ const Slider = React.forwardRef<
     <SliderPrimitive.Thumb className="flex justify-center items-center h-5 w-[44px] rounded-[10px] bg-blue focus:outline-none cursor-pointer">
       <img src="/icon/slider-icon.svg" alt="" className="size-3" />
     </SliderPrimitive.Thumb>
-    <SliderPrimitive.Track className="relative h-[1px] w-full grow overflow-hidden rounded-full bg-[#454545]">
+    <SliderPrimitive.Track className="relative h-[1px] w-[calc(100%-2px)] overflow-hidden rounded-full bg-[#454545]">
       <SliderPrimitive.Range className="absolute h-full bg-primary" />
     </SliderPrimitive.Track>
     {marks.map((mark) => (

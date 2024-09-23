@@ -19,25 +19,25 @@ function ModelLearningPage() {
 
   return (
     <div className="pb-20">
-      <div className="flex items-center px-7 h-[68px]">
-        <h4 className="text-lg font-hailsnow">모델 학습</h4>
-      </div>
-      <div className="px-10">
-        <div className="space-y-3 pt-6 pb-9">
-          <div>
-            <input
-              placeholder="모델명을 입력해 주세요."
-              className="px-6 w-full h-[60px] rounded-[10px] bg-[#F1F4FF]/20 border border-blue/20 focus:outline-none placeholder:text-black/60 text-lg"
-            />
-          </div>
-          <div>
-            <Textarea
-              placeholder="모델에 대해 설명해 주세요."
-              className="min-h-[74px] h-[74px] px-6 py-6 rounded-[10px] bg-[#F1F4FF]/20 border border-blue/20 placeholder:text-black/50 resize-none"
-            />
-          </div>
+      <form>
+        <div className="flex items-center px-7 h-[68px]">
+          <h4 className="text-lg font-hailsnow">모델 학습</h4>
         </div>
-        <form>
+        <div className="px-10">
+          <div className="space-y-3 pt-6 pb-9">
+            <div>
+              <input
+                placeholder="모델명을 입력해 주세요."
+                className="px-6 w-full h-[60px] rounded-[10px] bg-[#F1F4FF]/20 border border-blue/20 focus:outline-none placeholder:text-black/60 text-lg"
+              />
+            </div>
+            <div>
+              <Textarea
+                placeholder="모델에 대해 설명해 주세요."
+                className="min-h-[74px] h-[74px] px-6 py-6 rounded-[10px] bg-[#F1F4FF]/20 border border-blue/20 placeholder:text-black/50 resize-none"
+              />
+            </div>
+          </div>
           <div className="flex gap-12">
             <div className="space-y-10 w-[470px]">
               <div>
@@ -121,13 +121,13 @@ function ModelLearningPage() {
                   </button>
                   <button
                     type="button"
-                    className="flex items-center justify-center flex-1 h-[50px] rounded-[10px] bg-blue-light-box border border-blue-border hover:bg-blue-light/70"
+                    className="flex items-center justify-center flex-1 h-[50px] rounded-[10px] bg-blue-light-box border border-blue-border hover:bg-blue-light-bg/70"
                   >
                     QLoRA
                   </button>
                   <button
                     type="button"
-                    className="flex items-center justify-center flex-1 h-[50px] rounded-[10px] bg-blue-light-box border border-blue-border hover:bg-blue-light/70"
+                    className="flex items-center justify-center flex-1 h-[50px] rounded-[10px] bg-blue-light-box border border-blue-border hover:bg-blue-light-bg/70"
                   >
                     풀파인튜닝
                   </button>
@@ -333,8 +333,8 @@ function ModelLearningPage() {
               </div>
             </div>
           </div>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
   );
 }
