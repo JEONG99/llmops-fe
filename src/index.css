@@ -26,7 +26,6 @@ body,
   html {
     font-family: "Pretendard", sans-serif;
     letter-spacing: -0.02em;
-    scrollbar-gutter: stable;
   }
   :root {
     --background: 0 0% 100%;

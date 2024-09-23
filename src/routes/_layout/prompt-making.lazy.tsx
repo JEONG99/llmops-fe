@@ -12,7 +12,10 @@ function PromptMakingPage() {
       <form>
         <div className="flex items-center justify-between px-7 h-[68px]">
           <h4 className="text-lg font-hailsnow">프롬프트 만들기</h4>
-          <button className="flex items-center justify-center gap-2 w-[177px] h-12 rounded-[10px] bg-blue-light hover:bg-blue-light/70">
+          <button
+            type="button"
+            className="flex items-center justify-center gap-2 w-[177px] h-12 rounded-[10px] bg-blue-light hover:bg-blue-light/70"
+          >
             <img src="/icon/download-icon.svg" alt="" className="size-6" />
             <span>프롬프트 불러오기</span>
           </button>
@@ -142,7 +145,10 @@ function PromptMakingPage() {
                   </p>
                 </div>
               </div>
-              <button className="mt-5 flex justify-center items-center w-full h-12 rounded-[10px] bg-blue hover:bg-blue/90">
+              <button
+                type="button"
+                className="mt-5 flex justify-center items-center w-full h-12 rounded-[10px] bg-blue hover:bg-blue/90"
+              >
                 저장하기
               </button>
             </div>
