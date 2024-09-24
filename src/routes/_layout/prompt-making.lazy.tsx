@@ -69,13 +69,13 @@ function PromptMakingPage() {
                   <div className="relative flex-1">
                     <Slider
                       defaultValue={[0]}
-                      max={1}
+                      max={2}
                       step={0.01}
                       className="w-full"
                     />
                     <div className="absolute -bottom-10 flex justify-between w-full">
                       <span className="text-[#858585] text-xs">0</span>
-                      <span className="text-[#858585] text-xs">1</span>
+                      <span className="text-[#858585] text-xs">2</span>
                     </div>
                   </div>
                 </div>

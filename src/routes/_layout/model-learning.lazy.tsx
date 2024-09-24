@@ -61,7 +61,7 @@ function ModelLearningPage() {
             <div className="flex gap-12">
               <div className="space-y-10 w-[470px]">
                 <div>
-                  <h4 className="mb-3 text-lg font-hailsnow">모델 선정</h4>
+                  <h4 className="mb-3 text-lg font-hailsnow">베이스 모델</h4>
                   <ModelSelect />
                 </div>
                 <LearningDataConfig />

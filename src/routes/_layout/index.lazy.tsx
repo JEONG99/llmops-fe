@@ -60,7 +60,7 @@ function ModelManagingPage() {
           <button
             onClick={() => setCarouselIndex(1)}
             className={cn(
-              "flex justify-center items-center gap-4 h-12 w-[143px] px-6 rounded-[10px] bg-blue hover:bg-blue/90",
+              "flex justify-center items-center gap-4 h-12 min-w-[146px] px-6 rounded-[10px] bg-blue hover:bg-blue/90",
               carouselIndex === 0 ? "flex" : "hidden"
             )}
           >
@@ -70,7 +70,7 @@ function ModelManagingPage() {
           <button
             onClick={() => setCarouselIndex(0)}
             className={cn(
-              "flex justify-center items-center gap-4 h-12 w-[143px] px-6 rounded-[10px] bg-blue hover:bg-blue/90",
+              "flex justify-center items-center gap-4 h-12 min-w-[146px] px-6 rounded-[10px] bg-blue hover:bg-blue/90",
               carouselIndex === 1 ? "flex" : "hidden"
             )}
           >
