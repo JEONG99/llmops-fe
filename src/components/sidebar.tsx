@@ -4,7 +4,7 @@ const Sidebar = () => {
   return (
     <div className="fixed top-0 w-[284px] h-full py-10 bg-blue-light-bg">
       <h1 className="text-center font-bold text-2xl">LLM Ops</h1>
-      <ul className="mt-[226px] mx-auto space-y-10 w-[145px]">
+      <ul className="mt-[176px] mx-auto space-y-10 w-[145px]">
         <li>
           <Link
             to="/"
@@ -54,6 +54,20 @@ const Sidebar = () => {
             className="flex items-center"
           >
             <span className="font-hailsnow text-lg">프롬프트 갤러리</span>
+            <img
+              src="/icon/navbar-icon.svg"
+              alt=""
+              className="active invisible size-8"
+            />
+          </Link>
+        </li>
+        <li>
+          <Link
+            to="/playground"
+            activeProps={{ className: "[&_.active]:visible" }}
+            className="flex items-center"
+          >
+            <span className="font-hailsnow text-lg">플레이그라운드</span>
             <img
               src="/icon/navbar-icon.svg"
               alt=""

@@ -14,6 +14,7 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as LayoutImport } from './routes/_layout'
+import { Route as LayoutPlaygroundImport } from './routes/_layout/playground'
 
 // Create Virtual Routes
 
@@ -67,6 +68,11 @@ const LayoutDeployLazyRoute = LayoutDeployLazyImport.update({
   import('./routes/_layout/deploy.lazy').then((d) => d.Route),
 )
 
+const LayoutPlaygroundRoute = LayoutPlaygroundImport.update({
+  path: '/playground',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -77,6 +83,13 @@ declare module '@tanstack/react-router' {
       fullPath: ''
       preLoaderRoute: typeof LayoutImport
       parentRoute: typeof rootRoute
+    }
+    '/_layout/playground': {
+      id: '/_layout/playground'
+      path: '/playground'
+      fullPath: '/playground'
+      preLoaderRoute: typeof LayoutPlaygroundImport
+      parentRoute: typeof LayoutImport
     }
     '/_layout/deploy': {
       id: '/_layout/deploy'
@@ -119,6 +132,7 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface LayoutRouteChildren {
+  LayoutPlaygroundRoute: typeof LayoutPlaygroundRoute
   LayoutDeployLazyRoute: typeof LayoutDeployLazyRoute
   LayoutModelLearningLazyRoute: typeof LayoutModelLearningLazyRoute
   LayoutPromptGalleryLazyRoute: typeof LayoutPromptGalleryLazyRoute
@@ -127,6 +141,7 @@ interface LayoutRouteChildren {
 }
 
 const LayoutRouteChildren: LayoutRouteChildren = {
+  LayoutPlaygroundRoute: LayoutPlaygroundRoute,
   LayoutDeployLazyRoute: LayoutDeployLazyRoute,
   LayoutModelLearningLazyRoute: LayoutModelLearningLazyRoute,
   LayoutPromptGalleryLazyRoute: LayoutPromptGalleryLazyRoute,
@@ -139,6 +154,7 @@ const LayoutRouteWithChildren =
 
 export interface FileRoutesByFullPath {
   '': typeof LayoutRouteWithChildren
+  '/playground': typeof LayoutPlaygroundRoute
   '/deploy': typeof LayoutDeployLazyRoute
   '/model-learning': typeof LayoutModelLearningLazyRoute
   '/prompt-gallery': typeof LayoutPromptGalleryLazyRoute
@@ -147,6 +163,7 @@ export interface FileRoutesByFullPath {
 }
 
 export interface FileRoutesByTo {
+  '/playground': typeof LayoutPlaygroundRoute
   '/deploy': typeof LayoutDeployLazyRoute
   '/model-learning': typeof LayoutModelLearningLazyRoute
   '/prompt-gallery': typeof LayoutPromptGalleryLazyRoute
@@ -157,6 +174,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/_layout': typeof LayoutRouteWithChildren
+  '/_layout/playground': typeof LayoutPlaygroundRoute
   '/_layout/deploy': typeof LayoutDeployLazyRoute
   '/_layout/model-learning': typeof LayoutModelLearningLazyRoute
   '/_layout/prompt-gallery': typeof LayoutPromptGalleryLazyRoute
@@ -168,16 +186,24 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | ''
+    | '/playground'
     | '/deploy'
     | '/model-learning'
     | '/prompt-gallery'
     | '/prompt-making'
     | '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/deploy' | '/model-learning' | '/prompt-gallery' | '/prompt-making' | '/'
+  to:
+    | '/playground'
+    | '/deploy'
+    | '/model-learning'
+    | '/prompt-gallery'
+    | '/prompt-making'
+    | '/'
   id:
     | '__root__'
     | '/_layout'
+    | '/_layout/playground'
     | '/_layout/deploy'
     | '/_layout/model-learning'
     | '/_layout/prompt-gallery'
@@ -212,12 +238,17 @@ export const routeTree = rootRoute
     "/_layout": {
       "filePath": "_layout.tsx",
       "children": [
+        "/_layout/playground",
         "/_layout/deploy",
         "/_layout/model-learning",
         "/_layout/prompt-gallery",
         "/_layout/prompt-making",
         "/_layout/"
       ]
+    },
+    "/_layout/playground": {
+      "filePath": "_layout/playground.tsx",
+      "parent": "/_layout"
     },
     "/_layout/deploy": {
       "filePath": "_layout/deploy.lazy.tsx",
