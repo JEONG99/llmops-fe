@@ -13,7 +13,7 @@ function PromptMakingPage() {
     <div className="pb-20">
       <form>
         <div className="flex items-center justify-between px-7 h-[68px]">
-          <h4 className="text-lg font-hailsnow">프롬프트 만들기</h4>
+          <h4 className="text-lg ">프롬프트 만들기</h4>
           <button
             type="button"
             className="flex items-center justify-center gap-2 w-[177px] h-12 rounded-[10px] bg-blue-light hover:bg-blue-light/70"
@@ -41,11 +41,11 @@ function PromptMakingPage() {
             <div className="flex-1">
               <div className="space-y-8">
                 <div>
-                  <h4 className="mb-6 text-lg font-hailsnow">Base Model</h4>
+                  <h4 className="mb-6 text-lg ">Base Model</h4>
                   <ModelSelect />
                 </div>
                 <div>
-                  <h4 className="mb-6 text-lg font-hailsnow">Instruction</h4>
+                  <h4 className="mb-6 text-lg ">Instruction</h4>
                   <div>
                     <Textarea
                       placeholder="ex) 주어진 패션 상품에 어울리는 상품 설명을 만드시오."
@@ -54,11 +54,11 @@ function PromptMakingPage() {
                   </div>
                 </div>
                 <div>
-                  <h4 className="mb-6 text-lg font-hailsnow">Data set</h4>
+                  <h4 className="mb-6 text-lg ">Data set</h4>
                   <DataSelect />
                 </div>
                 <div>
-                  <h4 className="mb-7 flex items-center gap-2 text-lg font-hailsnow">
+                  <h4 className="mb-7 flex items-center gap-2 text-lg ">
                     temprerature
                     <img
                       src="/icon/info-icon.svg"
@@ -98,7 +98,7 @@ function PromptMakingPage() {
             <div className="flex-1">
               <div className="space-y-8">
                 <div>
-                  <h4 className="mb-6 text-lg font-hailsnow">Sample input</h4>
+                  <h4 className="mb-6 text-lg ">Sample input</h4>
                   <div>
                     <input
                       placeholder="ex) 그래픽,네이비,레터링,코튼"
@@ -107,7 +107,7 @@ function PromptMakingPage() {
                   </div>
                 </div>
                 <div>
-                  <h4 className="mb-6 text-lg font-hailsnow">Sample output</h4>
+                  <h4 className="mb-6 text-lg ">Sample output</h4>
                   <div>
                     <Textarea
                       placeholder="ex) 스타일리시한 그래픽이 특징인 반소매 티셔츠입니다. 베이직한 네이비 색상에 눈길을 사로잡는 레터링이 인상적으로 프린팅되어 있습니다. 부드러운 코튼 소재로 제작되어 착용 시 자연스러운 핏이 만들어줍니다. 다양한 하의와 함께 여러가지 무드를 연출하기 좋습니다."
@@ -123,9 +123,7 @@ function PromptMakingPage() {
             </div>
             <div className="flex-1">
               <div className="flex flex-col h-[610px] py-10 px-11 rounded-[10px] bg-[#F1F4FF]">
-                <h5 className="mb-[69px] text-lg font-hailsnow text-center">
-                  결과 화면
-                </h5>
+                <h5 className="mb-[69px] text-lg  text-center">결과 화면</h5>
                 <div className="overflow-y-scroll">
                   <p className="text-lg text-[#060606]/70">
                     개성있는 그래픽과 레터링이 있는 반소매 티셔츠입니다. 깔끔한

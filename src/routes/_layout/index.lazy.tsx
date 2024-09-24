@@ -14,6 +14,7 @@ import { Model } from "@/types";
 import { cn } from "@/lib/utils";
 import ModelList from "@/components/model-managing/model-list";
 import ModelCompare from "@/components/model-managing/model-compare";
+import ModelDetail from "@/components/model-managing/model-detail";
 
 export const Route = createLazyFileRoute("/_layout/")({
   component: ModelManagingPage,
@@ -41,6 +42,8 @@ function ModelManagingPage() {
 
   const [carouselIndex, setCarouselIndex] = useState(0);
 
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+
   useEffect(() => {
     if (carouselIndex === 0) {
       prevRef.current?.click();
@@ -52,7 +55,7 @@ function ModelManagingPage() {
   return (
     <div>
       <div className="flex items-center px-7 h-[68px]">
-        <h4 className="text-lg font-hailsnow">모델 관리</h4>
+        <h4 className="text-lg ">모델 관리</h4>
       </div>
       <div>
         <div className="flex justify-between px-7">
@@ -110,8 +113,18 @@ function ModelManagingPage() {
             }}
           >
             <CarouselContent>
-              <CarouselItem className="h-[calc(100vh-188px)] overflow-auto">
-                <ModelList models={models} />
+              <CarouselItem className="h-[calc(100vh-188px)] pb-8 overflow-auto">
+                <div className="relative h-full">
+                  <div>
+                    {/*selectedId && (
+                      <ModelDetail
+                        selectedId={selectedId}
+                        setSelectedId={setSelectedId}
+                      />
+                    )*/}
+                  </div>
+                  <ModelList models={models} setSelectedId={setSelectedId} />
+                </div>
               </CarouselItem>
               <CarouselItem>
                 <ModelCompare models={models} />

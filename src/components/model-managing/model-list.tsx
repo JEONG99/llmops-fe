@@ -2,12 +2,19 @@ import StatusIcon from "@/components/model-managing/status-icon";
 import TagIcon from "@/components/model-managing/tag-icon";
 import { Model } from "@/types";
 
-const ModelList = ({ models }: { models: Model[] }) => {
+const ModelList = ({
+  models,
+  setSelectedId,
+}: {
+  models: Model[];
+  setSelectedId: React.Dispatch<React.SetStateAction<string | null>>;
+}) => {
   return (
     <ul className="space-y-1.5 h-fit">
       {models.map((model) => (
         <li
           key={model.name}
+          onClick={() => setSelectedId(model.name)}
           className="flex items-center h-[60px] bg-blue-light-box border border-blue-border rounded-[10px] cursor-pointer hover:bg-blue-light-bg/70"
         >
           <div className="flex justify-between px-6 w-[240px]">

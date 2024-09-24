@@ -9,7 +9,7 @@ function PromptGalleryPage() {
   return (
     <div className="pb-20">
       <div className="flex items-center justify-between px-7 h-[68px]">
-        <h4 className="text-lg font-hailsnow">프롬프트 갤러리</h4>
+        <h4 className="text-lg ">프롬프트 갤러리</h4>
         <button
           type="button"
           className="flex items-center justify-center gap-2 w-[165px] h-12 rounded-[10px] bg-blue-light hover:bg-blue-light/70"

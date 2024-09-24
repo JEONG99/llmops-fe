@@ -7,7 +7,7 @@ const LearningDataConfig = () => {
   return (
     <div>
       <div className="flex items-center justify-between mb-3">
-        <h4 className="text-lg font-hailsnow">학습 데이터</h4>
+        <h4 className="text-lg ">학습 데이터</h4>
         <div className="flex items-center gap-7">
           <div
             onClick={() => setUpload(true)}

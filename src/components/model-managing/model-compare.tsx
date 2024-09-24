@@ -76,7 +76,7 @@ const ModelCompare = ({ models }: { models: Model[] }) => {
         <div className="w-full px-6 py-5 rounded-[10px] border border-[#EDF1FE] bg-[#F8F9FB]">
           <div className="flex justify-between mb-8">
             <div className="w-[127px]" />
-            <div className="font-hailsnow text-lg">모델 별 정확도 비교</div>
+            <div className=" text-lg">모델 별 정확도 비교</div>
             <div className="w-[127px]">
               <button
                 onClick={() => setCarouselIndex(1)}

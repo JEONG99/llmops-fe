@@ -41,7 +41,7 @@ function ModelLearningPage() {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="flex items-center px-7 h-[68px]">
-            <h4 className="text-lg font-hailsnow">모델 학습</h4>
+            <h4 className="text-lg ">모델 학습</h4>
           </div>
           <div className="px-10">
             <div className="space-y-3 pt-6 pb-9">
@@ -61,7 +61,7 @@ function ModelLearningPage() {
             <div className="flex gap-12">
               <div className="space-y-10 w-[470px]">
                 <div>
-                  <h4 className="mb-3 text-lg font-hailsnow">베이스 모델</h4>
+                  <h4 className="mb-3 text-lg ">베이스 모델</h4>
                   <ModelSelect />
                 </div>
                 <LearningDataConfig />
@@ -69,7 +69,7 @@ function ModelLearningPage() {
                 <ChoiceTuningMethod />
               </div>
               <div className="w-[537px]">
-                <h4 className="mb-5 text-lg font-hailsnow">세부 조정</h4>
+                <h4 className="mb-5 text-lg ">세부 조정</h4>
                 <div className="space-y-10">
                   <div className="flex items-center">
                     <div className="w-36 text-[#454545] truncate">

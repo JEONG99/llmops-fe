@@ -7,7 +7,7 @@ const ChoiceTuningMethod = () => {
 
   return (
     <div>
-      <h4 className="mb-3 text-lg font-hailsnow">파인튜닝 방법 선택</h4>
+      <h4 className="mb-3 text-lg ">파인튜닝 방법 선택</h4>
       <div className="flex items-center gap-2">
         {tuningMethods.map((method) => (
           <button
