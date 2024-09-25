@@ -1,4 +1,4 @@
-const Star = ({ checked }: { checked: boolean }) => {
+const Star = ({ checked = false }: { checked?: boolean }) => {
   return (
     <svg
       width="24"

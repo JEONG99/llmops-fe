@@ -11,14 +11,17 @@ const ModelSelect = () => {
   return (
     <Select>
       <CustormSelecTrigger>
-        <SelectValue placeholder="모델을 선택해 주세요..." />
+        <SelectValue
+          placeholder="모델을 선택해 주세요..."
+          className="text-[#4f4f4f]"
+        />
       </CustormSelecTrigger>
       <SelectContent className="rounded-[10px] bg-[#FCFDFF] border-blue/20">
         {baseModels.map((model) => (
           <SelectItem
             key={model}
             value={model}
-            className="h-[50px] rounded-[10px] focus:bg-blue-light/50"
+            className="h-[50px] rounded-[10px] text-base focus:bg-blue-light/50"
           >
             {model}
           </SelectItem>
