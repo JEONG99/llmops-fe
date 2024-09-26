@@ -108,7 +108,7 @@ function ModelManagingPage() {
                       selectedId === null ? "hidden" : "block"
                     )}
                   >
-                    <div className="absolute w-full h-[786px]">
+                    <div className="absolute w-full">
                       <ModelDetail
                         selectedId={selectedId}
                         setSelectedId={setSelectedId}
