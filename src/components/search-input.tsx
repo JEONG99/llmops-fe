@@ -16,7 +16,7 @@ const SearchInput = () => {
     const query = {
       keyword: value,
     };
-    navigate({ to: "/", search: query });
+    navigate({ to: ".", search: query, replace: true });
   }, [debouncedValue]);
 
   return (

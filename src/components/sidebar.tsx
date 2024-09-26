@@ -33,8 +33,7 @@ const Sidebar = () => {
             />
           </Link>
         </li>
-        {/*
-<li>
+        <li>
           <Link
             to="/prompt-making"
             activeProps={{ className: "[&_.active]:visible" }}
@@ -62,8 +61,6 @@ const Sidebar = () => {
             />
           </Link>
         </li>
-          */}
-
         <li>
           <Link
             to="/playground"
@@ -78,8 +75,7 @@ const Sidebar = () => {
             />
           </Link>
         </li>
-        {/*
-         <li>
+        <li>
           <Link
             to="/deploy"
             activeProps={{ className: "[&_.active]:visible" }}
@@ -93,7 +89,6 @@ const Sidebar = () => {
             />
           </Link>
         </li>
-        */}
       </ul>
     </div>
   );
