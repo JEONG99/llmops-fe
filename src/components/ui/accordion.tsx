@@ -22,7 +22,7 @@ AccordionItem.displayName = "AccordionItem";
 const CustomAccordionTrigger = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Trigger>,
   React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger>
->(({ className, children, ...props }, ref) => (
+>(({ className, children, color = "#658BFF", ...props }, ref) => (
   <AccordionPrimitive.Header className="flex">
     <AccordionPrimitive.Trigger
       ref={ref}
@@ -34,7 +34,7 @@ const CustomAccordionTrigger = React.forwardRef<
     >
       {children}
       <ChevronDown
-        color="#658BFF"
+        color={color}
         className="shrink-0 transition-transform duration-200"
       />
     </AccordionPrimitive.Trigger>

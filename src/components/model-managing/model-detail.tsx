@@ -1,5 +1,10 @@
-import ChevronDown from "@/components/icon/chevron-down";
 import StepGraph from "@/components/model-managing/step-graph";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  CustomAccordionTrigger,
+} from "@/components/ui/accordion";
 
 const ModelDetail = ({
   selectedId,
@@ -58,28 +63,56 @@ const ModelDetail = ({
             </div>
             <div className="flex-1" />
           </div>
-          <div className="mt-5 flex">
-            <div className="flex-1 flex items-center justify-start gap-5">
-              <span className="text-sm text-[#6E88D9]">Batches size</span>
-              <span>8</span>
-            </div>
-            <div className="flex-1 flex items-center  justify-start gap-5">
-              <span className="text-sm text-[#6E88D9]">
-                Learning rate multiplier
-              </span>
-              <span>0.001</span>
-            </div>
-            <div className="flex-1 flex items-center justify-start gap-5">
-              <span className="text-sm text-[#6E88D9]">number of epochs</span>
-              <span>3</span>
-            </div>
-            <div className="flex-1 flex items-center justify-end">
-              <button className="flex items-center gap-1">
-                <span className="text-sm text-black/70">고급 옵션</span>
-                <ChevronDown color="rgba(0,0,0,0.7)" />
-              </button>
-            </div>
-          </div>
+          <Accordion type="single" collapsible>
+            <AccordionItem value="item-1" className="border-none">
+              <div className="mt-5 flex">
+                <div className="flex-1 flex items-center justify-start gap-5">
+                  <span className="text-sm text-[#6E88D9]">Batches size</span>
+                  <span>8</span>
+                </div>
+                <div className="flex-1 flex items-center  justify-start gap-5">
+                  <span className="text-sm text-[#6E88D9]">
+                    Learning rate multiplier
+                  </span>
+                  <span>0.001</span>
+                </div>
+                <div className="flex-1 flex items-center justify-start gap-5">
+                  <span className="text-sm text-[#6E88D9]">
+                    number of epochs
+                  </span>
+                  <span>3</span>
+                </div>
+                <div className="flex-1 flex items-center justify-end">
+                  <CustomAccordionTrigger
+                    color="rgba(0,0,0,0.7)"
+                    className="text-black/70 text-sm w-20"
+                  >
+                    고급 옵션
+                  </CustomAccordionTrigger>
+                </div>
+              </div>
+              <AccordionContent className="text-base">
+                <div className="mt-5 flex">
+                  <div className="flex-1 flex items-center justify-start gap-5">
+                    <span className="text-sm text-[#6E88D9]">Beta1</span>
+                    <span>0.9</span>
+                  </div>
+                  <div className="flex-1 flex items-center  justify-start gap-5">
+                    <span className="text-sm text-[#6E88D9]">Beta2</span>
+                    <span>0.999</span>
+                  </div>
+                  <div className="flex-1 flex items-center justify-start gap-5">
+                    <span className="text-sm text-[#6E88D9]">Epsilon</span>
+                    <span>0.000001</span>
+                  </div>
+                  <div className="flex-1 flex items-center justify-start gap-5">
+                    <span className="text-sm text-[#6E88D9]">Weight Decay</span>
+                    <span>0.0</span>
+                  </div>
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
         </div>
         <div className="flex gap-4">
           <StepGraph
