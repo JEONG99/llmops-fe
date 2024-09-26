@@ -1,3 +1,4 @@
+import ModalProvider from "@/provider/modal-provider";
 import { createRootRoute, Outlet } from "@tanstack/react-router";
 
 export const Route = createRootRoute({
@@ -9,5 +10,10 @@ export const Route = createRootRoute({
 });
 
 function App({ children }: { children: React.ReactNode }) {
-  return <div>{children}</div>;
+  return (
+    <div>
+      {children}
+      <ModalProvider />
+    </div>
+  );
 }

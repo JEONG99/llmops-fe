@@ -3,6 +3,7 @@ import ModelSelect from "@/components/model-learning/model-select";
 import DataSelect from "@/components/prompt-making/data-select";
 import { Slider } from "@/components/ui/custom-slider";
 import { Textarea } from "@/components/ui/textarea";
+import { useModalStore } from "@/hooks/use-modal-store";
 import { createLazyFileRoute } from "@tanstack/react-router";
 
 export const Route = createLazyFileRoute("/_layout/prompt-making")({
@@ -10,6 +11,8 @@ export const Route = createLazyFileRoute("/_layout/prompt-making")({
 });
 
 function PromptMakingPage() {
+  const { onOpen } = useModalStore();
+
   return (
     <PageLayout
       title="프롬프트 만들기"
@@ -63,12 +66,18 @@ function PromptMakingPage() {
                 </div>
                 <div>
                   <h4 className="mb-7 flex items-center gap-2 text-lg ">
-                    temprerature
-                    <img
-                      src="/icon/info-icon.svg"
-                      alt=""
-                      className="size-6 cursor-pointer"
-                    />
+                    temperature
+                    <button
+                      type="button"
+                      onClick={() => onOpen("temperature")}
+                      className="hover:opacity-80"
+                    >
+                      <img
+                        src="/icon/info-icon.svg"
+                        alt=""
+                        className="size-6"
+                      />
+                    </button>
                   </h4>
                   <div className="relative flex-1">
                     <Slider
