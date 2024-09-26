@@ -9,7 +9,7 @@ export const Route = createFileRoute("/_layout/playground")({
 
 function PlaygroundPage() {
   return (
-    <div>
+    <div className="pb-20">
       <div className="flex items-center px-7 h-[68px]">
         <h4 className="text-lg">플레이 그라운드</h4>
       </div>
@@ -54,7 +54,7 @@ function PlaygroundPage() {
                   <h4 className="mb-4">Instruction</h4>
                   <Textarea
                     value={"주어진 패션 상품에 어울리는 상품 설명을 만드시오"}
-                    className="min-h-[84px] h-[84px] px-[22px] py-5 rounded-[10px] bg-[#F1F4FF]/20 border border-blue/20 placeholder:text-black/50 text-black/70 text-base resize-none"
+                    className="min-h-[84px] h-[84px] p-5 rounded-[10px] bg-[#F1F4FF]/20 border border-blue/20 placeholder:text-black/50 text-black/70 text-base resize-none"
                   />
                 </div>
                 <div className="min-h-[268px] p-8 rounded-[10px] bg-[#F1F4FF]/20 border border-blue/20">
@@ -93,7 +93,7 @@ function PlaygroundPage() {
                   <h4 className="mb-4">Instruction</h4>
                   <Textarea
                     value={"주어진 패션 상품에 어울리는 상품 설명을 만드시오"}
-                    className="min-h-[84px] h-[84px] px-[22px] py-5 rounded-[10px] bg-[#F1F4FF]/20 border border-blue/20 placeholder:text-black/50 text-black/70 text-base resize-none"
+                    className="min-h-[84px] h-[84px] p-5 rounded-[10px] bg-[#F1F4FF]/20 border border-blue/20 placeholder:text-black/50 text-black/70 text-base resize-none"
                   />
                 </div>
                 <div className="min-h-[268px] p-8 rounded-[10px] bg-[#F1F4FF]/20 border border-blue/20">

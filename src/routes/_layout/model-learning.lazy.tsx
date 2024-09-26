@@ -24,13 +24,13 @@ function ModelLearningPage() {
   const [amsgradChecked, setAmsgradChecked] = useState(false);
   const form = useForm({
     defaultValues: {
-      batchesSize: 0,
-      learningRate: 0,
-      epochs: 0,
-      beta1: 0,
-      beta2: 0,
-      epsilon: 0,
-      weightDecay: 0,
+      batchesSize: 8,
+      learningRate: 0.0001,
+      epochs: 3,
+      beta1: 0.9,
+      beta2: 0.999,
+      epsilon: 0.000001,
+      weightDecay: 0.0,
     },
   });
 
@@ -139,7 +139,7 @@ function ModelLearningPage() {
                                     field.onChange(value[0])
                                   }
                                   max={10}
-                                  step={0.001}
+                                  step={0.0001}
                                   className="w-full"
                                 />
                                 <div className="absolute -bottom-8 flex justify-between w-full">
@@ -307,7 +307,7 @@ function ModelLearningPage() {
                                       <input
                                         value={field.value}
                                         onChange={field.onChange}
-                                        className="w-[65px] h-[37px] bg-[#F1F6FF] rounded-[10px] text-[#565656] text-base text-center focus:outline-none"
+                                        className="w-[65px] h-[37px] bg-[#F1F6FF] rounded-[10px] text-[#565656] text-sm text-center focus:outline-none"
                                       />
                                     </div>
                                     <div className="relative flex-1">
