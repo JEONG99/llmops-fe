@@ -10,25 +10,15 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { MODEL_LIST } from "@/lib/const";
-import { Model } from "@/types";
-import { cn } from "@/lib/utils";
+import { cn, searchModels } from "@/lib/utils";
 import ModelList from "@/components/model-managing/model-list";
 import ModelCompare from "@/components/model-managing/model-compare";
 import ModelDetail from "@/components/model-managing/model-detail";
+import PageLayout from "@/components/layout/page-layout";
 
 export const Route = createLazyFileRoute("/_layout/")({
   component: ModelManagingPage,
 });
-
-function searchModels(models: Model[], searchTerm: string): Model[] {
-  const lowercasedSearchTerm = searchTerm.toLowerCase();
-
-  return models.filter(
-    (model) =>
-      model.name.toLowerCase().includes(lowercasedSearchTerm) ||
-      model.tags.toLowerCase().includes(lowercasedSearchTerm)
-  );
-}
 
 function ModelManagingPage() {
   const { search } = useLocation();
@@ -53,11 +43,8 @@ function ModelManagingPage() {
   }, [carouselIndex]);
 
   return (
-    <div>
-      <div className="flex items-center px-7 h-[68px]">
-        <h4 className="text-lg ">모델 관리</h4>
-      </div>
-      <div>
+    <PageLayout title="모델 관리" className="pb-0">
+      <div className="mt-4">
         <div className="flex justify-between px-7">
           <SearchInput />
           <button
@@ -84,26 +71,26 @@ function ModelManagingPage() {
         <div className="relative mt-4 px-7">
           <div className="sticky top-0 z-10 flex h-14 bg-white">
             <div className="flex justify-center items-center w-[240px]">
-              <span className="text-gray-70 font-normal">모델명</span>
+              <span className="text-gray-70">모델명</span>
             </div>
             <div className="flex justify-center items-center gap-2 w-[190px] cursor-pointer">
-              <span className="text-gray-70 font-normal">베이스 모델</span>
+              <span className="text-gray-70">베이스 모델</span>
               <img src="/icon/sort-icon.svg" alt="" className="size-6" />
             </div>
             <div className="flex justify-center items-center gap-2 w-[160px] cursor-pointer">
-              <span className="text-gray-70 font-normal">상태</span>
+              <span className="text-gray-70">상태</span>
               <img src="/icon/sort-icon.svg" alt="" className="size-6" />
             </div>
             <div className="flex justify-center items-center gap-2 w-[160px] cursor-pointer">
-              <span className="text-gray-70 font-normal">태그</span>
+              <span className="text-gray-70">태그</span>
               <img src="/icon/sort-icon.svg" alt="" className="size-6" />
             </div>
             <div className="flex justify-center items-center gap-2 w-[160px] cursor-pointer">
-              <span className="text-gray-70 font-normal">생성 일자</span>
+              <span className="text-gray-70">생성 일자</span>
               <img src="/icon/sort-icon.svg" alt="" className="size-6" />
             </div>
             <div className="flex justify-center items-center w-[190px]">
-              <span className="text-gray-70 font-normal">메모</span>
+              <span className="text-gray-70">메모</span>
             </div>
           </div>
           <Carousel
@@ -112,21 +99,33 @@ function ModelManagingPage() {
               dragFree: true,
             }}
           >
-            <CarouselContent>
-              <CarouselItem className="h-[calc(100vh-188px)] pb-8 overflow-auto">
-                <div className="relative h-full">
-                  <div>
-                    {/*selectedId && (
+            <CarouselContent className="h-[calc(100vh-204px)]">
+              <CarouselItem className="h-full">
+                <div className="relative h-full pb-4">
+                  <div
+                    className={cn(
+                      "relative h-full overflow-auto",
+                      selectedId === null ? "hidden" : "block"
+                    )}
+                  >
+                    <div className="absolute w-full h-[786px]">
                       <ModelDetail
                         selectedId={selectedId}
                         setSelectedId={setSelectedId}
                       />
-                    )*/}
+                    </div>
                   </div>
-                  <ModelList models={models} setSelectedId={setSelectedId} />
+                  <div
+                    className={cn(
+                      "h-full overflow-auto",
+                      selectedId === null ? "block" : "hidden"
+                    )}
+                  >
+                    <ModelList models={models} setSelectedId={setSelectedId} />
+                  </div>
                 </div>
               </CarouselItem>
-              <CarouselItem>
+              <CarouselItem className="h-full">
                 <ModelCompare models={models} />
               </CarouselItem>
             </CarouselContent>
@@ -135,6 +134,6 @@ function ModelManagingPage() {
           </Carousel>
         </div>
       </div>
-    </div>
+    </PageLayout>
   );
 }

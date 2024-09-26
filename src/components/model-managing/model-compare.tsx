@@ -26,8 +26,8 @@ const ModelCompare = ({ models }: { models: Model[] }) => {
   }, [carouselIndex]);
 
   return (
-    <div className="flex">
-      <div className="h-[calc(100vh-188px)] w-fit px-2 overflow-auto">
+    <div className="flex h-full">
+      <div className="h-full w-fit px-2 overflow-auto">
         <ul className="space-y-1.5 h-fit pb-2">
           {models.map((model, index) => (
             <li
@@ -76,7 +76,7 @@ const ModelCompare = ({ models }: { models: Model[] }) => {
         <div className="w-full px-6 py-5 rounded-[10px] border border-[#EDF1FE] bg-[#F8F9FB]">
           <div className="flex justify-between mb-8">
             <div className="w-[127px]" />
-            <div className=" text-lg">모델 별 정확도 비교</div>
+            <div className="text-lg">모델 별 정확도 비교</div>
             <div className="w-[127px]">
               <button
                 onClick={() => setCarouselIndex(1)}

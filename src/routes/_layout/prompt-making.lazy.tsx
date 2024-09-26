@@ -1,3 +1,4 @@
+import PageLayout from "@/components/layout/page-layout";
 import ModelSelect from "@/components/model-learning/model-select";
 import DataSelect from "@/components/prompt-making/data-select";
 import { Slider } from "@/components/ui/custom-slider";
@@ -10,10 +11,10 @@ export const Route = createLazyFileRoute("/_layout/prompt-making")({
 
 function PromptMakingPage() {
   return (
-    <div className="pb-20">
-      <form>
-        <div className="flex items-center justify-between px-7 h-[68px]">
-          <h4 className="text-lg ">프롬프트 만들기</h4>
+    <PageLayout
+      title="프롬프트 만들기"
+      headerContent={
+        <div className="flex items-end h-full">
           <button
             type="button"
             className="flex items-center justify-center gap-2 w-[177px] h-12 rounded-[10px] bg-blue-light hover:bg-blue-light/70"
@@ -22,7 +23,10 @@ function PromptMakingPage() {
             <span>프롬프트 불러오기</span>
           </button>
         </div>
-        <div className="px-10">
+      }
+    >
+      <form>
+        <div className="px-7">
           <div className="space-y-3 pt-6 pb-12">
             <div>
               <input
@@ -142,6 +146,6 @@ function PromptMakingPage() {
           </div>
         </div>
       </form>
-    </div>
+    </PageLayout>
   );
 }

@@ -33,8 +33,7 @@ const Sidebar = () => {
             />
           </Link>
         </li>
-        {/*
-<li>
+        <li>
           <Link
             to="/prompt-making"
             activeProps={{ className: "[&_.active]:visible" }}
@@ -62,8 +61,6 @@ const Sidebar = () => {
             />
           </Link>
         </li>
-          */}
-
         <li>
           <Link
             to="/playground"
@@ -78,11 +75,7 @@ const Sidebar = () => {
             />
           </Link>
         </li>
-        <li className="flex items-center cursor-pointer">
-          <span className="text-lg">배포하기</span>
-        </li>
-        {/*
-         <li>
+        <li>
           <Link
             to="/deploy"
             activeProps={{ className: "[&_.active]:visible" }}
@@ -96,7 +89,6 @@ const Sidebar = () => {
             />
           </Link>
         </li>
-        */}
       </ul>
       <div>
         <img src="/image/intellisys-logo.png" alt="" width={123} height={33} />

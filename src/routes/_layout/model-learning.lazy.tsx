@@ -1,3 +1,8 @@
+import { createLazyFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+
+import PageLayout from "@/components/layout/page-layout";
 import ChoiceTuningMethod from "@/components/model-learning/choice-tuning-method";
 import LearningDataConfig from "@/components/model-learning/learning-data-config";
 import ModelSelect from "@/components/model-learning/model-select";
@@ -12,9 +17,6 @@ import { Slider } from "@/components/ui/custom-slider";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { CustomSwitch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
-import { createLazyFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
 
 export const Route = createLazyFileRoute("/_layout/model-learning")({
   component: ModelLearningPage,
@@ -37,13 +39,10 @@ function ModelLearningPage() {
   const onSubmit = () => {};
 
   return (
-    <div className="pb-20">
+    <PageLayout title="모델 학습">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="flex items-center px-7 h-[68px]">
-            <h4 className="text-lg ">모델 학습</h4>
-          </div>
-          <div className="px-10">
+          <div className="px-7">
             <div className="space-y-3 pt-6 pb-9">
               <div>
                 <input
@@ -410,6 +409,6 @@ function ModelLearningPage() {
           </div>
         </form>
       </Form>
-    </div>
+    </PageLayout>
   );
 }

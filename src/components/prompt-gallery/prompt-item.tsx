@@ -28,16 +28,19 @@ const PromptItem = () => {
     <div className="border border-[#b3b3b3] rounded-[10px] overflow-hidden">
       <div className="flex justify-between items-center py-5 pl-7 pr-5 bg-[#f5f5f5] border-b border-blue-light">
         <div className="flex items-center gap-3">
-          <button onClick={() => setChecked((prev) => !prev)}>
+          <button
+            onClick={() => setChecked((prev) => !prev)}
+            className="hover:opacity-80"
+          >
             <Star checked={checked} />
           </button>
           <span className="text-lg">보고서 요약</span>
         </div>
         <div className="flex items-center gap-3">
-          <button>
+          <button className="hover:opacity-80">
             <img src="/icon/edit-icon.svg" alt="" className="size-6" />
           </button>
-          <button>
+          <button className="hover:opacity-80">
             <img src="/icon/cards-icon.svg" alt="" className="size-6" />
           </button>
         </div>

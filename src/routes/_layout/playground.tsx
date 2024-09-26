@@ -1,3 +1,4 @@
+import PageLayout from "@/components/layout/page-layout";
 import ModelSelect from "@/components/model-learning/model-select";
 import Star from "@/components/prompt-gallery/star";
 import { Textarea } from "@/components/ui/textarea";
@@ -9,11 +10,8 @@ export const Route = createFileRoute("/_layout/playground")({
 
 function PlaygroundPage() {
   return (
-    <div className="pb-20">
-      <div className="flex items-center px-7 h-[68px]">
-        <h4 className="text-lg">플레이 그라운드</h4>
-      </div>
-      <div className="flex gap-6 px-9 py-6">
+    <PageLayout title="플레이 그라운드">
+      <div className="flex gap-6 px-9 pt-5">
         <div className="flex-1">
           <div className="mb-8 flex justify-end">
             <button
@@ -195,6 +193,6 @@ function PlaygroundPage() {
           </div>
         </div>
       </div>
-    </div>
+    </PageLayout>
   );
 }
