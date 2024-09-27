@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import {
   Carousel,
@@ -13,6 +13,22 @@ import CompareChart from "@/components/model-managing/compare-chart";
 import CustomSimpleBar from "@/components/common/simplebar";
 
 const ModelCompare = ({ models }: { models: Model[] }) => {
+  const [selectedIds, setSelectedIds] = useState<number[]>([]);
+  const selectedModels = useMemo(
+    () => models.filter((model) => selectedIds.includes(model.id)),
+    [selectedIds, models]
+  );
+
+  const handleToggleModel = (id: number) => {
+    setSelectedIds((prev) => {
+      if (prev.includes(id)) {
+        return prev.filter((v) => v !== id);
+      } else {
+        return [...prev, id];
+      }
+    });
+  };
+
   const prevRef = useRef<HTMLButtonElement>(null);
   const nextRef = useRef<HTMLButtonElement>(null);
 
@@ -30,12 +46,15 @@ const ModelCompare = ({ models }: { models: Model[] }) => {
     <div className="flex h-full">
       <div className="h-full w-fit px-2 overflow-auto">
         <ul className="space-y-1.5 h-fit pb-2">
-          {models.map((model, index) => (
+          {models.map((model) => (
             <li
               key={model.name}
+              onClick={() => handleToggleModel(model.id)}
               className={cn(
                 "flex items-center px-6 w-[190px] h-[60px] rounded-[10px] border cursor-pointer hover:bg-blue-light-bg/70 bg-blue-light-box",
-                index <= 2 ? "border-blue" : "border-blue-border"
+                selectedIds.includes(model.id)
+                  ? "border-blue"
+                  : "border-blue-border"
               )}
             >
               <span className="text-gray-70">{model.name}</span>
@@ -53,7 +72,7 @@ const ModelCompare = ({ models }: { models: Model[] }) => {
               <div className="w-1/5 text-center font-bold">#Epoch</div>
               <div className="w-1/5 text-center font-bold">Batch size</div>
             </div>
-            {models.slice(0, 3).map((model, index) => (
+            {selectedModels.map((model, index) => (
               <div className="flex py-4">
                 <div className="flex gap-5 items-center w-1/5 text-center">
                   <div
@@ -122,7 +141,7 @@ const ModelCompare = ({ models }: { models: Model[] }) => {
                       <div className="w-1/5 text-center font-bold">ROUGE-2</div>
                       <div className="w-1/5 text-center font-bold">ROUGE-L</div>
                     </div>
-                    {models.slice(0, 3).map((model, index) => (
+                    {selectedModels.map((model, index) => (
                       <div className="flex py-4">
                         <div className="flex gap-5 items-center w-1/5 text-center">
                           <div
@@ -146,7 +165,7 @@ const ModelCompare = ({ models }: { models: Model[] }) => {
                   </div>
                 </CarouselItem>
                 <CarouselItem>
-                  <CompareChart models={models} />
+                  <CompareChart models={selectedModels} />
                 </CarouselItem>
               </CarouselContent>
               <CarouselPrevious ref={prevRef} className="hidden" />

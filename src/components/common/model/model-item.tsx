@@ -6,7 +6,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Model } from "@/types";
-import { useRouter } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
 
 interface ModelItemProps {
   onClick: () => void;
@@ -14,10 +14,10 @@ interface ModelItemProps {
 }
 
 const ModelItem = ({ onClick, model }: ModelItemProps) => {
-  const router = useRouter();
+  const navigate = useNavigate();
 
   const copyModelAndRedirect = () => {
-    router.navigate({ to: "/model-learning", state: { model } });
+    navigate({ to: "/model-learning", state: { model } });
   };
 
   return (

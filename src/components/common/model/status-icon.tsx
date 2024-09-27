@@ -1,4 +1,6 @@
-const StatusIcon = ({ status }: { status: "progress" | "done" | "failed" }) => {
+import { ModelStatus } from "@/types";
+
+const StatusIcon = ({ status }: { status: ModelStatus }) => {
   if (status === "progress") {
     return (
       <div className="flex justify-center items-center h-[22px] w-[75px] rounded-[30px] border border-blue bg-blue-30">

@@ -1,4 +1,5 @@
 import CustomSimpleBar from "@/components/common/simplebar";
+import { LEARNING_DATA_LIST } from "@/lib/const";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 
@@ -55,16 +56,14 @@ const LearningDataConfig = () => {
       ) : (
         <CustomSimpleBar className="h-[146px] rounded-[10px] bg-[#F1F4FF]/20 border border-blue/20">
           <ul>
-            {Array(50)
-              .fill("data")
-              .map((value, index) => (
-                <li
-                  key={index}
-                  className="flex items-center h-[38px] px-6 border-b border-blue/20 last:border-none"
-                >
-                  <div className="text-[#373737]">{`${value} ${index}`}</div>
-                </li>
-              ))}
+            {LEARNING_DATA_LIST.map((value, index) => (
+              <li
+                key={index}
+                className="flex items-center h-[38px] px-6 border-b border-blue/20 last:border-none"
+              >
+                <div className="text-[#373737]">{value}</div>
+              </li>
+            ))}
           </ul>
         </CustomSimpleBar>
       )}

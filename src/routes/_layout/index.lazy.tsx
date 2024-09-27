@@ -13,10 +13,10 @@ import { MODEL_LIST } from "@/lib/const";
 import { cn, searchModels } from "@/lib/utils";
 import ModelList from "@/components/common/model/model-list";
 import ModelCompare from "@/components/model-managing/model-compare";
-import ModelDetail from "@/components/model-managing/model-detail";
 import PageLayout from "@/components/layout/page-layout";
 import { Model } from "@/types";
 import ModelListHeader from "@/components/common/model/model-list-header";
+import ModelDetail from "@/components/common/model/model-detail";
 import CustomSimpleBar from "@/components/common/simplebar";
 
 export const Route = createLazyFileRoute("/_layout/")({
@@ -39,7 +39,7 @@ function ModelManagingPage() {
 
   const [carouselIndex, setCarouselIndex] = useState(0);
 
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [selectedId, setSelectedId] = useState<number | null>(null);
 
   useEffect(() => {
     if (carouselIndex === 0) {

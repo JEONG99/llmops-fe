@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import { cn } from "@/lib/utils";
-import { Model } from "@/types";
+import { Model, ModelStatus } from "@/types";
 
 interface ModelListHeaderProps {
   className?: string;
@@ -9,7 +9,7 @@ interface ModelListHeaderProps {
 }
 
 type OrderType = "asc" | "desc";
-type StatusOrderType = "progress" | "done" | "failed";
+type StatusOrderType = ModelStatus;
 
 const ModelListHeader = ({ className, setModelData }: ModelListHeaderProps) => {
   const [orderByName, setOrderByName] = useState<OrderType>("desc");

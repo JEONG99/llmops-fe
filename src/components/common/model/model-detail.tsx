@@ -1,3 +1,5 @@
+import { useNavigate } from "@tanstack/react-router";
+
 import StepGraph from "@/components/model-managing/step-graph";
 import {
   Accordion,
@@ -5,29 +7,41 @@ import {
   AccordionItem,
   CustomAccordionTrigger,
 } from "@/components/ui/accordion";
+import { MODEL_LIST } from "@/lib/const";
 
 const ModelDetail = ({
   selectedId,
   setSelectedId,
 }: {
-  selectedId: string | null;
-  setSelectedId: React.Dispatch<React.SetStateAction<string | null>>;
+  selectedId: number | null;
+  setSelectedId: React.Dispatch<React.SetStateAction<number | null>>;
 }) => {
+  const model = MODEL_LIST.find((model) => model.id === selectedId);
+
+  const navigate = useNavigate();
+
+  const copyModelAndRedirect = () => {
+    if (!model) return;
+    navigate({ to: "/prompt-making", state: { model } });
+  };
+
+  if (!model) return null;
   return (
     <div className="pt-8 px-10 pb-5 h-full w-full rounded-[10px] bg-[#FAFBFE] border border-blue-border">
       <div className="flex justify-between">
         <div className="space-y-3">
           <div className="flex items-center gap-2">
-            <span className="text-lg font-bold">sample-model_01</span>
+            <span className="text-lg font-bold">{model.name}</span>
             <button className="hover:opacity-80">
               <img src="/icon/pencil-icon.svg" alt="" className="size-6" />
             </button>
           </div>
-          <div className="text-black/70">2024-03-23 10:39:33</div>
+          <div className="text-black/70">{model.created_at}</div>
         </div>
         <div className="flex items-center gap-6">
           <button
             type="button"
+            onClick={copyModelAndRedirect}
             className="flex items-center justify-center gap-2 w-[165px] h-12 rounded-[10px] bg-blue-light hover:bg-blue-light/70"
           >
             <img
@@ -51,15 +65,15 @@ const ModelDetail = ({
           <div className="mt-[35px] flex">
             <div className="flex-1 flex items-center justify-start gap-5">
               <span className="text-sm">학습데이터</span>
-              <span>data 01</span>
+              <span>{model.learning_data}</span>
             </div>
             <div className="flex-1 flex items-center justify-start gap-5">
               <span className="text-sm">검증데이터</span>
-              <span>data 01</span>
+              <span>{model.verification_data}</span>
             </div>
             <div className="flex-1 flex items-center justify-start gap-5">
               <span className="text-sm">파인튜닝 방법</span>
-              <span>풀파인튜닝</span>
+              <span>{model.tuning_method}</span>
             </div>
             <div className="flex-1" />
           </div>
@@ -68,19 +82,19 @@ const ModelDetail = ({
               <div className="mt-5 flex">
                 <div className="flex-1 flex items-center justify-start gap-5">
                   <span className="text-sm text-[#6E88D9]">Batches size</span>
-                  <span>8</span>
+                  <span>{model.batch_size}</span>
                 </div>
                 <div className="flex-1 flex items-center  justify-start gap-5">
                   <span className="text-sm text-[#6E88D9]">
                     Learning rate multiplier
                   </span>
-                  <span>0.001</span>
+                  <span>{model.learning_rate}</span>
                 </div>
                 <div className="flex-1 flex items-center justify-start gap-5">
                   <span className="text-sm text-[#6E88D9]">
                     number of epochs
                   </span>
-                  <span>3</span>
+                  <span>{model.epochs}</span>
                 </div>
                 <div className="flex-1 flex items-center justify-end">
                   <CustomAccordionTrigger
@@ -95,19 +109,19 @@ const ModelDetail = ({
                 <div className="mt-5 flex">
                   <div className="flex-1 flex items-center justify-start gap-5">
                     <span className="text-sm text-[#6E88D9]">Beta1</span>
-                    <span>0.9</span>
+                    <span>{model.beta1}</span>
                   </div>
                   <div className="flex-1 flex items-center  justify-start gap-5">
                     <span className="text-sm text-[#6E88D9]">Beta2</span>
-                    <span>0.999</span>
+                    <span>{model.beta2}</span>
                   </div>
                   <div className="flex-1 flex items-center justify-start gap-5">
                     <span className="text-sm text-[#6E88D9]">Epsilon</span>
-                    <span>0.000001</span>
+                    <span>{model.epsilon}</span>
                   </div>
                   <div className="flex-1 flex items-center justify-start gap-5">
                     <span className="text-sm text-[#6E88D9]">Weight Decay</span>
-                    <span>0.0</span>
+                    <span>{model.weight_decay}</span>
                   </div>
                 </div>
               </AccordionContent>
@@ -145,19 +159,19 @@ const ModelDetail = ({
           <div className="mt-7 flex">
             <div className="flex-1 flex items-center justify-center gap-5">
               <span>BLEU</span>
-              <span>0.1</span>
+              <span>{model.bleu}</span>
             </div>
             <div className="flex-1 flex items-center justify-center gap-5">
               <span>ROUGE-1</span>
-              <span>0.5</span>
+              <span>{model.rouge_1}</span>
             </div>
             <div className="flex-1 flex items-center justify-center gap-5">
               <span>ROUGE-2</span>
-              <span>0.5</span>
+              <span>{model.rouge_2}</span>
             </div>
             <div className="flex-1 flex items-center justify-center gap-5">
-              <span>ROUGE-2</span>
-              <span>0.5</span>
+              <span>ROUGE-L</span>
+              <span>{model.rouge_l}</span>
             </div>
           </div>
         </div>

@@ -8,15 +8,15 @@ const ModelList = ({
   className,
 }: {
   models: Model[];
-  setSelectedId: React.Dispatch<React.SetStateAction<string | null>>;
+  setSelectedId: React.Dispatch<React.SetStateAction<number | null>>;
   className?: string;
 }) => {
   return (
     <ul className={cn("space-y-1.5 h-fit pb-4", className)}>
       {models.map((model) => (
         <ModelItem
-          key={model.name}
-          onClick={() => setSelectedId(model.name)}
+          key={model.id}
+          onClick={() => setSelectedId(model.id)}
           model={model}
         />
       ))}

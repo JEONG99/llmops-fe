@@ -6,9 +6,9 @@ import SearchInput from "@/components/common/search-input";
 import { cn, searchModels } from "@/lib/utils";
 import { MODEL_LIST } from "@/lib/const";
 import ModelList from "@/components/common/model/model-list";
-import ModelDetail from "@/components/model-managing/model-detail";
-import ServerItem from "@/components/deploy/server-item";
+import ModelDetail from "@/components/common/model/model-detail";
 import ModelListHeader from "@/components/common/model/model-list-header";
+import ServerItem from "@/components/deploy/server-item";
 import { Model } from "@/types";
 import CustomSimpleBar from "@/components/common/simplebar";
 
@@ -27,7 +27,7 @@ function DeployPage() {
     [modelData, keyword]
   );
 
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [selectedId, setSelectedId] = useState<number | null>(null);
 
   return (
     <PageLayout title="배포하기">
