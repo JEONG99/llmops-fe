@@ -1,0 +1,7 @@
+.simplebar-scrollbar:before {
+  @apply w-2 bg-blue-40/20 border border-blue/20 hover:bg-blue-40 hover:border-blue;
+}
+
+.simplebar-scrollbar.simplebar-visible:before {
+  @apply opacity-100;
+}

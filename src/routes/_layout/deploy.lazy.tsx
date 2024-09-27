@@ -10,6 +10,7 @@ import ModelDetail from "@/components/model-managing/model-detail";
 import ServerItem from "@/components/deploy/server-item";
 import ModelListHeader from "@/components/common/model/model-list-header";
 import { Model } from "@/types";
+import CustomSimpleBar from "@/components/common/simplebar";
 
 export const Route = createLazyFileRoute("/_layout/deploy")({
   component: DeployPage,
@@ -39,7 +40,7 @@ function DeployPage() {
           <div className="relative">
             <div
               className={cn(
-                "absolute w-full h-[786px] pb-5",
+                "absolute w-full pb-4",
                 selectedId === null ? "hidden" : "block"
               )}
             >
@@ -48,9 +49,20 @@ function DeployPage() {
                 setSelectedId={setSelectedId}
               />
             </div>
-            <div className="max-h-[390px] overflow-auto">
-              <ModelList models={models} setSelectedId={setSelectedId} />
-            </div>
+            <CustomSimpleBar className="max-h-[390px]">
+              <div
+                className={cn(
+                  "h-full",
+                  selectedId === null ? "block" : "hidden"
+                )}
+              >
+                <ModelList
+                  models={models}
+                  setSelectedId={setSelectedId}
+                  className="pb-0"
+                />
+              </div>
+            </CustomSimpleBar>
           </div>
         </div>
         <div className="my-3.5 flex items-center justify-between h-12">

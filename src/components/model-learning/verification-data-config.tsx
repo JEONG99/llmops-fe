@@ -1,3 +1,4 @@
+import CustomSimpleBar from "@/components/common/simplebar";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 
@@ -52,7 +53,7 @@ const VerificationDataConfig = () => {
           </div>
         </div>
       ) : (
-        <div className="h-[146px] rounded-[10px] bg-[#F1F4FF]/20 border border-blue/20 overflow-y-auto">
+        <CustomSimpleBar className="h-[146px] rounded-[10px] bg-[#F1F4FF]/20 border border-blue/20">
           <ul>
             {Array(50)
               .fill("data")
@@ -65,7 +66,7 @@ const VerificationDataConfig = () => {
                 </li>
               ))}
           </ul>
-        </div>
+        </CustomSimpleBar>
       )}
     </div>
   );

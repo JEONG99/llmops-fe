@@ -17,6 +17,7 @@ import ModelDetail from "@/components/model-managing/model-detail";
 import PageLayout from "@/components/layout/page-layout";
 import { Model } from "@/types";
 import ModelListHeader from "@/components/common/model/model-list-header";
+import CustomSimpleBar from "@/components/common/simplebar";
 
 export const Route = createLazyFileRoute("/_layout/")({
   component: ModelManagingPage,
@@ -87,14 +88,14 @@ function ModelManagingPage() {
           >
             <CarouselContent className="h-[calc(100vh-204px)]">
               <CarouselItem className="h-full">
-                <div className="relative h-full pb-4">
+                <CustomSimpleBar>
                   <div
                     className={cn(
-                      "relative h-full overflow-auto",
+                      "relative h-full",
                       selectedId === null ? "hidden" : "block"
                     )}
                   >
-                    <div className="absolute w-full">
+                    <div className="absolute w-full pb-4">
                       <ModelDetail
                         selectedId={selectedId}
                         setSelectedId={setSelectedId}
@@ -103,13 +104,13 @@ function ModelManagingPage() {
                   </div>
                   <div
                     className={cn(
-                      "h-full overflow-auto",
+                      "h-full",
                       selectedId === null ? "block" : "hidden"
                     )}
                   >
                     <ModelList models={models} setSelectedId={setSelectedId} />
                   </div>
-                </div>
+                </CustomSimpleBar>
               </CarouselItem>
               <CarouselItem className="h-full">
                 <ModelCompare models={models} />
