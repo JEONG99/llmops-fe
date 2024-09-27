@@ -7,9 +7,15 @@ import {
 } from "@/components/ui/select";
 import { baseModels } from "@/types";
 
-const ModelSelect = () => {
+const ModelSelect = ({
+  value,
+  onChange,
+}: {
+  value?: string;
+  onChange?: (...event: any[]) => void;
+}) => {
   return (
-    <Select>
+    <Select value={value} onValueChange={onChange}>
       <CustormSelecTrigger>
         <SelectValue
           placeholder="모델을 선택해 주세요..."
@@ -21,7 +27,7 @@ const ModelSelect = () => {
           <SelectItem
             key={model}
             value={model}
-            className="h-[50px] rounded-[10px] text-base focus:bg-blue-light/50"
+            className="h-[50px] rounded-[10px] text-base focus:bg-[#F1F4FF]/50"
           >
             {model}
           </SelectItem>

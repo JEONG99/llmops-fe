@@ -4,13 +4,13 @@ import { useMemo, useState } from "react";
 import PageLayout from "@/components/layout/page-layout";
 import SearchInput from "@/components/common/search-input";
 import { cn, searchModels } from "@/lib/utils";
-import { MODEL_LIST } from "@/lib/const";
 import ModelList from "@/components/common/model/model-list";
 import ModelDetail from "@/components/common/model/model-detail";
 import ModelListHeader from "@/components/common/model/model-list-header";
 import ServerItem from "@/components/deploy/server-item";
 import { Model } from "@/types";
 import CustomSimpleBar from "@/components/common/simplebar";
+import { useModelStore } from "@/hooks/use-model-store";
 
 export const Route = createLazyFileRoute("/_layout/deploy")({
   component: DeployPage,
@@ -21,7 +21,8 @@ function DeployPage() {
   const searchParams = new URLSearchParams(search);
   const keyword = searchParams.get("keyword") || "";
 
-  const [modelData, setModelData] = useState<Model[]>(MODEL_LIST);
+  const { models: initialModels } = useModelStore();
+  const [modelData, setModelData] = useState<Model[]>(initialModels);
   const models = useMemo(
     () => searchModels(modelData, keyword),
     [modelData, keyword]

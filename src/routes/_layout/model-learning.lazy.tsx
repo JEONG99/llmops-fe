@@ -1,6 +1,7 @@
-import { createLazyFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { createLazyFileRoute, useRouterState } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 
 import PageLayout from "@/components/layout/page-layout";
 import ChoiceTuningMethod from "@/components/model-learning/choice-tuning-method";
@@ -13,30 +14,80 @@ import {
   AccordionItem,
   CustomAccordionTrigger,
 } from "@/components/ui/accordion";
-import { Slider } from "@/components/ui/custom-slider";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { CustomSwitch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
+import { baseModels, tuningMethods } from "@/types";
+import TuningSlider from "@/components/model-learning/tuning-slider";
+import { useModalStore } from "@/hooks/use-modal-store";
+import { useModelStore } from "@/hooks/use-model-store";
 
 export const Route = createLazyFileRoute("/_layout/model-learning")({
   component: ModelLearningPage,
 });
 
+const formSchema = z.object({
+  name: z.string().min(1),
+  description: z.string().min(1),
+  base_model: z.enum(baseModels),
+  tuning_method: z.enum(tuningMethods),
+  batch_size: z.number().min(0).max(10),
+  learning_rate: z.number().min(0).max(10),
+  epochs: z.number().min(0).max(10),
+  beta1: z.number().min(0).max(1),
+  beta2: z.number().min(0).max(1),
+  epsilon: z.number().min(0).max(1),
+  weight_decay: z.number().min(0).max(1),
+  learning_data: z.string().min(1),
+  verification_data: z.string().min(1),
+  amsgrad: z.boolean().default(false),
+});
+
 function ModelLearningPage() {
-  const [amsgradChecked, setAmsgradChecked] = useState(false);
+  const {
+    location: {
+      state: { model },
+    },
+  } = useRouterState();
+
+  const { onOpen } = useModalStore();
+  const { addModel } = useModelStore();
+
   const form = useForm({
+    resolver: zodResolver(formSchema),
     defaultValues: {
-      batchesSize: 8,
-      learningRate: 0.0001,
-      epochs: 3,
-      beta1: 0.9,
-      beta2: 0.999,
-      epsilon: 0.000001,
-      weightDecay: 0.0,
+      name: "",
+      description: "",
+      base_model: model?.base_model ?? "llama-3",
+      tuning_method: model?.tuning_method ?? "LoRA",
+      batch_size: model?.batch_size ?? 8,
+      learning_rate: model?.learning_rate ?? 0.001,
+      epochs: model?.epochs ?? 3,
+      beta1: model?.beta1 ?? 0.9,
+      beta2: model?.beta2 ?? 0.999,
+      epsilon: model?.epsilon ?? 0.000001,
+      weight_decay: model?.weight_decay ?? 0,
+      learning_data: model?.learning_data ?? "",
+      verification_data: model?.verification_data ?? "",
+      amsgrad: false,
     },
   });
 
-  const onSubmit = () => {};
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
+    console.log("Form submitted:", values);
+    addModel({
+      ...values,
+      created_at: "2024-09-27",
+      tags: "마취과",
+      status: "progress",
+      id: Math.floor(Math.random() * (100000 - 10 + 1)) + 10,
+      bleu: 0.92,
+      rouge_1: 0.95,
+      rouge_2: 0.89,
+      rouge_l: 0.93,
+    });
+    onOpen("learningNotice");
+  };
 
   return (
     <PageLayout title="모델 학습">
@@ -44,28 +95,100 @@ function ModelLearningPage() {
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="px-7">
             <div className="space-y-3 pt-6 pb-9">
-              <div>
-                <input
-                  placeholder="모델명을 입력해 주세요."
-                  className="px-6 w-full h-[60px] rounded-[10px] bg-[#F1F4FF]/20 border border-blue/20 focus:outline-none placeholder:text-black/60 placeholder:font-normal text-lg font-bold"
-                />
-              </div>
-              <div>
-                <Textarea
-                  placeholder="모델에 대해 설명해 주세요."
-                  className="min-h-[74px] h-[74px] px-6 py-6 rounded-[10px] bg-[#F1F4FF]/20 border border-blue/20 placeholder:text-black/50 resize-none"
-                />
-              </div>
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <input
+                        {...field}
+                        placeholder="모델명을 입력해 주세요."
+                        className="px-6 w-full h-[60px] rounded-[10px] bg-[#F1F4FF]/20 border border-blue/20 focus:outline-none placeholder:text-black/60 placeholder:font-normal text-lg font-bold"
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Textarea
+                        {...field}
+                        placeholder="모델에 대해 설명해 주세요."
+                        className="min-h-[74px] h-[74px] px-6 py-6 rounded-[10px] bg-[#F1F4FF]/20 border border-blue/20 placeholder:text-black/50 resize-none"
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
             </div>
             <div className="flex gap-12">
               <div className="space-y-10 w-[470px]">
                 <div>
                   <h4 className="mb-3 text-lg ">베이스 모델</h4>
-                  <ModelSelect />
+                  <FormField
+                    control={form.control}
+                    name="base_model"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <ModelSelect
+                            value={field.value}
+                            onChange={field.onChange}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
                 </div>
-                <LearningDataConfig />
-                <VerificationDataConfig />
-                <ChoiceTuningMethod />
+                <FormField
+                  control={form.control}
+                  name="learning_data"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <LearningDataConfig
+                          value={field.value}
+                          onChange={field.onChange}
+                          hasInitialData={!!model}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="verification_data"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <VerificationDataConfig
+                          value={field.value}
+                          onChange={field.onChange}
+                          hasInitialData={!!model}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="tuning_method"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <ChoiceTuningMethod
+                          value={field.value}
+                          onChange={field.onChange}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
               </div>
               <div className="w-[537px]">
                 <h4 className="mb-5 text-lg ">세부 조정</h4>
@@ -76,38 +199,16 @@ function ModelLearningPage() {
                     </div>
                     <FormField
                       control={form.control}
-                      name="batchesSize"
+                      name="batch_size"
                       render={({ field }) => (
                         <FormItem className="flex-1">
                           <FormControl>
-                            <div className="flex items-center w-full">
-                              <div className="ml-3 mr-5">
-                                <input
-                                  value={field.value}
-                                  onChange={field.onChange}
-                                  className="w-[65px] h-[37px] bg-[#F1F6FF] rounded-[10px] text-[#565656] text-center focus:outline-none"
-                                />
-                              </div>
-                              <div className="relative flex-1">
-                                <Slider
-                                  value={[field.value]}
-                                  onValueChange={(value) =>
-                                    field.onChange(value[0])
-                                  }
-                                  max={10}
-                                  step={1}
-                                  className="w-full"
-                                />
-                                <div className="absolute -bottom-8 flex justify-between w-full">
-                                  <span className="text-[#858585] text-xs">
-                                    0
-                                  </span>
-                                  <span className="text-[#858585] text-xs">
-                                    10
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
+                            <TuningSlider
+                              value={field.value}
+                              onChange={field.onChange}
+                              max={10}
+                              step={1}
+                            />
                           </FormControl>
                         </FormItem>
                       )}
@@ -119,38 +220,16 @@ function ModelLearningPage() {
                     </div>
                     <FormField
                       control={form.control}
-                      name="learningRate"
+                      name="learning_rate"
                       render={({ field }) => (
                         <FormItem className="flex-1">
                           <FormControl>
-                            <div className="flex items-center w-full">
-                              <div className="ml-3 mr-5">
-                                <input
-                                  value={field.value}
-                                  onChange={field.onChange}
-                                  className="w-[65px] h-[37px] bg-[#F1F6FF] rounded-[10px] text-[#565656] text-center focus:outline-none"
-                                />
-                              </div>
-                              <div className="relative flex-1">
-                                <Slider
-                                  value={[field.value]}
-                                  onValueChange={(value) =>
-                                    field.onChange(value[0])
-                                  }
-                                  max={10}
-                                  step={0.0001}
-                                  className="w-full"
-                                />
-                                <div className="absolute -bottom-8 flex justify-between w-full">
-                                  <span className="text-[#858585] text-xs">
-                                    0
-                                  </span>
-                                  <span className="text-[#858585] text-xs">
-                                    10
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
+                            <TuningSlider
+                              value={field.value}
+                              onChange={field.onChange}
+                              max={10}
+                              step={0.0001}
+                            />
                           </FormControl>
                         </FormItem>
                       )}
@@ -166,34 +245,12 @@ function ModelLearningPage() {
                       render={({ field }) => (
                         <FormItem className="flex-1">
                           <FormControl>
-                            <div className="flex items-center w-full">
-                              <div className="ml-3 mr-5">
-                                <input
-                                  value={field.value}
-                                  onChange={field.onChange}
-                                  className="w-[65px] h-[37px] bg-[#F1F6FF] rounded-[10px] text-[#565656] text-center focus:outline-none"
-                                />
-                              </div>
-                              <div className="relative flex-1">
-                                <Slider
-                                  value={[field.value]}
-                                  onValueChange={(value) =>
-                                    field.onChange(value[0])
-                                  }
-                                  max={10}
-                                  step={1}
-                                  className="w-full"
-                                />
-                                <div className="absolute -bottom-8 flex justify-between w-full">
-                                  <span className="text-[#858585] text-xs">
-                                    0
-                                  </span>
-                                  <span className="text-[#858585] text-xs">
-                                    10
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
+                            <TuningSlider
+                              value={field.value}
+                              onChange={field.onChange}
+                              max={10}
+                              step={1}
+                            />
                           </FormControl>
                         </FormItem>
                       )}
@@ -215,34 +272,12 @@ function ModelLearningPage() {
                             render={({ field }) => (
                               <FormItem className="flex-1">
                                 <FormControl>
-                                  <div className="flex items-center w-full">
-                                    <div className="ml-3 mr-5">
-                                      <input
-                                        value={field.value}
-                                        onCanPlay={field.onChange}
-                                        className="w-[65px] h-[37px] bg-[#F1F6FF] rounded-[10px] text-[#565656] text-base text-center focus:outline-none"
-                                      />
-                                    </div>
-                                    <div className="relative flex-1">
-                                      <Slider
-                                        value={[field.value]}
-                                        onValueChange={(value) =>
-                                          field.onChange(value[0])
-                                        }
-                                        max={1}
-                                        step={0.1}
-                                        className="w-full"
-                                      />
-                                      <div className="absolute -bottom-8 flex justify-between w-full">
-                                        <span className="text-[#858585] text-xs">
-                                          0
-                                        </span>
-                                        <span className="text-[#858585] text-xs">
-                                          1
-                                        </span>
-                                      </div>
-                                    </div>
-                                  </div>
+                                  <TuningSlider
+                                    value={field.value}
+                                    onChange={field.onChange}
+                                    max={1}
+                                    step={0.1}
+                                  />
                                 </FormControl>
                               </FormItem>
                             )}
@@ -258,34 +293,12 @@ function ModelLearningPage() {
                             render={({ field }) => (
                               <FormItem className="flex-1">
                                 <FormControl>
-                                  <div className="flex items-center w-full">
-                                    <div className="ml-3 mr-5">
-                                      <input
-                                        value={field.value}
-                                        onChange={field.onChange}
-                                        className="w-[65px] h-[37px] bg-[#F1F6FF] rounded-[10px] text-[#565656] text-base text-center focus:outline-none"
-                                      />
-                                    </div>
-                                    <div className="relative flex-1">
-                                      <Slider
-                                        value={[field.value]}
-                                        onValueChange={(value) =>
-                                          field.onChange(value[0])
-                                        }
-                                        max={1}
-                                        step={0.001}
-                                        className="w-full"
-                                      />
-                                      <div className="absolute -bottom-8 flex justify-between w-full">
-                                        <span className="text-[#858585] text-xs">
-                                          0
-                                        </span>
-                                        <span className="text-[#858585] text-xs">
-                                          1
-                                        </span>
-                                      </div>
-                                    </div>
-                                  </div>
+                                  <TuningSlider
+                                    value={field.value}
+                                    onChange={field.onChange}
+                                    max={1}
+                                    step={0.001}
+                                  />
                                 </FormControl>
                               </FormItem>
                             )}
@@ -301,34 +314,12 @@ function ModelLearningPage() {
                             render={({ field }) => (
                               <FormItem className="flex-1">
                                 <FormControl>
-                                  <div className="flex items-center w-full">
-                                    <div className="ml-3 mr-5">
-                                      <input
-                                        value={field.value}
-                                        onChange={field.onChange}
-                                        className="w-[65px] h-[37px] bg-[#F1F6FF] rounded-[10px] text-[#565656] text-sm text-center focus:outline-none"
-                                      />
-                                    </div>
-                                    <div className="relative flex-1">
-                                      <Slider
-                                        value={[field.value]}
-                                        onValueChange={(value) =>
-                                          field.onChange(value[0])
-                                        }
-                                        max={1}
-                                        step={0.00001}
-                                        className="w-full"
-                                      />
-                                      <div className="absolute -bottom-8 flex justify-between w-full">
-                                        <span className="text-[#858585] text-xs">
-                                          0
-                                        </span>
-                                        <span className="text-[#858585] text-xs">
-                                          1
-                                        </span>
-                                      </div>
-                                    </div>
-                                  </div>
+                                  <TuningSlider
+                                    value={field.value}
+                                    onChange={field.onChange}
+                                    max={1}
+                                    step={0.000001}
+                                  />
                                 </FormControl>
                               </FormItem>
                             )}
@@ -340,38 +331,16 @@ function ModelLearningPage() {
                           </div>
                           <FormField
                             control={form.control}
-                            name="weightDecay"
+                            name="weight_decay"
                             render={({ field }) => (
                               <FormItem className="flex-1">
                                 <FormControl>
-                                  <div className="flex items-center w-full">
-                                    <div className="ml-3 mr-5">
-                                      <input
-                                        value={field.value}
-                                        onChange={field.onChange}
-                                        className="w-[65px] h-[37px] bg-[#F1F6FF] rounded-[10px] text-[#565656] text-base text-center focus:outline-none"
-                                      />
-                                    </div>
-                                    <div className="relative flex-1">
-                                      <Slider
-                                        value={[field.value]}
-                                        onValueChange={(value) =>
-                                          field.onChange(value[0])
-                                        }
-                                        max={1}
-                                        step={0.01}
-                                        className="w-full"
-                                      />
-                                      <div className="absolute -bottom-8 flex justify-between w-full">
-                                        <span className="text-[#858585] text-xs">
-                                          0
-                                        </span>
-                                        <span className="text-[#858585] text-xs">
-                                          1
-                                        </span>
-                                      </div>
-                                    </div>
-                                  </div>
+                                  <TuningSlider
+                                    value={field.value}
+                                    onChange={field.onChange}
+                                    max={1}
+                                    step={0.001}
+                                  />
                                 </FormControl>
                               </FormItem>
                             )}
@@ -381,26 +350,35 @@ function ModelLearningPage() {
                           <div className="w-36 text-[#454545] text-base truncate">
                             AMSGrad
                           </div>
-                          <div className="ml-3 flex items-center space-x-2">
-                            <CustomSwitch
-                              id="ams-grad"
-                              checked={amsgradChecked}
-                              onCheckedChange={setAmsgradChecked}
-                            />
-                            <label
-                              htmlFor="ams-grad"
-                              className="text-[#454545] text-base"
-                            >
-                              {amsgradChecked ? "On" : "Off"}
-                            </label>
-                          </div>
+                          <FormField
+                            control={form.control}
+                            name="amsgrad"
+                            render={({ field }) => (
+                              <div className="ml-3 flex items-center space-x-2">
+                                <CustomSwitch
+                                  id="ams-grad"
+                                  checked={field.value}
+                                  onCheckedChange={field.onChange}
+                                />
+                                <label
+                                  htmlFor="ams-grad"
+                                  className="text-[#454545] text-base"
+                                >
+                                  {field.value ? "On" : "Off"}
+                                </label>
+                              </div>
+                            )}
+                          />
                         </div>
                       </div>
                     </AccordionContent>
                   </AccordionItem>
                 </Accordion>
                 <div className="flex justify-end mt-[10px]">
-                  <button className="flex justify-center items-center h-12 w-[161px] px-6 rounded-[10px] bg-blue hover:bg-blue/90">
+                  <button
+                    type="submit"
+                    className="flex justify-center items-center h-12 w-[161px] px-6 rounded-[10px] bg-blue hover:bg-blue/90"
+                  >
                     학습하기
                   </button>
                 </div>

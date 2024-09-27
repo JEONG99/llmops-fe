@@ -23,6 +23,7 @@ export const MODEL_LIST: Model[] = [
     learning_data: "learning_data 01",
     verification_data: "verification_data 01",
     tuning_method: "QLoRA",
+    amsgrad: false,
   },
   {
     id: 2,
@@ -46,6 +47,7 @@ export const MODEL_LIST: Model[] = [
     learning_data: "learning_data 02",
     verification_data: "verification_data 02",
     tuning_method: "LoRA",
+    amsgrad: false,
   },
   {
     id: 3,
@@ -69,6 +71,7 @@ export const MODEL_LIST: Model[] = [
     learning_data: "learning_data 03",
     verification_data: "verification_data 03",
     tuning_method: "LoRA",
+    amsgrad: false,
   },
   {
     id: 4,
@@ -92,6 +95,7 @@ export const MODEL_LIST: Model[] = [
     learning_data: "learning_data 04",
     verification_data: "verification_data 04",
     tuning_method: "풀파인튜닝",
+    amsgrad: false,
   },
   {
     id: 5,
@@ -115,6 +119,7 @@ export const MODEL_LIST: Model[] = [
     learning_data: "learning_data 05",
     verification_data: "verification_data 05",
     tuning_method: "풀파인튜닝",
+    amsgrad: false,
   },
   {
     id: 6,
@@ -139,6 +144,7 @@ export const MODEL_LIST: Model[] = [
     learning_data: "learning_data 06",
     verification_data: "verification_data 06",
     tuning_method: "QLoRA",
+    amsgrad: false,
   },
 ];
 

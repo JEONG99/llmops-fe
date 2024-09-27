@@ -16,7 +16,7 @@ const ChevronDown = ({ size = 24, className, color }: ChevronDownProps) => {
       xmlns="http://www.w3.org/2000/svg"
       className={cn(className)}
     >
-      <path d="M6 10L12 16L18 10" stroke={color} stroke-linecap="round" />
+      <path d="M6 10L12 16L18 10" stroke={color} strokeLinecap="round" />
     </svg>
   );
 };

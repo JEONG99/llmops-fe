@@ -1,10 +1,13 @@
 import { cn } from "@/lib/utils";
-import { TuningMethod, tuningMethods } from "@/types";
-import { useState } from "react";
+import { tuningMethods } from "@/types";
 
-const ChoiceTuningMethod = () => {
-  const [tuningMethod, setTuningMethod] = useState<TuningMethod>("LoRA");
-
+const ChoiceTuningMethod = ({
+  value,
+  onChange,
+}: {
+  value: string;
+  onChange: (...event: any[]) => void;
+}) => {
   return (
     <div>
       <h4 className="mb-3 text-lg ">파인튜닝 방법 선택</h4>
@@ -13,10 +16,10 @@ const ChoiceTuningMethod = () => {
           <button
             key={method}
             type="button"
-            onClick={() => setTuningMethod(method)}
+            onClick={() => onChange(method)}
             className={cn(
               "flex items-center justify-center flex-1 h-[50px] rounded-[10px] border",
-              tuningMethod === method
+              value === method
                 ? "bg-[#F1F4FF] border-blue"
                 : "bg-blue-light-box border-blue-border hover:bg-blue-light-bg/70"
             )}

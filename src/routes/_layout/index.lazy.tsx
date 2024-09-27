@@ -9,7 +9,6 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { MODEL_LIST } from "@/lib/const";
 import { cn, searchModels } from "@/lib/utils";
 import ModelList from "@/components/common/model/model-list";
 import ModelCompare from "@/components/model-managing/model-compare";
@@ -18,6 +17,7 @@ import { Model } from "@/types";
 import ModelListHeader from "@/components/common/model/model-list-header";
 import ModelDetail from "@/components/common/model/model-detail";
 import CustomSimpleBar from "@/components/common/simplebar";
+import { useModelStore } from "@/hooks/use-model-store";
 
 export const Route = createLazyFileRoute("/_layout/")({
   component: ModelManagingPage,
@@ -28,7 +28,8 @@ function ModelManagingPage() {
   const searchParams = new URLSearchParams(search);
   const keyword = searchParams.get("keyword") || "";
 
-  const [modelData, setModelData] = useState<Model[]>(MODEL_LIST);
+  const { models: initialModels } = useModelStore();
+  const [modelData, setModelData] = useState<Model[]>(initialModels);
   const models = useMemo(
     () => searchModels(modelData, keyword),
     [modelData, keyword]

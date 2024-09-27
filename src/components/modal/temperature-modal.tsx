@@ -11,6 +11,7 @@ const TemperatureModal = () => {
   const { isOpen, type, onClose } = useModalStore();
   const isModalOpen = isOpen && type === "temperature";
 
+  if (!isModalOpen) return null;
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
       <DialogContent className="pt-6 pb-0 px-6">

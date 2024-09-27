@@ -22,6 +22,7 @@ export interface Model {
   learning_data: string;
   verification_data: string;
   tuning_method: TuningMethod;
+  amsgrad: boolean;
 }
 
 export const tuningMethods = ["LoRA", "QLoRA", "풀파인튜닝"] as const;

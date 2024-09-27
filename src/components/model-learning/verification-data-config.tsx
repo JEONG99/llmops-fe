@@ -1,10 +1,32 @@
+import { Check } from "lucide-react";
+import { useState } from "react";
+import { useDropzone } from "react-dropzone";
+
 import CustomSimpleBar from "@/components/common/simplebar";
 import { VERIFICATION_DATA_LIST } from "@/lib/const";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
 
-const VerificationDataConfig = () => {
-  const [upload, setUpload] = useState(true);
+const VerificationDataConfig = ({
+  value,
+  onChange,
+  hasInitialData,
+}: {
+  value: string;
+  onChange: (...event: any[]) => void;
+  hasInitialData: boolean;
+}) => {
+  const [upload, setUpload] = useState(!hasInitialData);
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop: (acceptedFiles, rejectedFiles) => {
+      if (rejectedFiles.length > 1) {
+        alert("하나의 데이터 파일만 업로드 가능합니다.");
+      } else {
+        onChange(acceptedFiles[0].name);
+      }
+    },
+    maxFiles: 1,
+  });
 
   return (
     <div>
@@ -42,26 +64,51 @@ const VerificationDataConfig = () => {
         </div>
       </div>
       {upload ? (
-        <div className="h-[146px] rounded-[10px] bg-[#F1F4FF] cursor-pointer">
-          <div className="flex flex-col justify-center items-center gap-2 h-full">
-            <img
-              src="/icon/folder-add-icon.svg"
-              alt=""
-              className="size-[58px]"
-            />
-            <h5 className="text-sm">드래그 앤 드롭으로 파일 업로드</h5>
-            <p className="text-black/50 text-sm">(파일 형식)</p>
-          </div>
+        <div
+          {...getRootProps()}
+          className={cn(
+            "h-[146px] rounded-[10px] bg-[#F1F4FF] cursor-pointer",
+            isDragActive && "border border-blue"
+          )}
+        >
+          <input {...getInputProps()} />
+          {value ? (
+            <div className="flex justify-center items-center gap-4 h-full">
+              <span className="text-lg">{value}</span>
+            </div>
+          ) : (
+            <div className="flex flex-col justify-center items-center gap-2 h-full">
+              <img
+                src="/icon/folder-add-icon.svg"
+                alt=""
+                className="size-[58px]"
+              />
+              <h5 className="text-sm">드래그 앤 드롭으로 파일 업로드</h5>
+              <p className="text-black/50 text-sm">(파일 형식)</p>
+            </div>
+          )}
         </div>
       ) : (
         <CustomSimpleBar className="h-[146px] rounded-[10px] bg-[#F1F4FF]/20 border border-blue/20">
           <ul>
-            {VERIFICATION_DATA_LIST.map((value, index) => (
+            {VERIFICATION_DATA_LIST.map((data, index) => (
               <li
                 key={index}
-                className="flex items-center h-[38px] px-6 border-b border-blue/20 last:border-none"
+                onClick={() => onChange(data)}
+                className={cn(
+                  "flex items-center h-[38px] px-6 border-b border-blue/20 last:border-none cursor-pointer hover:bg-[#F1F4FF]/50",
+                  data === value && "bg-[#F1F4FF]/50"
+                )}
               >
-                <div className="text-[#373737]">{value}</div>
+                <div className="flex justify-between items-center w-full text-[#373737]">
+                  <span>{data}</span>
+                  <Check
+                    className={cn(
+                      "size-4",
+                      data === value ? "block" : "hidden"
+                    )}
+                  />
+                </div>
               </li>
             ))}
           </ul>

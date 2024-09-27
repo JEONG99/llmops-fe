@@ -7,7 +7,7 @@ import {
   AccordionItem,
   CustomAccordionTrigger,
 } from "@/components/ui/accordion";
-import { MODEL_LIST } from "@/lib/const";
+import { useModelStore } from "@/hooks/use-model-store";
 
 const ModelDetail = ({
   selectedId,
@@ -16,7 +16,8 @@ const ModelDetail = ({
   selectedId: number | null;
   setSelectedId: React.Dispatch<React.SetStateAction<number | null>>;
 }) => {
-  const model = MODEL_LIST.find((model) => model.id === selectedId);
+  const { models } = useModelStore();
+  const model = models.find((model) => model.id === selectedId);
 
   const navigate = useNavigate();
 
