@@ -1,7 +1,7 @@
 import { createLazyFileRoute, useLocation } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-import SearchInput from "@/components/search-input";
+import SearchInput from "@/components/common/search-input";
 import {
   Carousel,
   CarouselContent,
@@ -11,12 +11,12 @@ import {
 } from "@/components/ui/carousel";
 import { MODEL_LIST } from "@/lib/const";
 import { cn, searchModels } from "@/lib/utils";
-import ModelList from "@/components/model-list";
+import ModelList from "@/components/common/model/model-list";
 import ModelCompare from "@/components/model-managing/model-compare";
 import ModelDetail from "@/components/model-managing/model-detail";
 import PageLayout from "@/components/layout/page-layout";
 import { Model } from "@/types";
-import ModelListHeader from "@/components/model-list-header";
+import ModelListHeader from "@/components/common/model/model-list-header";
 
 export const Route = createLazyFileRoute("/_layout/")({
   component: ModelManagingPage,

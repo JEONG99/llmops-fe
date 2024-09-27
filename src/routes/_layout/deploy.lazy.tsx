@@ -2,13 +2,13 @@ import { createLazyFileRoute, useLocation } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 
 import PageLayout from "@/components/layout/page-layout";
-import SearchInput from "@/components/search-input";
+import SearchInput from "@/components/common/search-input";
 import { cn, searchModels } from "@/lib/utils";
 import { MODEL_LIST } from "@/lib/const";
-import ModelList from "@/components/model-list";
+import ModelList from "@/components/common/model/model-list";
 import ModelDetail from "@/components/model-managing/model-detail";
 import ServerItem from "@/components/deploy/server-item";
-import ModelListHeader from "@/components/model-list-header";
+import ModelListHeader from "@/components/common/model/model-list-header";
 import { Model } from "@/types";
 
 export const Route = createLazyFileRoute("/_layout/deploy")({

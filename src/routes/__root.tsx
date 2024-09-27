@@ -1,5 +1,7 @@
-import ModalProvider from "@/provider/modal-provider";
 import { createRootRoute, Outlet } from "@tanstack/react-router";
+
+import ModalProvider from "@/provider/modal-provider";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 export const Route = createRootRoute({
   component: () => (
@@ -11,9 +13,11 @@ export const Route = createRootRoute({
 
 function App({ children }: { children: React.ReactNode }) {
   return (
-    <div>
-      {children}
-      <ModalProvider />
-    </div>
+    <TooltipProvider>
+      <div>
+        {children}
+        <ModalProvider />
+      </div>
+    </TooltipProvider>
   );
 }
