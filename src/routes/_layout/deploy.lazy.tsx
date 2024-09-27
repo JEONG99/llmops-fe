@@ -5,9 +5,11 @@ import PageLayout from "@/components/layout/page-layout";
 import SearchInput from "@/components/search-input";
 import { cn, searchModels } from "@/lib/utils";
 import { MODEL_LIST } from "@/lib/const";
-import ModelList from "@/components/model-managing/model-list";
+import ModelList from "@/components/model-list";
 import ModelDetail from "@/components/model-managing/model-detail";
 import ServerItem from "@/components/deploy/server-item";
+import ModelListHeader from "@/components/model-list-header";
+import { Model } from "@/types";
 
 export const Route = createLazyFileRoute("/_layout/deploy")({
   component: DeployPage,
@@ -18,7 +20,11 @@ function DeployPage() {
   const searchParams = new URLSearchParams(search);
   const keyword = searchParams.get("keyword") || "";
 
-  const models = useMemo(() => searchModels(MODEL_LIST, keyword), [keyword]);
+  const [modelData, setModelData] = useState<Model[]>(MODEL_LIST);
+  const models = useMemo(
+    () => searchModels(modelData, keyword),
+    [modelData, keyword]
+  );
 
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
@@ -29,30 +35,7 @@ function DeployPage() {
           <SearchInput />
         </div>
         <div className="relative mt-4">
-          <div className="flex h-14 bg-white">
-            <div className="flex justify-center items-center w-[240px]">
-              <span className="text-gray-70">모델명</span>
-            </div>
-            <div className="flex justify-center items-center gap-2 w-[190px] cursor-pointer">
-              <span className="text-gray-70">베이스 모델</span>
-              <img src="/icon/sort-icon.svg" alt="" className="size-6" />
-            </div>
-            <div className="flex justify-center items-center gap-2 w-[160px] cursor-pointer">
-              <span className="text-gray-70">상태</span>
-              <img src="/icon/sort-icon.svg" alt="" className="size-6" />
-            </div>
-            <div className="flex justify-center items-center gap-2 w-[160px] cursor-pointer">
-              <span className="text-gray-70">태그</span>
-              <img src="/icon/sort-icon.svg" alt="" className="size-6" />
-            </div>
-            <div className="flex justify-center items-center gap-2 w-[160px] cursor-pointer">
-              <span className="text-gray-70">생성 일자</span>
-              <img src="/icon/sort-icon.svg" alt="" className="size-6" />
-            </div>
-            <div className="flex justify-center items-center w-[190px]">
-              <span className="text-gray-70">메모</span>
-            </div>
-          </div>
+          <ModelListHeader setModelData={setModelData} />
           <div className="relative">
             <div
               className={cn(

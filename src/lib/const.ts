@@ -2,11 +2,11 @@ import { Model } from "@/types";
 
 export const MODEL_LIST: Model[] = [
   {
-    name: "sample-model_01",
+    name: "sample-model_02",
     base_model: "llama-3.1",
     status: "done",
     tags: "마취과,내과",
-    created_at: "2024-03-23",
+    created_at: "2024-03-20",
     description: "회의록 요약",
     learning_rate: 0.0001,
     epochs: 3,
@@ -17,7 +17,7 @@ export const MODEL_LIST: Model[] = [
     rouge_l: 0.95,
   },
   {
-    name: "sample-model_02",
+    name: "sample-model_01",
     base_model: "llama-3.1",
     status: "progress",
     tags: "마취과",
@@ -36,7 +36,7 @@ export const MODEL_LIST: Model[] = [
     base_model: "llama-3",
     status: "failed",
     tags: "마취과,내과",
-    created_at: "2024-03-23",
+    created_at: "2024-03-25",
     description: "",
     learning_rate: 0.0001,
     epochs: 2,
@@ -47,7 +47,7 @@ export const MODEL_LIST: Model[] = [
     rouge_l: 0.93,
   },
   {
-    name: "sample-model_04",
+    name: "sample-model_06",
     base_model: "llama-3",
     status: "done",
     tags: "마취과,내과",
@@ -66,7 +66,7 @@ export const MODEL_LIST: Model[] = [
     base_model: "gpt-3.5",
     status: "progress",
     tags: "마취과,내과",
-    created_at: "2024-03-23",
+    created_at: "2024-03-22",
     description: "보고서 생성",
     learning_rate: 0.001,
     epochs: 4,
@@ -77,11 +77,11 @@ export const MODEL_LIST: Model[] = [
     rouge_l: 0.94,
   },
   {
-    name: "sample-model_06",
+    name: "sample-model_04",
     base_model: "gpt-3.5",
     status: "failed",
     tags: "",
-    created_at: "2024-03-23",
+    created_at: "2024-03-27",
     description:
       "긴설명긴설명긴설명긴설명긴설명긴설명긴설명긴설명긴설명긴설명긴설명긴설명긴설명긴설명긴설명긴설명",
     learning_rate: 0.0001,

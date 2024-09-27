@@ -11,10 +11,12 @@ import {
 } from "@/components/ui/carousel";
 import { MODEL_LIST } from "@/lib/const";
 import { cn, searchModels } from "@/lib/utils";
-import ModelList from "@/components/model-managing/model-list";
+import ModelList from "@/components/model-list";
 import ModelCompare from "@/components/model-managing/model-compare";
 import ModelDetail from "@/components/model-managing/model-detail";
 import PageLayout from "@/components/layout/page-layout";
+import { Model } from "@/types";
+import ModelListHeader from "@/components/model-list-header";
 
 export const Route = createLazyFileRoute("/_layout/")({
   component: ModelManagingPage,
@@ -25,7 +27,11 @@ function ModelManagingPage() {
   const searchParams = new URLSearchParams(search);
   const keyword = searchParams.get("keyword") || "";
 
-  const models = useMemo(() => searchModels(MODEL_LIST, keyword), [keyword]);
+  const [modelData, setModelData] = useState<Model[]>(MODEL_LIST);
+  const models = useMemo(
+    () => searchModels(modelData, keyword),
+    [modelData, keyword]
+  );
 
   const prevRef = useRef<HTMLButtonElement>(null);
   const nextRef = useRef<HTMLButtonElement>(null);
@@ -69,30 +75,10 @@ function ModelManagingPage() {
           </button>
         </div>
         <div className="relative mt-4 px-7">
-          <div className="sticky top-0 z-10 flex h-14 bg-white">
-            <div className="flex justify-center items-center w-[240px]">
-              <span className="text-gray-70">모델명</span>
-            </div>
-            <div className="flex justify-center items-center gap-2 w-[190px] cursor-pointer">
-              <span className="text-gray-70">베이스 모델</span>
-              <img src="/icon/sort-icon.svg" alt="" className="size-6" />
-            </div>
-            <div className="flex justify-center items-center gap-2 w-[160px] cursor-pointer">
-              <span className="text-gray-70">상태</span>
-              <img src="/icon/sort-icon.svg" alt="" className="size-6" />
-            </div>
-            <div className="flex justify-center items-center gap-2 w-[160px] cursor-pointer">
-              <span className="text-gray-70">태그</span>
-              <img src="/icon/sort-icon.svg" alt="" className="size-6" />
-            </div>
-            <div className="flex justify-center items-center gap-2 w-[160px] cursor-pointer">
-              <span className="text-gray-70">생성 일자</span>
-              <img src="/icon/sort-icon.svg" alt="" className="size-6" />
-            </div>
-            <div className="flex justify-center items-center w-[190px]">
-              <span className="text-gray-70">메모</span>
-            </div>
-          </div>
+          <ModelListHeader
+            className="sticky top-0 z-10"
+            setModelData={setModelData}
+          />
           <Carousel
             opts={{
               watchDrag: false,
