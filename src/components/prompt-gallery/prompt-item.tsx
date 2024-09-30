@@ -1,7 +1,10 @@
-import Star from "@/components/prompt-gallery/star";
 import { useRef, useState } from "react";
 
-const PromptItem = () => {
+import Star from "@/components/prompt-gallery/star";
+import { Prompt } from "@/types";
+import { cn } from "@/lib/utils";
+
+const PromptItem = ({ prompt }: { prompt: Prompt }) => {
   const [checked, setChecked] = useState(false);
 
   const scrollRef = useRef<HTMLDivElement | null>(null);
@@ -34,7 +37,7 @@ const PromptItem = () => {
           >
             <Star checked={checked} />
           </button>
-          <span className="text-lg">보고서 요약</span>
+          <span className="text-lg">{prompt.title}</span>
         </div>
         <div className="flex items-center gap-3">
           <button className="hover:opacity-80">
@@ -47,9 +50,7 @@ const PromptItem = () => {
       </div>
       <div className="space-y-5 pt-9 pb-6">
         <p className="min-h-[72px] px-8 text-black/70 line-clamp-3">
-          보고서를 만들고 요약해주는 프롬프트보고서를 만들고 요약해주는
-          프롬프트보고서를 만들고 요약해주는 프롬프트보고서를 만들고 요약해주는
-          프롬프트
+          {prompt.description}
         </p>
         <div
           ref={scrollRef}
@@ -58,16 +59,21 @@ const PromptItem = () => {
           onMouseMove={handleMouseMove}
         >
           <div className="py-1 px-2.5 bg-[#E4EBFF] rounded-sm text-[#601FF9] leading-tight text-nowrap select-none">
-            sample-model_01
+            {prompt.base_model.name}
           </div>
-          <div className="py-1 px-2.5 bg-[#DBF1F6] rounded-sm text-[#006F88] leading-tight text-nowrap select-none">
-            data 01
+          <div
+            className={cn(
+              "py-1 px-2.5 bg-[#DBF1F6] rounded-sm text-[#006F88] leading-tight text-nowrap select-none",
+              prompt.data ? "block" : "hidden"
+            )}
+          >
+            {prompt.data}
           </div>
           <div className="py-1 px-2.5 bg-[#FFEEF2] rounded-sm text-[#FF4976] leading-tight text-nowrap select-none">
-            풀파인튜닝
+            {prompt.base_model.tuning_method}
           </div>
         </div>
-        <div className="px-8 text-black/70">최근 수정 2024-02-12</div>
+        <div className="px-8 text-black/70">최근 수정 {prompt.created_at}</div>
       </div>
     </div>
   );

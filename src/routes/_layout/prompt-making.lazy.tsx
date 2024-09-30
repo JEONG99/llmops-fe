@@ -6,25 +6,25 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ClipLoader } from "react-spinners";
 
 import PageLayout from "@/components/layout/page-layout";
-import ModelSelect from "@/components/model-learning/model-select";
 import DataSelect from "@/components/prompt-making/data-select";
 import { Slider } from "@/components/ui/custom-slider";
 import { Textarea } from "@/components/ui/textarea";
 import { useModalStore } from "@/hooks/use-modal-store";
-import { BaseModel, baseModels } from "@/types";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
-import { cn } from "@/lib/utils";
+import { cn, getFormatToday } from "@/lib/utils";
+import ModelSelect from "@/components/prompt-making/model-select";
+import { Model } from "@/types";
+import { useModelStore } from "@/hooks/use-model-store";
+import { usePromptStore } from "@/hooks/use-prompt-store";
 
 export const Route = createLazyFileRoute("/_layout/prompt-making")({
   component: PromptMakingPage,
 });
 
 const formSchema = z.object({
-  name: z.string().min(1, "프롬프트명을 입력해 주세요."),
+  title: z.string().min(1, "프롬프트명을 입력해 주세요."),
   description: z.string().min(1, "프롬프트 설명을 입력해 주세요."),
-  base_model: z
-    .enum(baseModels)
-    .refine((value) => !!value, "모델을 선택해 주세요."),
+  base_model: z.string(),
   instruction: z.string().min(1, "명령을 입력해 주세요."),
   data: z.string(),
   temperature: z.number(),
@@ -33,17 +33,19 @@ const formSchema = z.object({
 });
 
 const SAMPLE_RESULT =
-  "개성있는 그래픽과 레터링이 있는 반소매 티셔츠입니다.\n깔끔한 네이비 코튼 소재로 제작되어 다양한 스타일의 하의와\n자연스러운 연출이 가능합니다.";
+  "개성있는 그래픽과 레터링이 있는 반소매 티셔츠입니다. 깔끔한 네이비 코튼 소재로 제작되어 다양한 스타일의 하의와 자연스러운 연출이 가능합니다.";
 
 function PromptMakingPage() {
   const { onOpen } = useModalStore();
+  const { models } = useModelStore();
+  const { addPrompt } = usePromptStore();
 
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<{
     prompt: {
-      name: string;
+      title: string;
       description: string;
-      base_model: BaseModel;
+      base_model: Model;
       instruction: string;
       data: string;
       temperature: number;
@@ -56,9 +58,9 @@ function PromptMakingPage() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
+      title: "",
       description: "",
-      base_model: undefined,
+      base_model: "",
       instruction: "",
       data: "",
       temperature: 0,
@@ -73,12 +75,20 @@ function PromptMakingPage() {
   };
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log("Form submitted:", values);
+    const model = models.find(
+      (model) => model.id === Number(values.base_model)
+    );
+    if (!model) return;
+
+    console.log("Form submitted:", { ...values, base_model: model });
 
     setLoading(true);
     await new Promise((resolve) => setTimeout(resolve, 2000));
     setLoading(false);
-    setResult({ prompt: values, text: SAMPLE_RESULT });
+    setResult({
+      prompt: { ...values, base_model: model },
+      text: SAMPLE_RESULT,
+    });
   };
 
   const onSave = () => {
@@ -86,20 +96,26 @@ function PromptMakingPage() {
       alert("저장할 결과가 없습니다.");
       return;
     }
-    console.log(result);
-    // TODO: save to the database or file
+    console.log("result:", result);
+    addPrompt({
+      ...result.prompt,
+      id: Math.floor(Math.random() * (100000 - 10 + 1)) + 10,
+      created_at: getFormatToday(),
+      result: result.text,
+    });
+    onOpen("promptSaving");
   };
 
   const checkFields = () => {
     const {
-      name,
+      title,
       description,
       base_model,
       instruction,
       sample_input,
       sample_output,
     } = form.getValues();
-    if (!name) {
+    if (!title) {
       alert("모델명을 입력해 주세요.");
       return;
     } else if (!description) {
@@ -142,7 +158,7 @@ function PromptMakingPage() {
             <div className="space-y-3 pt-6 pb-12">
               <FormField
                 control={form.control}
-                name="name"
+                name="title"
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>

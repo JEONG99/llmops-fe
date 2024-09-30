@@ -25,6 +25,20 @@ export interface Model {
   amsgrad: boolean;
 }
 
+export interface Prompt {
+  id: number;
+  title: string;
+  description: string;
+  created_at: string;
+  base_model: Model;
+  instruction: string;
+  data: string;
+  temperature: number;
+  sample_input: string;
+  sample_output: string;
+  result: string;
+}
+
 export const tuningMethods = ["LoRA", "QLoRA", "풀파인튜닝"] as const;
 export type TuningMethod = (typeof tuningMethods)[number];
 

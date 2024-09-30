@@ -2,12 +2,15 @@ import { createLazyFileRoute } from "@tanstack/react-router";
 
 import PageLayout from "@/components/layout/page-layout";
 import PromptItem from "@/components/prompt-gallery/prompt-item";
+import { usePromptStore } from "@/hooks/use-prompt-store";
 
 export const Route = createLazyFileRoute("/_layout/prompt-gallery")({
   component: PromptGalleryPage,
 });
 
 function PromptGalleryPage() {
+  const { prompts } = usePromptStore();
+
   return (
     <PageLayout
       title="프롬프트 갤러리"
@@ -28,11 +31,9 @@ function PromptGalleryPage() {
       }
     >
       <div className="grid grid-cols-3 gap-5 px-7 py-10">
-        {Array(12)
-          .fill(0)
-          .map((_, index) => (
-            <PromptItem key={index} />
-          ))}
+        {prompts.map((prompt) => (
+          <PromptItem key={prompt.id} prompt={prompt} />
+        ))}
       </div>
     </PageLayout>
   );
