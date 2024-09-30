@@ -95,7 +95,7 @@ const ModelCompare = ({ models }: { models: Model[] }) => {
             ))}
           </div>
           <div className="w-full px-6 py-5 rounded-[10px] border border-[#EDF1FE] bg-[#F8F9FB]">
-            <div className="flex justify-between mb-8">
+            <div className="flex justify-between mb-4">
               <div className="w-[127px]" />
               <div className="text-lg">모델 별 정확도 비교</div>
               <div className="w-[127px]">

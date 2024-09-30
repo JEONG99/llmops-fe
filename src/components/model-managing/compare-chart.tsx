@@ -50,7 +50,7 @@ const CustomTick = (props: any) => {
 
 const CompareChart = ({ models }: { models: Model[] }) => {
   const chartConfig: ChartConfig = useMemo(() => {
-    return models.slice(0, 3).reduce(
+    return models.reduce(
       (acc, { name }, index) => {
         acc[name] = {
           label: name,
@@ -82,7 +82,7 @@ const CompareChart = ({ models }: { models: Model[] }) => {
           tickSize={-10}
         />
         <ChartLegend content={<ChartLegendContent />} />
-        {models.slice(0, 3).map((model) => (
+        {models.map((model) => (
           <Bar dataKey={model.name} fill={`var(--color-${model.name})`} />
         ))}
       </BarChart>

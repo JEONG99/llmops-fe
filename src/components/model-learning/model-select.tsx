@@ -7,16 +7,16 @@ import {
 } from "@/components/ui/select";
 import { baseModels } from "@/types";
 
-const ModelSelect = ({
-  value,
-  onChange,
-}: {
+interface ModelSelectProps {
   value?: string;
   onChange?: (...event: any[]) => void;
-}) => {
+  disabled?: boolean;
+}
+
+const ModelSelect = ({ value, onChange, disabled }: ModelSelectProps) => {
   return (
-    <Select value={value} onValueChange={onChange}>
-      <CustormSelecTrigger>
+    <Select value={value} onValueChange={onChange} disabled={disabled}>
+      <CustormSelecTrigger className="disabled:opacity-50 disabled:cursor-not-allowed">
         <SelectValue
           placeholder="모델을 선택해 주세요..."
           className="text-[#4f4f4f]"

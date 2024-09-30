@@ -16,3 +16,8 @@ export function searchModels(models: Model[], searchTerm: string): Model[] {
       model.tags.toLowerCase().includes(lowercasedSearchTerm)
   );
 }
+
+export function getFormatToday(): string {
+  const specificDate = new Date();
+  return specificDate.toISOString().split("T")[0];
+}

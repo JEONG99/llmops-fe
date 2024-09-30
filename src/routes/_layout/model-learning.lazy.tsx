@@ -21,14 +21,15 @@ import { baseModels, tuningMethods } from "@/types";
 import TuningSlider from "@/components/model-learning/tuning-slider";
 import { useModalStore } from "@/hooks/use-modal-store";
 import { useModelStore } from "@/hooks/use-model-store";
+import { getFormatToday } from "@/lib/utils";
 
 export const Route = createLazyFileRoute("/_layout/model-learning")({
   component: ModelLearningPage,
 });
 
 const formSchema = z.object({
-  name: z.string().min(1),
-  description: z.string().min(1),
+  name: z.string().min(1, { message: "모델명을 입력해 주세요." }),
+  description: z.string().min(1, { message: "모델 설명을 입력해 주세요." }),
   base_model: z.enum(baseModels),
   tuning_method: z.enum(tuningMethods),
   batch_size: z.number().min(0).max(10),
@@ -38,8 +39,10 @@ const formSchema = z.object({
   beta2: z.number().min(0).max(1),
   epsilon: z.number().min(0).max(1),
   weight_decay: z.number().min(0).max(1),
-  learning_data: z.string().min(1),
-  verification_data: z.string().min(1),
+  learning_data: z.string().min(1, { message: "학습 데이터를 첨부해 주세요." }),
+  verification_data: z
+    .string()
+    .min(1, { message: "검증 데이터를 첨부해 주세요." }),
   amsgrad: z.boolean().default(false),
 });
 
@@ -77,7 +80,7 @@ function ModelLearningPage() {
     console.log("Form submitted:", values);
     addModel({
       ...values,
-      created_at: "2024-09-27",
+      created_at: getFormatToday(),
       tags: "마취과",
       status: "progress",
       id: Math.floor(Math.random() * (100000 - 10 + 1)) + 10,
@@ -87,6 +90,24 @@ function ModelLearningPage() {
       rouge_l: 0.93,
     });
     onOpen("learningNotice");
+  };
+
+  const checkFields = () => {
+    const { name, description, learning_data, verification_data } =
+      form.getValues();
+    if (!name) {
+      alert("모델명을 입력해 주세요.");
+      return;
+    } else if (!description) {
+      alert("모델 설명을 입력해 주세요.");
+      return;
+    } else if (!learning_data) {
+      alert("학습 데이터를 첨부해 주세요.");
+      return;
+    } else if (!verification_data) {
+      alert("검증 데이터를 첨부해 주세요.");
+      return;
+    }
   };
 
   return (
@@ -377,6 +398,7 @@ function ModelLearningPage() {
                 <div className="flex justify-end mt-[10px]">
                   <button
                     type="submit"
+                    onClick={checkFields}
                     className="flex justify-center items-center h-12 w-[161px] px-6 rounded-[10px] bg-blue hover:bg-blue/90"
                   >
                     학습하기
