@@ -38,13 +38,13 @@ const SAMPLE_RESULT =
 function PromptMakingPage() {
   const {
     location: {
-      state: { model, isEdit },
+      state: { model, prompt, isEdit },
     },
   } = useRouterState();
 
   const { onOpen } = useModalStore();
   const { models } = useModelStore();
-  const { addPrompt } = usePromptStore();
+  const { addPrompt, updatePrompt } = usePromptStore();
 
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<{
@@ -64,14 +64,18 @@ function PromptMakingPage() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: "",
-      description: "",
-      base_model: model?.id ? model.id + "" : "",
-      instruction: "",
-      data: "",
-      temperature: 0,
-      sample_input: "",
-      sample_output: "",
+      title: prompt?.title ?? "",
+      description: prompt?.description ?? "",
+      base_model: prompt
+        ? prompt.base_model.id + ""
+        : model?.id
+          ? model.id + ""
+          : "",
+      instruction: prompt?.instruction ?? "",
+      data: prompt?.data ?? "",
+      temperature: prompt?.temperature ?? 0,
+      sample_input: prompt?.sample_input ?? "",
+      sample_output: prompt?.sample_output ?? "",
     },
   });
 
@@ -102,13 +106,24 @@ function PromptMakingPage() {
       alert("저장할 결과가 없습니다.");
       return;
     }
-    console.log("result:", result);
-    addPrompt({
-      ...result.prompt,
-      id: Math.floor(Math.random() * (100000 - 10 + 1)) + 10,
-      created_at: getFormatToday(),
-      result: result.text,
-    });
+    if (isEdit) {
+      if (!prompt) return;
+      updatePrompt({
+        ...prompt,
+        ...result.prompt,
+        created_at: getFormatToday(),
+        result: result.text,
+      });
+      console.log("Edit prompt submitted:", result);
+    } else {
+      addPrompt({
+        ...result.prompt,
+        id: Math.floor(Math.random() * (100000 - 10 + 1)) + 10,
+        created_at: getFormatToday(),
+        result: result.text,
+      });
+      console.log("new prompt added:", result);
+    }
     onOpen("promptSaving");
   };
 

@@ -1,4 +1,4 @@
-import { createLazyFileRoute } from "@tanstack/react-router";
+import { createLazyFileRoute, useNavigate } from "@tanstack/react-router";
 
 import PageLayout from "@/components/layout/page-layout";
 import PromptItem from "@/components/prompt-gallery/prompt-item";
@@ -9,6 +9,8 @@ export const Route = createLazyFileRoute("/_layout/prompt-gallery")({
 });
 
 function PromptGalleryPage() {
+  const navigate = useNavigate();
+
   const { prompts } = usePromptStore();
 
   return (
@@ -18,6 +20,7 @@ function PromptGalleryPage() {
         <div className="flex items-end h-full">
           <button
             type="button"
+            onClick={() => navigate({ to: "/prompt-making" })}
             className="flex items-center justify-center gap-2 w-[165px] h-12 rounded-[10px] bg-blue-light hover:bg-blue-light/70"
           >
             <img

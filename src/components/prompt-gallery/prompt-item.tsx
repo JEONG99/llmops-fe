@@ -1,10 +1,13 @@
 import { useRef, useState } from "react";
+import { useNavigate } from "@tanstack/react-router";
 
 import Star from "@/components/prompt-gallery/star";
 import { Prompt } from "@/types";
 import { cn } from "@/lib/utils";
 
 const PromptItem = ({ prompt }: { prompt: Prompt }) => {
+  const navigate = useNavigate();
+
   const [checked, setChecked] = useState(false);
 
   const scrollRef = useRef<HTMLDivElement | null>(null);
@@ -27,6 +30,10 @@ const PromptItem = ({ prompt }: { prompt: Prompt }) => {
     }
   };
 
+  const copyPromptAndRedirect = (edit: boolean) => {
+    navigate({ to: "/prompt-making", state: { prompt, isEdit: edit } });
+  };
+
   return (
     <div className="border border-[#b3b3b3] rounded-[10px] overflow-hidden">
       <div className="flex justify-between items-center py-5 pl-7 pr-5 bg-[#f5f5f5] border-b border-blue-light">
@@ -40,10 +47,16 @@ const PromptItem = ({ prompt }: { prompt: Prompt }) => {
           <span className="text-lg">{prompt.title}</span>
         </div>
         <div className="flex items-center gap-3">
-          <button className="hover:opacity-80">
+          <button
+            onClick={() => copyPromptAndRedirect(true)}
+            className="hover:opacity-80"
+          >
             <img src="/icon/edit-icon.svg" alt="" className="size-6" />
           </button>
-          <button className="hover:opacity-80">
+          <button
+            onClick={() => copyPromptAndRedirect(false)}
+            className="hover:opacity-80"
+          >
             <img src="/icon/cards-icon.svg" alt="" className="size-6" />
           </button>
         </div>

@@ -6,7 +6,8 @@ import "@/styles/index.css";
 import "simplebar-react/dist/simplebar.min.css";
 
 import { routeTree } from "./routeTree.gen";
-import { Model } from "@/types";
+
+import { Model, Prompt } from "@/types";
 
 const router = createRouter({ routeTree });
 
@@ -15,6 +16,7 @@ declare module "@tanstack/react-router" {
     router: typeof router;
   }
   interface HistoryState {
+    prompt?: Prompt;
     model?: Model;
     isEdit?: boolean;
   }

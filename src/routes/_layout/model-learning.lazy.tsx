@@ -54,7 +54,7 @@ function ModelLearningPage() {
   } = useRouterState();
 
   const { onOpen } = useModalStore();
-  const { addModel, editModel } = useModelStore();
+  const { addModel, updateModel } = useModelStore();
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -79,7 +79,12 @@ function ModelLearningPage() {
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     if (isEdit) {
       if (!model) return;
-      editModel({ ...model, ...values, status: "progress" });
+      updateModel({
+        ...model,
+        ...values,
+        status: "progress",
+        created_at: getFormatToday(),
+      });
       console.log("Edit model submitted:", values);
     } else {
       addModel({

@@ -6,14 +6,14 @@ import { MODEL_LIST } from "@/lib/const";
 interface IModelStore {
   models: Model[];
   addModel: (model: Model) => void;
-  editModel: (model: Model) => void;
+  updateModel: (model: Model) => void;
 }
 
 export const useModelStore = create<IModelStore>((set) => ({
   models: MODEL_LIST,
   addModel: (model) =>
     set((state) => ({ ...state, models: [...state.models, model] })),
-  editModel: (model) =>
+  updateModel: (model) =>
     set((state) => {
       const index = state.models.findIndex((item) => item.id === model.id);
 
@@ -28,6 +28,6 @@ export const useModelStore = create<IModelStore>((set) => ({
         };
       }
 
-      return { ...state, modesl: state.models };
+      return { ...state, models: state.models };
     }),
 }));
