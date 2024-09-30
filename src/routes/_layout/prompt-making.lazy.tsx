@@ -1,4 +1,4 @@
-import { createLazyFileRoute } from "@tanstack/react-router";
+import { createLazyFileRoute, useRouterState } from "@tanstack/react-router";
 import { z } from "zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -24,7 +24,7 @@ export const Route = createLazyFileRoute("/_layout/prompt-making")({
 const formSchema = z.object({
   title: z.string().min(1, "프롬프트명을 입력해 주세요."),
   description: z.string().min(1, "프롬프트 설명을 입력해 주세요."),
-  base_model: z.string(),
+  base_model: z.string().min(1, "모델을 선택해 주세요."),
   instruction: z.string().min(1, "명령을 입력해 주세요."),
   data: z.string(),
   temperature: z.number(),
@@ -36,6 +36,12 @@ const SAMPLE_RESULT =
   "개성있는 그래픽과 레터링이 있는 반소매 티셔츠입니다. 깔끔한 네이비 코튼 소재로 제작되어 다양한 스타일의 하의와 자연스러운 연출이 가능합니다.";
 
 function PromptMakingPage() {
+  const {
+    location: {
+      state: { model, isEdit },
+    },
+  } = useRouterState();
+
   const { onOpen } = useModalStore();
   const { models } = useModelStore();
   const { addPrompt } = usePromptStore();
@@ -60,7 +66,7 @@ function PromptMakingPage() {
     defaultValues: {
       title: "",
       description: "",
-      base_model: "",
+      base_model: model?.id ? model.id + "" : "",
       instruction: "",
       data: "",
       temperature: 0,

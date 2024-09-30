@@ -1,3 +1,5 @@
+import { useNavigate } from "@tanstack/react-router";
+
 import StatusIcon from "@/components/common/model/status-icon";
 import TagIcon from "@/components/common/model/tag-icon";
 import {
@@ -6,7 +8,6 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Model } from "@/types";
-import { useNavigate } from "@tanstack/react-router";
 
 interface ModelItemProps {
   onClick: () => void;
@@ -16,7 +17,8 @@ interface ModelItemProps {
 const ModelItem = ({ onClick, model }: ModelItemProps) => {
   const navigate = useNavigate();
 
-  const copyModelAndRedirect = () => {
+  const copyModelAndRedirect = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
     navigate({ to: "/model-learning", state: { model } });
   };
 

@@ -16,6 +16,7 @@ declare module "@tanstack/react-router" {
   }
   interface HistoryState {
     model?: Model;
+    isEdit?: boolean;
   }
 }
 

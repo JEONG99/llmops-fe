@@ -49,18 +49,18 @@ const formSchema = z.object({
 function ModelLearningPage() {
   const {
     location: {
-      state: { model },
+      state: { model, isEdit },
     },
   } = useRouterState();
 
   const { onOpen } = useModalStore();
-  const { addModel } = useModelStore();
+  const { addModel, editModel } = useModelStore();
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      description: "",
+      name: isEdit ? (model?.name ?? "") : "",
+      description: isEdit ? (model?.description ?? "") : "",
       base_model: model?.base_model ?? "llama-3",
       tuning_method: model?.tuning_method ?? "LoRA",
       batch_size: model?.batch_size ?? 8,
@@ -72,23 +72,29 @@ function ModelLearningPage() {
       weight_decay: model?.weight_decay ?? 0,
       learning_data: model?.learning_data ?? "",
       verification_data: model?.verification_data ?? "",
-      amsgrad: false,
+      amsgrad: model?.amsgrad ?? false,
     },
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log("Form submitted:", values);
-    addModel({
-      ...values,
-      created_at: getFormatToday(),
-      tags: "마취과",
-      status: "progress",
-      id: Math.floor(Math.random() * (100000 - 10 + 1)) + 10,
-      bleu: 0.92,
-      rouge_1: 0.95,
-      rouge_2: 0.89,
-      rouge_l: 0.93,
-    });
+    if (isEdit) {
+      if (!model) return;
+      editModel({ ...model, ...values, status: "progress" });
+      console.log("Edit model submitted:", values);
+    } else {
+      addModel({
+        ...values,
+        created_at: getFormatToday(),
+        tags: "마취과",
+        status: "progress",
+        id: Math.floor(Math.random() * (100000 - 10 + 1)) + 10,
+        bleu: 0.92,
+        rouge_1: 0.95,
+        rouge_2: 0.89,
+        rouge_l: 0.93,
+      });
+      console.log("new model added:", values);
+    }
     onOpen("learningNotice");
   };
 

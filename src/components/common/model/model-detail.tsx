@@ -21,9 +21,11 @@ const ModelDetail = ({
 
   const navigate = useNavigate();
 
-  const copyModelAndRedirect = () => {
+  const copyModelAndRedirect = (type: "prompt" | "model") => {
     if (!model) return;
-    navigate({ to: "/prompt-making", state: { model } });
+    type === "prompt"
+      ? navigate({ to: "/prompt-making", state: { model } })
+      : navigate({ to: "/model-learning", state: { model, isEdit: true } });
   };
 
   if (!model) return null;
@@ -33,7 +35,10 @@ const ModelDetail = ({
         <div className="space-y-3">
           <div className="flex items-center gap-2">
             <span className="text-lg font-bold">{model.name}</span>
-            <button className="hover:opacity-80">
+            <button
+              onClick={() => copyModelAndRedirect("model")}
+              className="hover:opacity-80"
+            >
               <img src="/icon/pencil-icon.svg" alt="" className="size-6" />
             </button>
           </div>
@@ -42,7 +47,7 @@ const ModelDetail = ({
         <div className="flex items-center gap-6">
           <button
             type="button"
-            onClick={copyModelAndRedirect}
+            onClick={() => copyModelAndRedirect("prompt")}
             className="flex items-center justify-center gap-2 w-[165px] h-12 rounded-[10px] bg-blue-light hover:bg-blue-light/70"
           >
             <img
