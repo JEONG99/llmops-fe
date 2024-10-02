@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ClipLoader } from "react-spinners";
+import { Trash2 } from "lucide-react";
 
 import PageLayout from "@/components/layout/page-layout";
 import DataSelect from "@/components/prompt-making/data-select";
@@ -16,12 +17,7 @@ import ModelSelect from "@/components/prompt-making/model-select";
 import { Model } from "@/types";
 import { useModelStore } from "@/hooks/use-model-store";
 import { usePromptStore } from "@/hooks/use-prompt-store";
-import { Trash2 } from "lucide-react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import ActionTooltip from "@/components/common/action-tootip";
 
 export const Route = createLazyFileRoute("/_layout/prompt-making")({
   component: PromptMakingPage,
@@ -365,20 +361,15 @@ function PromptMakingPage() {
                       <h4 className="flex justify-between items-center mb-6 text-lg">
                         Sample input {index > 0 && `${index + 1}`}
                         {index > 0 && (
-                          <Tooltip delayDuration={300}>
-                            <TooltipTrigger asChild>
-                              <button
-                                type="button"
-                                onClick={() => removeSample(index)}
-                                className="hover:opacity-50"
-                              >
-                                <Trash2 className="size-5" />
-                              </button>
-                            </TooltipTrigger>
-                            <TooltipContent side="left">
-                              샘플 제거하기
-                            </TooltipContent>
-                          </Tooltip>
+                          <ActionTooltip side="left" title="샘플 제거하기">
+                            <button
+                              type="button"
+                              onClick={() => removeSample(index)}
+                              className="hover:opacity-50"
+                            >
+                              <Trash2 className="size-5" />
+                            </button>
+                          </ActionTooltip>
                         )}
                       </h4>
                       <FormField

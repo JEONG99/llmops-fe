@@ -8,6 +8,7 @@ import {
   CustomAccordionTrigger,
 } from "@/components/ui/accordion";
 import { useModelStore } from "@/hooks/use-model-store";
+import ActionTooltip from "@/components/common/action-tootip";
 
 const ModelDetail = ({
   selectedId,
@@ -35,12 +36,14 @@ const ModelDetail = ({
         <div className="space-y-3">
           <div className="flex items-center gap-2">
             <span className="text-lg font-bold">{model.name}</span>
-            <button
-              onClick={() => copyModelAndRedirect("model")}
-              className="hover:opacity-80"
-            >
-              <img src="/icon/pencil-icon.svg" alt="" className="size-6" />
-            </button>
+            <ActionTooltip side="right" title="모델 수정하기">
+              <button
+                onClick={() => copyModelAndRedirect("model")}
+                className="hover:opacity-70"
+              >
+                <img src="/icon/pencil-icon.svg" alt="" className="size-6" />
+              </button>
+            </ActionTooltip>
           </div>
           <div className="text-black/70">{model.created_at}</div>
         </div>
@@ -59,7 +62,7 @@ const ModelDetail = ({
           </button>
           <button
             onClick={() => setSelectedId(null)}
-            className="hover:opacity-80"
+            className="hover:opacity-70"
           >
             <img src="/icon/cancel-icon.svg" alt="" className="size-8" />
           </button>

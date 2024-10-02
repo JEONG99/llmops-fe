@@ -4,6 +4,7 @@ import { useNavigate } from "@tanstack/react-router";
 import Star from "@/components/prompt-gallery/star";
 import { Prompt } from "@/types";
 import { cn } from "@/lib/utils";
+import ActionTooltip from "@/components/common/action-tootip";
 
 const PromptItem = ({ prompt }: { prompt: Prompt }) => {
   const navigate = useNavigate();
@@ -40,25 +41,29 @@ const PromptItem = ({ prompt }: { prompt: Prompt }) => {
         <div className="flex items-center gap-3">
           <button
             onClick={() => setChecked((prev) => !prev)}
-            className="hover:opacity-80"
+            className="hover:opacity-70"
           >
             <Star checked={checked} />
           </button>
           <span className="text-lg">{prompt.title}</span>
         </div>
         <div className="flex items-center gap-3">
-          <button
-            onClick={() => copyPromptAndRedirect(true)}
-            className="hover:opacity-80"
-          >
-            <img src="/icon/edit-icon.svg" alt="" className="size-6" />
-          </button>
-          <button
-            onClick={() => copyPromptAndRedirect(false)}
-            className="hover:opacity-80"
-          >
-            <img src="/icon/cards-icon.svg" alt="" className="size-6" />
-          </button>
+          <ActionTooltip title="프롬프트 수정하기">
+            <button
+              onClick={() => copyPromptAndRedirect(true)}
+              className="hover:opacity-70"
+            >
+              <img src="/icon/edit-icon.svg" alt="" className="size-6" />
+            </button>
+          </ActionTooltip>
+          <ActionTooltip title="프롬프트 만들기">
+            <button
+              onClick={() => copyPromptAndRedirect(false)}
+              className="hover:opacity-70"
+            >
+              <img src="/icon/cards-icon.svg" alt="" className="size-6" />
+            </button>
+          </ActionTooltip>
         </div>
       </div>
       <div className="space-y-5 pt-9 pb-6">

@@ -2,12 +2,8 @@ import { useNavigate } from "@tanstack/react-router";
 
 import StatusIcon from "@/components/common/model/status-icon";
 import TagIcon from "@/components/common/model/tag-icon";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { Model } from "@/types";
+import ActionTooltip from "@/components/common/action-tootip";
 
 interface ModelItemProps {
   onClick: () => void;
@@ -29,14 +25,11 @@ const ModelItem = ({ onClick, model }: ModelItemProps) => {
     >
       <div className="flex justify-between px-6 w-[240px]">
         <span className="text-gray-70">{model.name}</span>
-        <Tooltip delayDuration={300}>
-          <TooltipTrigger asChild>
-            <button onClick={copyModelAndRedirect} className="hover:opacity-50">
-              <img src="/icon/copy-icon.svg" alt="" className="size-5" />
-            </button>
-          </TooltipTrigger>
-          <TooltipContent side="right">모델 학습하기</TooltipContent>
-        </Tooltip>
+        <ActionTooltip side="right" title="모델 학습하기">
+          <button onClick={copyModelAndRedirect} className="hover:opacity-50">
+            <img src="/icon/copy-icon.svg" alt="" className="size-5" />
+          </button>
+        </ActionTooltip>
       </div>
       <div className="flex justify-center px-6 w-[190px]">
         <span className="text-sm">{model.base_model}</span>
