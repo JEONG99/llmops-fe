@@ -5,6 +5,7 @@ import Star from "@/components/prompt-gallery/star";
 import { Prompt } from "@/types";
 import { cn } from "@/lib/utils";
 import ActionTooltip from "@/components/common/action-tootip";
+import { usePromptStore } from "@/hooks/use-prompt-store";
 
 const PromptItem = ({
   prompt,
@@ -17,7 +18,7 @@ const PromptItem = ({
 }) => {
   const navigate = useNavigate();
 
-  const [checked, setChecked] = useState(false);
+  const { toggleFavorite } = usePromptStore();
 
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const [moving, setMoving] = useState(false);
@@ -61,13 +62,13 @@ const PromptItem = ({
         <div className="flex items-center gap-3">
           {variant === "gallery" ? (
             <button
-              onClick={() => setChecked((prev) => !prev)}
+              onClick={() => toggleFavorite(prompt.id)}
               className="hover:opacity-70"
             >
-              <Star checked={checked} />
+              <Star checked={prompt.checked} />
             </button>
           ) : (
-            <Star checked={checked} />
+            <Star checked={prompt.checked} />
           )}
           <span className="text-lg">{prompt.title}</span>
         </div>

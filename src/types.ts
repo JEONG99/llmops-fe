@@ -36,6 +36,7 @@ export interface Prompt {
   temperature: number;
   samples: { input: string; output: string }[];
   result: string;
+  checked: boolean;
 }
 
 export const tuningMethods = ["LoRA", "QLoRA", "풀파인튜닝"] as const;

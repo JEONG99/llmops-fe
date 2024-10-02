@@ -168,6 +168,7 @@ export const PROMPT_LIST: Prompt[] = [
     ],
     result:
       "개성있는 그래픽과 레터링이 있는 반소매 티셔츠입니다. 깔끔한 네이비 코튼 소재로 제작되어 다양한 스타일의 하의와 d자연스러운 연출이 가능합니다.",
+    checked: true,
   },
   {
     id: 1,
@@ -188,6 +189,7 @@ export const PROMPT_LIST: Prompt[] = [
     ],
     result:
       "개성있는 그래픽과 레터링이 있는 반소매 티셔츠입니다. 깔끔한 네이비 코튼 소재로 제작되어 다양한 스타일의 하의와 d자연스러운 연출이 가능합니다.",
+    checked: true,
   },
   {
     id: 2,
@@ -208,6 +210,7 @@ export const PROMPT_LIST: Prompt[] = [
     ],
     result:
       "개성있는 그래픽과 레터링이 있는 반소매 티셔츠입니다. 깔끔한 네이비 코튼 소재로 제작되어 다양한 스타일의 하의와 d자연스러운 연출이 가능합니다.",
+    checked: false,
   },
   {
     id: 3,
@@ -228,6 +231,7 @@ export const PROMPT_LIST: Prompt[] = [
     ],
     result:
       "개성있는 그래픽과 레터링이 있는 반소매 티셔츠입니다. 깔끔한 네이비 코튼 소재로 제작되어 다양한 스타일의 하의와 d자연스러운 연출이 가능합니다.",
+    checked: false,
   },
 ];
 

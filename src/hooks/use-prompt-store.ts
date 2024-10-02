@@ -7,6 +7,7 @@ interface IPromptStore {
   prompts: Prompt[];
   addPrompt: (prompt: Prompt) => void;
   updatePrompt: (prompt: Prompt) => void;
+  toggleFavorite: (id: number) => void;
 }
 
 export const usePromptStore = create<IPromptStore>((set) => ({
@@ -30,4 +31,11 @@ export const usePromptStore = create<IPromptStore>((set) => ({
 
       return { ...state, prompts: state.prompts };
     }),
+  toggleFavorite: (id) =>
+    set((state) => ({
+      ...state,
+      prompts: state.prompts.map((prompt) =>
+        prompt.id === id ? { ...prompt, checked: !prompt.checked } : prompt
+      ),
+    })),
 }));

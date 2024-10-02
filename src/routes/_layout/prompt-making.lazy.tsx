@@ -153,6 +153,7 @@ function PromptMakingPage() {
         id: Math.floor(Math.random() * (100000 - 10 + 1)) + 10,
         created_at: getFormatToday(),
         result: result.text,
+        checked: false,
       });
       console.log("new prompt added:", result);
     }
