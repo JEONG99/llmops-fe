@@ -1,16 +1,16 @@
 import { createLazyFileRoute, useLocation } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import PageLayout from "@/components/layout/page-layout";
 import SearchInput from "@/components/common/search-input";
-import { cn, searchModels } from "@/lib/utils";
+import { searchModels } from "@/lib/utils";
 import ModelList from "@/components/common/model/model-list";
-import ModelDetail from "@/components/common/model/model-detail";
 import ModelListHeader from "@/components/common/model/model-list-header";
 import ServerItem from "@/components/deploy/server-item";
 import { Model } from "@/types";
 import CustomSimpleBar from "@/components/common/simplebar";
 import { useModelStore } from "@/hooks/use-model-store";
+import { useServerStore } from "@/hooks/use-server-store";
 
 export const Route = createLazyFileRoute("/_layout/deploy")({
   component: DeployPage,
@@ -21,6 +21,7 @@ function DeployPage() {
   const searchParams = new URLSearchParams(search);
   const keyword = searchParams.get("keyword") || "";
 
+  const { servers, deployModel } = useServerStore();
   const { models: initialModels } = useModelStore();
   const [modelData, setModelData] = useState<Model[]>(initialModels);
   const models = useMemo(
@@ -29,6 +30,33 @@ function DeployPage() {
   );
 
   const [selectedId, setSelectedId] = useState<number | null>(null);
+  const [selectedServers, setSelectedServers] = useState<number[]>([]);
+
+  const toggleServer = (id: number) => {
+    setSelectedServers((selectedServer) => {
+      if (selectedServer.includes(id)) {
+        return selectedServer.filter((server) => server !== id);
+      }
+      return [...selectedServer, id];
+    });
+  };
+
+  const deployModelToServers = () => {
+    if (!selectedId || selectedServers.length === 0) return;
+    for (const id of selectedServers) {
+      const model = models.find((model) => model.id === selectedId);
+      if (!model) continue;
+      deployModel(id, model);
+    }
+    setSelectedId(null);
+    setSelectedServers([]);
+  };
+
+  useEffect(() => {
+    if (models.findIndex((model) => model.id === selectedId) === -1) {
+      setSelectedId(null);
+    }
+  }, [models, selectedId]);
 
   return (
     <PageLayout title="배포하기">
@@ -38,37 +66,23 @@ function DeployPage() {
         </div>
         <div className="relative mt-4">
           <ModelListHeader setModelData={setModelData} />
-          <div className="relative">
-            <div
-              className={cn(
-                "absolute w-full pb-4",
-                selectedId === null ? "hidden" : "block"
-              )}
-            >
-              <ModelDetail
+          <CustomSimpleBar className="max-h-[390px]">
+            <div className="h-full">
+              <ModelList
+                models={models}
                 selectedId={selectedId}
                 setSelectedId={setSelectedId}
+                className="pb-0"
               />
             </div>
-            <CustomSimpleBar className="max-h-[390px]">
-              <div
-                className={cn(
-                  "h-full",
-                  selectedId === null ? "block" : "hidden"
-                )}
-              >
-                <ModelList
-                  models={models}
-                  setSelectedId={setSelectedId}
-                  className="pb-0"
-                />
-              </div>
-            </CustomSimpleBar>
-          </div>
+          </CustomSimpleBar>
         </div>
         <div className="my-3.5 flex items-center justify-between h-12">
           <h4 className="text-lg font-bold">서버 현황</h4>
-          <button className="flex items-center h-full px-11 rounded-[10px] bg-blue hover:bg-blue/90">
+          <button
+            onClick={deployModelToServers}
+            className="flex items-center h-full px-11 rounded-[10px] bg-blue hover:bg-blue/90"
+          >
             배포하기
           </button>
         </div>
@@ -91,11 +105,14 @@ function DeployPage() {
             </div>
           </div>
           <div>
-            {Array(4)
-              .fill(0)
-              .map((_, i) => (
-                <ServerItem key={i} />
-              ))}
+            {servers.map((server) => (
+              <ServerItem
+                key={server.id}
+                server={server}
+                toggleServer={toggleServer}
+                checked={selectedServers.includes(server.id)}
+              />
+            ))}
           </div>
         </div>
       </div>

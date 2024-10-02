@@ -39,6 +39,14 @@ export interface Prompt {
   checked: boolean;
 }
 
+export interface Server {
+  id: number;
+  title: string;
+  gpu_id: number;
+  deploy_model: Model;
+  service: string;
+}
+
 export const tuningMethods = ["LoRA", "QLoRA", "풀파인튜닝"] as const;
 export type TuningMethod = (typeof tuningMethods)[number];
 

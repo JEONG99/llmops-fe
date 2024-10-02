@@ -4,10 +4,12 @@ import { Model } from "@/types";
 
 const ModelList = ({
   models,
+  selectedId,
   setSelectedId,
   className,
 }: {
   models: Model[];
+  selectedId?: number | null;
   setSelectedId: React.Dispatch<React.SetStateAction<number | null>>;
   className?: string;
 }) => {
@@ -16,8 +18,13 @@ const ModelList = ({
       {models.map((model) => (
         <ModelItem
           key={model.id}
-          onClick={() => setSelectedId(model.id)}
+          onClick={() =>
+            setSelectedId((prev) => (prev === model.id ? null : model.id))
+          }
           model={model}
+          className={
+            selectedId === model.id ? "bg-[#F1F4FF] hover:bg-[#F1F4FF]" : ""
+          }
         />
       ))}
     </ul>

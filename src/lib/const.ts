@@ -1,4 +1,4 @@
-import { Model, Prompt } from "@/types";
+import { Model, Prompt, Server } from "@/types";
 
 export const MODEL_LIST: Model[] = [
   {
@@ -232,6 +232,37 @@ export const PROMPT_LIST: Prompt[] = [
     result:
       "개성있는 그래픽과 레터링이 있는 반소매 티셔츠입니다. 깔끔한 네이비 코튼 소재로 제작되어 다양한 스타일의 하의와 d자연스러운 연출이 가능합니다.",
     checked: false,
+  },
+];
+
+export const SERVER_LIST: Server[] = [
+  {
+    id: 0,
+    title: "inference_server_0",
+    gpu_id: 0,
+    deploy_model: MODEL_LIST[0],
+    service: "기록지 생성",
+  },
+  {
+    id: 1,
+    title: "inference_server_1",
+    gpu_id: 0,
+    deploy_model: MODEL_LIST[1],
+    service: "기록지 생성",
+  },
+  {
+    id: 2,
+    title: "inference_server_2",
+    gpu_id: 0,
+    deploy_model: MODEL_LIST[2],
+    service: "기록지 생성",
+  },
+  {
+    id: 3,
+    title: "inference_server_3",
+    gpu_id: 0,
+    deploy_model: MODEL_LIST[4],
+    service: "기록지 생성",
   },
 ];
 

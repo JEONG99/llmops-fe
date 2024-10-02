@@ -1,25 +1,33 @@
 import { Checkbox } from "@/components/ui/checkbox";
-import { useState } from "react";
+import { Server } from "@/types";
 
-const ServerItem = () => {
-  const [checked, setChecked] = useState(false);
+interface ServerItemProps {
+  server: Server;
+  toggleServer: (id: number) => void;
+  checked: boolean;
+}
 
+const ServerItem = ({ server, toggleServer, checked }: ServerItemProps) => {
   return (
     <div className="flex items-center pl-6 h-[60px] border-b border-blue/20">
       <div className="flex justify-start items-center w-[350px]">
-        <span>inference_server_0</span>
+        <span>{server.title}</span>
       </div>
       <div className="flex justify-center items-center w-[120px]">
-        <span className="text-blue">0</span>
+        <span className="text-blue">{server.gpu_id}</span>
       </div>
       <div className="flex justify-center items-center w-[220px]">
-        <span className="text-sm">sample_model_01</span>
+        <span className="text-sm">{server.deploy_model.name}</span>
       </div>
       <div className="flex justify-center items-center w-[130px]">
-        <span className="text-sm">기록지 생성</span>
+        <span className="text-sm">{server.service}</span>
       </div>
       <div className="flex justify-center items-center flex-1">
-        <Checkbox className="size-5 border-blue data-[state=checked]:bg-blue" />
+        <Checkbox
+          checked={checked}
+          onCheckedChange={() => toggleServer(server.id)}
+          className="size-5 border-blue data-[state=checked]:bg-blue"
+        />
       </div>
     </div>
   );

@@ -4,13 +4,15 @@ import StatusIcon from "@/components/common/model/status-icon";
 import TagIcon from "@/components/common/model/tag-icon";
 import { Model } from "@/types";
 import ActionTooltip from "@/components/common/action-tootip";
+import { cn } from "@/lib/utils";
 
 interface ModelItemProps {
   onClick: () => void;
   model: Model;
+  className?: string;
 }
 
-const ModelItem = ({ onClick, model }: ModelItemProps) => {
+const ModelItem = ({ onClick, model, className }: ModelItemProps) => {
   const navigate = useNavigate();
 
   const copyModelAndRedirect = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -21,7 +23,10 @@ const ModelItem = ({ onClick, model }: ModelItemProps) => {
   return (
     <li
       onClick={onClick}
-      className="flex items-center h-[60px] bg-blue-light-box border border-blue-border rounded-[10px] cursor-pointer hover:bg-blue-light-bg/70"
+      className={cn(
+        "flex items-center h-[60px] bg-blue-light-box border border-blue-border rounded-[10px] cursor-pointer hover:bg-blue-light-bg/70",
+        className
+      )}
     >
       <div className="flex justify-between px-6 w-[240px]">
         <span className="text-gray-70">{model.name}</span>

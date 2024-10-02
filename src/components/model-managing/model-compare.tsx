@@ -165,7 +165,9 @@ const ModelCompare = ({ models }: { models: Model[] }) => {
                   </div>
                 </CarouselItem>
                 <CarouselItem>
-                  <CompareChart models={selectedModels} />
+                  <div className="flex items-center h-full">
+                    <CompareChart models={selectedModels} />
+                  </div>
                 </CarouselItem>
               </CarouselContent>
               <CarouselPrevious ref={prevRef} className="hidden" />
