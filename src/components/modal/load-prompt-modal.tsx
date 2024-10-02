@@ -28,7 +28,7 @@ const LoadPromptModal = () => {
   if (!isModalOpen) return null;
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
-      <DialogContent showClose={false} className="gap-8 py-[30px] max-w-5xl">
+      <DialogContent className="gap-8 py-[30px] max-w-5xl">
         <DialogHeader>
           <DialogTitle className="text-center text-lg font-medium">
             프롬프트 불러오기

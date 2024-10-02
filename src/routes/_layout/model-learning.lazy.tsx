@@ -100,7 +100,14 @@ function ModelLearningPage() {
       });
       console.log("new model added:", values);
     }
-    onOpen("learningNotice");
+    onOpen("redirect", {
+      redirectData: {
+        title: "학습 진행중",
+        description: "학습이 완료되면 리스트에서 확인이 가능합니다.",
+        buttonText: "리스트로 이동",
+        path: "/",
+      },
+    });
   };
 
   const checkFields = () => {

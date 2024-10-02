@@ -12,7 +12,7 @@ interface ActionTooltipProps {
 
 const ActionTooltip = ({ side, title, children }: ActionTooltipProps) => {
   return (
-    <Tooltip delayDuration={300}>
+    <Tooltip delayDuration={50}>
       <TooltipTrigger asChild>{children}</TooltipTrigger>
       <TooltipContent side={side}>{title}</TooltipContent>
     </Tooltip>

@@ -9,15 +9,17 @@ import {
 } from "@/components/ui/dialog";
 import { useModalStore } from "@/hooks/use-modal-store";
 
-const PromptSavingModal = () => {
-  const { isOpen, type, onClose } = useModalStore();
-  const isModalOpen = isOpen && type === "promptSaving";
+const RedirectModal = () => {
+  const { isOpen, type, onClose, data } = useModalStore();
+  const isModalOpen = isOpen && type === "redirect";
 
   const navigate = useNavigate();
 
   const closeAndRedirect = () => {
     onClose();
-    navigate({ to: "/prompt-gallery" });
+    if (data?.redirectData?.path) {
+      navigate({ to: data.redirectData.path });
+    }
   };
 
   if (!isModalOpen) return null;
@@ -29,24 +31,22 @@ const PromptSavingModal = () => {
       >
         <DialogHeader>
           <DialogTitle className="text-center text-lg font-medium">
-            프롬프트 저장 완료
+            {data?.redirectData?.title}
           </DialogTitle>
           <DialogDescription className="hidden">
-            프롬프트 저장 완료
+            {data?.redirectData?.title}
           </DialogDescription>
         </DialogHeader>
-        <p className="text-center">
-          저장한 프롬프트는 갤러리에서 확인 가능합니다.
-        </p>
+        <p className="text-center">{data?.redirectData?.description}</p>
         <button
           onClick={closeAndRedirect}
           className="flex items-center justify-center w-[360px] h-12 rounded-[10px] bg-blue hover:bg-blue/90"
         >
-          갤러리로 이동
+          {data?.redirectData?.buttonText}
         </button>
       </DialogContent>
     </Dialog>
   );
 };
 
-export default PromptSavingModal;
+export default RedirectModal;

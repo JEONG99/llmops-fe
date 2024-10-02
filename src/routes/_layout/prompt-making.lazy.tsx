@@ -157,7 +157,14 @@ function PromptMakingPage() {
       });
       console.log("new prompt added:", result);
     }
-    onOpen("promptSaving");
+    onOpen("redirect", {
+      redirectData: {
+        title: "프롬프트 저장 완료",
+        description: "저장한 프롬프트는 갤러리에서 확인 가능합니다.",
+        buttonText: "갤러리로 이동",
+        path: "/prompt-gallery",
+      },
+    });
   };
 
   const checkFields = () => {

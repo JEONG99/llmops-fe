@@ -11,6 +11,7 @@ import { Model } from "@/types";
 import CustomSimpleBar from "@/components/common/simplebar";
 import { useModelStore } from "@/hooks/use-model-store";
 import { useServerStore } from "@/hooks/use-server-store";
+import { useModalStore } from "@/hooks/use-modal-store";
 
 export const Route = createLazyFileRoute("/_layout/deploy")({
   component: DeployPage,
@@ -21,6 +22,7 @@ function DeployPage() {
   const searchParams = new URLSearchParams(search);
   const keyword = searchParams.get("keyword") || "";
 
+  const { onOpen } = useModalStore();
   const { servers, deployModel } = useServerStore();
   const { models: initialModels } = useModelStore();
   const [modelData, setModelData] = useState<Model[]>(initialModels);
@@ -48,6 +50,13 @@ function DeployPage() {
       if (!model) continue;
       deployModel(id, model);
     }
+    onOpen("redirect", {
+      redirectData: {
+        title: "모델 배포 완료",
+        description: "선택한 모델이 서버에 배포되었어요.",
+        buttonText: "확인",
+      },
+    });
     setSelectedId(null);
     setSelectedServers([]);
   };
