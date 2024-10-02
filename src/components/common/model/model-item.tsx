@@ -29,7 +29,7 @@ const ModelItem = ({ onClick, model }: ModelItemProps) => {
     >
       <div className="flex justify-between px-6 w-[240px]">
         <span className="text-gray-70">{model.name}</span>
-        <Tooltip delayDuration={500}>
+        <Tooltip delayDuration={300}>
           <TooltipTrigger asChild>
             <button onClick={copyModelAndRedirect} className="hover:opacity-50">
               <img src="/icon/copy-icon.svg" alt="" className="size-5" />

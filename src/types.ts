@@ -34,8 +34,7 @@ export interface Prompt {
   instruction: string;
   data: string;
   temperature: number;
-  sample_input: string;
-  sample_output: string;
+  samples: { input: string; output: string }[];
   result: string;
 }
 

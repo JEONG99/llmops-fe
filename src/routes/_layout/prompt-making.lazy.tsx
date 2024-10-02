@@ -1,7 +1,7 @@
 import { createLazyFileRoute, useRouterState } from "@tanstack/react-router";
 import { z } from "zod";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ClipLoader } from "react-spinners";
 
@@ -16,6 +16,12 @@ import ModelSelect from "@/components/prompt-making/model-select";
 import { Model } from "@/types";
 import { useModelStore } from "@/hooks/use-model-store";
 import { usePromptStore } from "@/hooks/use-prompt-store";
+import { Trash2 } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export const Route = createLazyFileRoute("/_layout/prompt-making")({
   component: PromptMakingPage,
@@ -28,8 +34,14 @@ const formSchema = z.object({
   instruction: z.string().min(1, "명령을 입력해 주세요."),
   data: z.string(),
   temperature: z.number(),
-  sample_input: z.string().min(1, "샘플 인풋을 입력해 주세요."),
-  sample_output: z.string().min(1, "샘플 아웃풋을 입력해 주세요."),
+  samples: z
+    .array(
+      z.object({
+        input: z.string().min(1, "샘플 인풋을 입력해 주세요."),
+        output: z.string().min(1, "샘플 아웃풋을 입력해 주세요"),
+      })
+    )
+    .nonempty("샘플을 하나 이상 입력해 주세요."),
 });
 
 const SAMPLE_RESULT =
@@ -55,8 +67,7 @@ function PromptMakingPage() {
       instruction: string;
       data: string;
       temperature: number;
-      sample_input: string;
-      sample_output: string;
+      samples: { input: string; output: string }[];
     } | null;
     text: string;
   }>({ prompt: null, text: "" });
@@ -74,10 +85,22 @@ function PromptMakingPage() {
       instruction: prompt?.instruction ?? "",
       data: prompt?.data ?? "",
       temperature: prompt?.temperature ?? 0,
-      sample_input: prompt?.sample_input ?? "",
-      sample_output: prompt?.sample_output ?? "",
+      samples: prompt?.samples ?? [{ input: "", output: "" }],
     },
   });
+
+  const { fields, append, remove } = useFieldArray({
+    control: form.control,
+    name: "samples",
+  });
+
+  const addSample = () => {
+    append({ input: "", output: "" });
+  };
+
+  const removeSample = (index: number) => {
+    remove(index);
+  };
 
   const onReset = () => {
     form.reset();
@@ -128,14 +151,17 @@ function PromptMakingPage() {
   };
 
   const checkFields = () => {
-    const {
-      title,
-      description,
-      base_model,
-      instruction,
-      sample_input,
-      sample_output,
-    } = form.getValues();
+    const { title, description, base_model, instruction, samples } =
+      form.getValues();
+
+    const hasEmptyFields = (
+      samples: { input: string; output: string }[]
+    ): boolean => {
+      return samples.some(
+        (sample) => sample.input.trim() === "" || sample.output.trim() === ""
+      );
+    };
+
     if (!title) {
       alert("모델명을 입력해 주세요.");
       return;
@@ -148,11 +174,8 @@ function PromptMakingPage() {
     } else if (!instruction) {
       alert("명령을 입력해 주세요.");
       return;
-    } else if (!sample_input) {
-      alert("샘플 인풋을 입력해 주세요.");
-      return;
-    } else if (!sample_output) {
-      alert("샘플 아웃풋을 입력해 주세요.");
+    } else if (hasEmptyFields(samples)) {
+      alert("샘플을 모두 입력해 주세요.");
       return;
     }
   };
@@ -335,50 +358,73 @@ function PromptMakingPage() {
                   </button>
                 </div>
               </div>
-              <div className="flex-1">
-                <div className="space-y-8">
-                  <div>
-                    <h4 className="mb-6 text-lg ">Sample input</h4>
-                    <FormField
-                      control={form.control}
-                      name="sample_input"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormControl>
-                            <input
-                              {...field}
-                              disabled={loading}
-                              placeholder="ex) 그래픽,네이비,레터링,코튼"
-                              className="h-[77px] w-full px-6 rounded-[10px] bg-[#F1F4FF]/20 border border-blue/20 focus:outline-none placeholder:text-black/50 text-base text-black/70 resize-none disabled:opacity-50 disabled:cursor-not-allowed"
-                            />
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
+              <div className="flex-1 space-y-8">
+                {fields.map((field, index) => (
+                  <div key={field.id} className="space-y-8">
+                    <div>
+                      <h4 className="flex justify-between items-center mb-6 text-lg">
+                        Sample input {index > 0 && `${index + 1}`}
+                        {index > 0 && (
+                          <Tooltip delayDuration={300}>
+                            <TooltipTrigger asChild>
+                              <button
+                                type="button"
+                                onClick={() => removeSample(index)}
+                                className="hover:opacity-50"
+                              >
+                                <Trash2 className="size-5" />
+                              </button>
+                            </TooltipTrigger>
+                            <TooltipContent side="left">
+                              샘플 제거하기
+                            </TooltipContent>
+                          </Tooltip>
+                        )}
+                      </h4>
+                      <FormField
+                        control={form.control}
+                        name={`samples.${index}.input`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormControl>
+                              <input
+                                {...field}
+                                disabled={loading}
+                                placeholder="ex) 그래픽,네이비,레터링,코튼"
+                                className="h-[77px] w-full px-6 rounded-[10px] bg-[#F1F4FF]/20 border border-blue/20 focus:outline-none placeholder:text-black/50 text-base text-black/70 resize-none disabled:opacity-50 disabled:cursor-not-allowed"
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                    <div>
+                      <h4 className="mb-6 text-lg ">
+                        Sample output {index > 0 && `${index + 1}`}
+                      </h4>
+                      <FormField
+                        control={form.control}
+                        name={`samples.${index}.output`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormControl>
+                              <Textarea
+                                {...field}
+                                disabled={loading}
+                                placeholder="ex) 스타일리시한 그래픽이 특징인 반소매 티셔츠입니다. 베이직한 네이비 색상에 눈길을 사로잡는 레터링이 인상적으로 프린팅되어 있습니다. 부드러운 코튼 소재로 제작되어 착용 시 자연스러운 핏이 만들어줍니다. 다양한 하의와 함께 여러가지 무드를 연출하기 좋습니다."
+                                className="min-h-[229px] h-[229px] px-6 py-7 rounded-[10px] bg-[#F1F4FF]/20 border border-blue/20 placeholder:text-black/50 text-base text-black/70 resize-none"
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="mb-6 text-lg ">Sample output</h4>
-                    <FormField
-                      control={form.control}
-                      name="sample_output"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormControl>
-                            <Textarea
-                              {...field}
-                              disabled={loading}
-                              placeholder="ex) 스타일리시한 그래픽이 특징인 반소매 티셔츠입니다. 베이직한 네이비 색상에 눈길을 사로잡는 레터링이 인상적으로 프린팅되어 있습니다. 부드러운 코튼 소재로 제작되어 착용 시 자연스러운 핏이 만들어줍니다. 다양한 하의와 함께 여러가지 무드를 연출하기 좋습니다."
-                              className="min-h-[229px] h-[229px] px-6 py-7 rounded-[10px] bg-[#F1F4FF]/20 border border-blue/20 placeholder:text-black/50 text-base text-black/70 resize-none"
-                            />
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                </div>
+                ))}
                 <button
                   type="button"
                   disabled={loading}
+                  onClick={addSample}
                   className="mt-6 flex items-center gap-3"
                 >
                   <img src="/icon/add-icon.svg" alt="" className="size-6" />
