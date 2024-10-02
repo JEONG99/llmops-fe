@@ -1,6 +1,6 @@
 import { createLazyFileRoute, useRouterState } from "@tanstack/react-router";
 import { z } from "zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ClipLoader } from "react-spinners";
@@ -71,6 +71,23 @@ function PromptMakingPage() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      title: "",
+      description: "",
+      base_model: "",
+      instruction: "",
+      data: "",
+      temperature: 0,
+      samples: [{ input: "", output: "" }],
+    },
+  });
+
+  const { fields, append, remove, replace } = useFieldArray({
+    control: form.control,
+    name: "samples",
+  });
+
+  useEffect(() => {
+    form.reset({
       title: prompt?.title ?? "",
       description: prompt?.description ?? "",
       base_model: prompt
@@ -82,13 +99,9 @@ function PromptMakingPage() {
       data: prompt?.data ?? "",
       temperature: prompt?.temperature ?? 0,
       samples: prompt?.samples ?? [{ input: "", output: "" }],
-    },
-  });
-
-  const { fields, append, remove } = useFieldArray({
-    control: form.control,
-    name: "samples",
-  });
+    });
+    replace(prompt?.samples ?? [{ input: "", output: "" }]);
+  }, [prompt, model, form]);
 
   const addSample = () => {
     append({ input: "", output: "" });
@@ -184,6 +197,7 @@ function PromptMakingPage() {
           <button
             type="button"
             disabled={loading}
+            onClick={() => onOpen("loadPrompt")}
             className="flex items-center justify-center gap-2 w-[177px] h-12 rounded-[10px] bg-blue-light hover:bg-blue-light/70"
           >
             <img src="/icon/download-icon.svg" alt="" className="size-6" />

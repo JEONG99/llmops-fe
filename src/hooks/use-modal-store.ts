@@ -1,6 +1,10 @@
 import { create } from "zustand";
 
-type ModalType = "temperature" | "learningNotice" | "promptSaving";
+type ModalType =
+  | "temperature"
+  | "learningNotice"
+  | "promptSaving"
+  | "loadPrompt";
 
 interface IModalStore {
   type: ModalType | null;
