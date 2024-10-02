@@ -4,6 +4,7 @@ import {
   ChartLegend,
   ChartLegendContent,
 } from "@/components/ui/chart";
+import { cn } from "@/lib/utils";
 import { Model } from "@/types";
 import { useMemo } from "react";
 import { Bar, BarChart, XAxis, YAxis } from "recharts";
@@ -54,7 +55,12 @@ const CompareChart = ({ models }: { models: Model[] }) => {
       (acc, { name }, index) => {
         acc[name] = {
           label: name,
-          color: index === 0 ? "#D3FF8D" : index === 1 ? "#FF90D8" : "#6E88D9",
+          color:
+            index % 3 === 0
+              ? "#D3FF8D"
+              : index % 3 === 1
+                ? "#FF90D8"
+                : "#6E88D9",
         };
         return acc;
       },
@@ -65,28 +71,58 @@ const CompareChart = ({ models }: { models: Model[] }) => {
   const chartData = useMemo(() => convertToChartData(models), [models]);
 
   return (
-    <ChartContainer config={chartConfig} className="h-[300px] w-full">
-      <BarChart barSize={15} barGap={10} accessibilityLayer data={chartData}>
-        <XAxis
-          dataKey="type"
-          tickLine={false}
-          tickMargin={10}
-          axisLine={false}
-          tick={<CustomTick />}
-        />
-        <YAxis
-          domain={[0.8, 1]}
-          axisLine={false}
-          tickLine={false}
-          width={40}
-          tickSize={-10}
-        />
-        <ChartLegend content={<ChartLegendContent />} />
-        {models.map((model) => (
-          <Bar dataKey={model.name} fill={`var(--color-${model.name})`} />
+    <div className="w-full">
+      <div className="flex items-center h-[220px] w-full">
+        {chartData.map((data) => (
+          <ChartContainer
+            config={chartConfig}
+            className="flex-1 h-full aspect-auto"
+          >
+            <BarChart
+              barSize={15}
+              barGap={10}
+              margin={{ right: 50 }}
+              accessibilityLayer
+              data={[data]}
+            >
+              <XAxis
+                dataKey="type"
+                tickLine={false}
+                tickMargin={10}
+                axisLine={false}
+                tick={<CustomTick />}
+              />
+              <YAxis
+                domain={[0.8, 1]}
+                axisLine={false}
+                tickLine={false}
+                width={40}
+              />
+              {
+                <ChartLegend
+                  content={<ChartLegendContent />}
+                  className="hidden"
+                />
+              }
+              {models.map((model) => (
+                <Bar dataKey={model.name} fill={`var(--color-${model.name})`} />
+              ))}
+            </BarChart>
+          </ChartContainer>
         ))}
-      </BarChart>
-    </ChartContainer>
+      </div>
+      <div className="mt-5 ml-3 flex flex-wrap gap-x-8 gap-y-4 w-full">
+        {models.map((model) => (
+          <div className="flex gap-5 items-center w-1/5 text-center">
+            <div
+              className={cn("size-4 rounded-[2px] border border-[#6E88D9]")}
+              style={{ backgroundColor: chartConfig[model.name].color }}
+            />
+            <span>{model.name}</span>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 };
 

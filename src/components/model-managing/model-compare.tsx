@@ -78,9 +78,9 @@ const ModelCompare = ({ models }: { models: Model[] }) => {
                   <div
                     className={cn(
                       "size-4 rounded-[2px] border border-[#6E88D9]",
-                      index === 0
+                      index % 3 === 0
                         ? "bg-green-40"
-                        : index === 1
+                        : index % 3 === 1
                           ? "bg-red-40"
                           : "bg-[#6E88D9]"
                     )}
@@ -95,7 +95,7 @@ const ModelCompare = ({ models }: { models: Model[] }) => {
             ))}
           </div>
           <div className="w-full px-6 py-5 rounded-[10px] border border-[#EDF1FE] bg-[#F8F9FB]">
-            <div className="flex justify-between mb-4">
+            <div className="flex justify-between mb-2">
               <div className="w-[127px]" />
               <div className="text-lg">모델 별 정확도 비교</div>
               <div className="w-[127px]">
@@ -147,9 +147,9 @@ const ModelCompare = ({ models }: { models: Model[] }) => {
                           <div
                             className={cn(
                               "size-4 rounded-[2px] border border-[#6E88D9]",
-                              index === 0
+                              index % 3 === 0
                                 ? "bg-green-40"
-                                : index === 1
+                                : index % 3 === 1
                                   ? "bg-red-40"
                                   : "bg-[#6E88D9]"
                             )}
