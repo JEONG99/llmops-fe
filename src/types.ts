@@ -47,6 +47,19 @@ export interface Server {
   service: string;
 }
 
+export interface PlaygroundHistory {
+  id: number;
+  input: string;
+  created_at: string;
+  prompts: PlaygroundPrompt[];
+}
+
+export interface PlaygroundPrompt {
+  base_model: Model;
+  instruction: string;
+  output: string;
+}
+
 export const tuningMethods = ["LoRA", "QLoRA", "풀파인튜닝"] as const;
 export type TuningMethod = (typeof tuningMethods)[number];
 

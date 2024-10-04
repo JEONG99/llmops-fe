@@ -27,7 +27,7 @@ const formSchema = z.object({
   title: z.string().min(1, "프롬프트명을 입력해 주세요."),
   description: z.string().min(1, "프롬프트 설명을 입력해 주세요."),
   base_model: z.string().min(1, "모델을 선택해 주세요."),
-  instruction: z.string().min(1, "명령을 입력해 주세요."),
+  instruction: z.string().min(1, "모델 설명을 입력해 주세요."),
   data: z.string(),
   temperature: z.number(),
   samples: z

@@ -1,4 +1,4 @@
-import { Model, Prompt, Server } from "@/types";
+import { Model, PlaygroundHistory, Prompt, Server } from "@/types";
 
 export const MODEL_LIST: Model[] = [
   {
@@ -263,6 +263,66 @@ export const SERVER_LIST: Server[] = [
     gpu_id: 0,
     deploy_model: MODEL_LIST[4],
     service: "기록지 생성",
+  },
+];
+
+export const HISTORY_LIST: PlaygroundHistory[] = [
+  {
+    id: 0,
+    input: "주어진 패션 상품에 어울리는 상품 설명을 만드시오",
+    created_at: "2024-02-12 15:33",
+    prompts: [
+      {
+        base_model: MODEL_LIST[0],
+        instruction: "주어진 패션 상품에 어울리는 상품 설명을 만드시오",
+        output:
+          "스타일리시한 그래픽이 특징인 반소매 티셔츠입니다. 베이직한 네이비 색상에 눈길을 사로잡는 레터링이 인상적으로 프린팅되어 있습니다. 부드러운 코튼 소재로 제작되어 착용 시 자연스러운 핏이 만들어줍니다. 다양한 하의와 함께 여러가지 무드를 연출하기 좋습니다.",
+      },
+    ],
+  },
+  {
+    id: 1,
+    input: "주어진 패션 상품에 어울리는 상품 설명을 만드시오",
+    created_at: "2024-02-12 15:33",
+    prompts: [
+      {
+        base_model: MODEL_LIST[0],
+        instruction: "주어진 패션 상품에 어울리는 상품 설명을 만드시오",
+        output:
+          "스타일리시한 그래픽이 특징인 반소매 티셔츠입니다. 베이직한 네이비 색상에 눈길을 사로잡는 레터링이 인상적으로 프린팅되어 있습니다. 부드러운 코튼 소재로 제작되어 착용 시 자연스러운 핏이 만들어줍니다. 다양한 하의와 함께 여러가지 무드를 연출하기 좋습니다.",
+      },
+      {
+        base_model: MODEL_LIST[1],
+        instruction: "주어진 패션 상품에 어울리는 상품 설명을 만드시오",
+        output:
+          "개성있는 그래픽과 레터링이 있는 반소매 티셔츠입니다. 깔끔한 네이비 코튼 소재로 제작되어 다양한 스타일의 하의와 자연스러운 연출이 가능합니다.",
+      },
+    ],
+  },
+  {
+    id: 2,
+    input: "주어진 패션 상품에 어울리는 상품 설명을 만드시오",
+    created_at: "2024-02-12 15:33",
+    prompts: [
+      {
+        base_model: MODEL_LIST[0],
+        instruction: "주어진 패션 상품에 어울리는 상품 설명을 만드시오",
+        output:
+          "스타일리시한 그래픽이 특징인 반소매 티셔츠입니다. 베이직한 네이비 색상에 눈길을 사로잡는 레터링이 인상적으로 프린팅되어 있습니다. 부드러운 코튼 소재로 제작되어 착용 시 자연스러운 핏이 만들어줍니다. 다양한 하의와 함께 여러가지 무드를 연출하기 좋습니다.",
+      },
+      {
+        base_model: MODEL_LIST[1],
+        instruction: "주어진 패션 상품에 어울리는 상품 설명을 만드시오",
+        output:
+          "개성있는 그래픽과 레터링이 있는 반소매 티셔츠입니다. 깔끔한 네이비 코튼 소재로 제작되어 다양한 스타일의 하의와 자연스러운 연출이 가능합니다.",
+      },
+      {
+        base_model: MODEL_LIST[2],
+        instruction: "주어진 패션 상품에 어울리는 상품 설명을 만드시오",
+        output:
+          "심플한 디자인의 네이비 반소매 티셔츠로, 부드러운 코튼 소재가 편안한 착용감을 제공합니다. 유니크한 그래픽과 레터링이 포인트가 되어 다양한 코디에 쉽게 어울립니다.",
+      },
+    ],
   },
 ];
 

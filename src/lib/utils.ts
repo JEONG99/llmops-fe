@@ -17,7 +17,13 @@ export function searchModels(models: Model[], searchTerm: string): Model[] {
   );
 }
 
-export function getFormatToday(): string {
+export function getFormatToday(withTime = false): string {
   const specificDate = new Date();
+
+  if (withTime)
+    return specificDate
+      .toLocaleString("sv-SE", { hour12: false })
+      .replace(" ", " ")
+      .slice(0, 16);
   return specificDate.toISOString().split("T")[0];
 }
