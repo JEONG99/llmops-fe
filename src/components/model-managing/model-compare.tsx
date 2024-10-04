@@ -63,7 +63,7 @@ const ModelCompare = ({ models }: { models: Model[] }) => {
         </ul>
       </div>
       <CustomSimpleBar>
-        <div className="space-y-4 flex-1 pl-3 pb-4 w-[880px]">
+        <div className="space-y-4 flex-1 pl-3 w-[880px]">
           <div className="w-full px-6 py-5 rounded-[10px] border border-[#EDF1FE] bg-[#F8F9FB]">
             <div className="flex mb-4">
               <div className="w-1/5 text-center font-bold">Name</div>

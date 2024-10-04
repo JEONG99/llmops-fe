@@ -89,29 +89,24 @@ function ModelManagingPage() {
           >
             <CarouselContent className="h-[calc(100vh-204px)]">
               <CarouselItem className="h-full">
-                <CustomSimpleBar>
+                <div className="relative h-full">
                   <div
                     className={cn(
-                      "relative h-full",
+                      "absolute w-full h-full pb-4",
                       selectedId === null ? "hidden" : "block"
                     )}
                   >
-                    <div className="absolute w-full pb-4">
+                    <CustomSimpleBar>
                       <ModelDetail
                         selectedId={selectedId}
                         setSelectedId={setSelectedId}
                       />
-                    </div>
+                    </CustomSimpleBar>
                   </div>
-                  <div
-                    className={cn(
-                      "h-full",
-                      selectedId === null ? "block" : "hidden"
-                    )}
-                  >
+                  <CustomSimpleBar>
                     <ModelList models={models} setSelectedId={setSelectedId} />
-                  </div>
-                </CustomSimpleBar>
+                  </CustomSimpleBar>
+                </div>
               </CarouselItem>
               <CarouselItem className="h-full">
                 <ModelCompare models={models} />

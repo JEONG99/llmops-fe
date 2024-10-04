@@ -31,7 +31,7 @@ const ModelDetail = ({
 
   if (!model) return null;
   return (
-    <div className="pt-8 px-10 pb-5 h-full w-full rounded-[10px] bg-[#FAFBFE] border border-blue-border">
+    <div className="pt-8 px-10 pb-5 h-full w-full rounded-[10px] bg-[#FAFBFE]/10 backdrop-blur-lg border border-blue-border">
       <div className="flex justify-between">
         <div className="space-y-3">
           <div className="flex items-center gap-2">
