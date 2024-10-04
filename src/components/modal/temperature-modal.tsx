@@ -1,3 +1,4 @@
+import CustomSimpleBar from "@/components/common/simplebar";
 import {
   Dialog,
   DialogContent,
@@ -23,8 +24,8 @@ const TemperatureModal = () => {
             Temperature 값에 따른 생성 결과
           </DialogDescription>
         </DialogHeader>
-        <div className="max-h-[400px] overflow-auto">
-          <div className="space-y-8">
+        <CustomSimpleBar className="max-h-[400px]">
+          <div className="space-y-8 pr-2 pb-2">
             <p className="px-1 text-sm text-black/70">
               일반적으로 온도는 0 이상의 실수 값을 가질 수 있지만, 실제로
               사용되는 범위는 모델마다 다를 수 있습니다. 대부분의 모델에서 0부터
@@ -71,8 +72,41 @@ const TemperatureModal = () => {
                 </p>
               </li>
             </ul>
+            <ul className="space-y-4 list-inside list-disc marker:text-[8px] text-black/70">
+              <li>
+                팁
+                <ul className="pl-6 pt-3 list-disc marker:text-[8px]">
+                  <li className="text-sm">
+                    온도는 모델마다 다르게 작동합니다: 각 모델의 문서를 참고하여
+                    적절한 온도 범위를 확인하는 것이 좋습니다.
+                  </li>
+                  <li className="text-sm">
+                    목적에 맞게 온도를 조절하세요: 생성하고자 하는 텍스트의
+                    종류에 따라 온도를 조절하여 최적의 결과를 얻을 수 있습니다.
+                  </li>
+                  <li className="text-sm">
+                    실험을 통해 최적의 값을 찾으세요: 다양한 온도 값을
+                    시도해보면서 원하는 결과를 얻을 수 있는 최적의 값을 찾는
+                    것이 중요합니다.
+                  </li>
+                </ul>
+              </li>
+              <li>
+                예시:
+                <ul className="pl-6 pt-3 list-disc marker:text-[8px]">
+                  <li className="text-sm">
+                    GPT-3: 일반적으로 0.7 정도의 온도를 사용하며, 0.5 이하로
+                    설정하면 더욱 일관성 있는 텍스트를 얻을 수 있습니다.
+                  </li>
+                  <li className="text-sm">
+                    Jurassic-1 Jumbo: 다양한 온도 범위를 지원하며, 모델의 특성에
+                    따라 적절한 온도를 설정해야 합니다.
+                  </li>
+                </ul>
+              </li>
+            </ul>
           </div>
-        </div>
+        </CustomSimpleBar>
       </DialogContent>
     </Dialog>
   );
