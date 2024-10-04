@@ -144,7 +144,11 @@ function PlaygroundPage() {
   const loadHistory = (history: PlaygroundHistory) => {
     if (history.id === selectedId) {
       setSelectedId(null);
-      form.reset();
+      setOutputs([]);
+      form.reset({
+        input: "",
+        prompts: [{ model: "", instruction: "" }],
+      });
       return;
     }
     setSelectedId(history.id);
