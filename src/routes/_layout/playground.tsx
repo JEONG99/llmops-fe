@@ -188,7 +188,7 @@ function PlaygroundPage() {
                   {fields.map((field, index) => (
                     <PromptForm
                       key={field.id}
-                      title={`프롬프트 ${index === 0 ? "A" : index === 1 ? "B" : "C"}`}
+                      title={`모델 ${index === 0 ? "A" : index === 1 ? "B" : "C"}`}
                       removePrompt={
                         index === 0 ? undefined : () => remove(index)
                       }
@@ -246,7 +246,7 @@ function PlaygroundPage() {
           <div className="mt-9 space-y-[66px]">
             <div>
               <div className="flex items-center">
-                <div className="flex-1 text-center">프롬프트 A</div>
+                <div className="flex-1 text-center">모델 A</div>
               </div>
               <div className="mt-9 space-y-2.5">
                 {historiesObject["one"].map((history) => (
@@ -261,9 +261,9 @@ function PlaygroundPage() {
             </div>
             <div>
               <div className="flex items-center">
-                <div className="flex-1 text-center">프롬프트 A</div>
+                <div className="flex-1 text-center">모델 A</div>
                 <span className="text-lg text-black/30">vs</span>
-                <div className="flex-1 text-center">프롬프트 B</div>
+                <div className="flex-1 text-center">모델 B</div>
               </div>
               <div className="mt-9 space-y-2.5">
                 {historiesObject["two"].map((history) => (
@@ -278,11 +278,11 @@ function PlaygroundPage() {
             </div>
             <div>
               <div className="flex items-center">
-                <div className="flex-1 text-center">프롬프트 A</div>
+                <div className="flex-1 text-center">모델 A</div>
                 <span className="text-lg text-black/30">vs</span>
-                <div className="flex-1 text-center">프롬프트 B</div>
+                <div className="flex-1 text-center">모델 B</div>
                 <span className="text-lg text-black/30">vs</span>
-                <div className="flex-1 text-center">프롬프트 C</div>
+                <div className="flex-1 text-center">모델 C</div>
               </div>
               <div className="mt-9 space-y-2.5">
                 {historiesObject["three"].map((history) => (

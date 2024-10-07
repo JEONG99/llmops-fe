@@ -15,7 +15,7 @@ const PageLayout = ({
 }: PageLayoutProps) => {
   return (
     <div className={cn("pb-20", className)}>
-      <div className="flex justify-between items-center px-7 h-[68px]">
+      <div className="flex justify-between items-center px-7 pt-8 min-h-20">
         <h4 className="text-lg">{title}</h4>
         {headerContent}
       </div>

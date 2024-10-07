@@ -37,7 +37,7 @@ const Sidebar = () => {
           <Link
             to="/prompt-making"
             activeProps={{ className: "[&_.active]:visible" }}
-            className="flex items-center"
+            className="hidden items-center"
           >
             <span className="text-lg">프롬프트 만들기</span>
             <img
@@ -51,7 +51,7 @@ const Sidebar = () => {
           <Link
             to="/prompt-gallery"
             activeProps={{ className: "[&_.active]:visible" }}
-            className="flex items-center"
+            className="hidden items-center"
           >
             <span className="text-lg">프롬프트 갤러리</span>
             <img
@@ -81,7 +81,7 @@ const Sidebar = () => {
             activeProps={{ className: "[&_.active]:visible" }}
             className="flex items-center"
           >
-            <span className=" text-lg">배포하기</span>
+            <span className="text-lg">배포하기</span>
             <img
               src="/icon/navbar-icon.svg"
               alt=""
