@@ -53,7 +53,7 @@ const ModelDetail = ({
             <button
               type="button"
               onClick={() => copyModelAndRedirect("prompt")}
-              className="flex items-center justify-center gap-2 w-[165px] h-12 rounded-[10px] bg-blue-light hover:bg-blue-light/70"
+              className="hidden items-center justify-center gap-2 w-[165px] h-12 rounded-[10px] bg-blue-light hover:bg-blue-light/70"
             >
               <img
                 src="/icon/circle-arrow-right-icon.svg"

@@ -87,7 +87,7 @@ function ModelManagingPage() {
               dragFree: true,
             }}
           >
-            <CarouselContent className="h-[calc(100vh-204px)]">
+            <CarouselContent className="h-[calc(100vh-216px)]">
               <CarouselItem className="h-full">
                 <div className="relative h-full rounded-t-[10px] overflow-hidden">
                   <div
